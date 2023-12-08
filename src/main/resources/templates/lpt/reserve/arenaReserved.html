@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<title>VueJS</title>
+	<script src="https://unpkg.com/vue@3"></script>
+
+</head>
+
+<body>
+	<div th:replace="~{/public/layout/navbar}"></div>
+
+
+	<div id="app">
+
+		<div v-for="reserve in reserves">
+			<p>預約編號: {{reserve.reserveId}} </p>
+			<p>場地: {{reserve.arenaId}}</p>
+			<p>開始日期: {{reserve.reserveDayStart}}</p>
+			<p>結束日期: {{reserve.reserveDayEnd}}</p>
+		</div>
+
+	</div>
+
+	<div th:replace="~{/public/layout/footer}"></div>
+
+
+
+	<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+	<script src="vendors/@coreui/coreui/js/coreui.bundle.min.js"></script>
+	<script src="vendors/simplebar/js/simplebar.min.js"></script>
+
+	<script src="vendors/@coreui/utils/js/coreui-utils.js"></script>
+	
+<!--	<script src="js/main.js"></script>  -->
+
+	<script>
+		const {createApp, ref, onMounted, computed, reactive} = Vue;
+
+		const App = {
+
+			setup() {
+				const reserves = ref([]);
+
+
+
+				const getAllReserve = async () => {
+					const response = await axios.get('http://localhost:8087/ee172/reserve/getAllReserve');
+					console.log(response.data)
+					reserves.value = response.data;
+					console.log(reserves.value)
+				}
+
+				const getAllActivityByReserveId = async () => {
+					const response = await axios.get('http://localhost:8087/ee172/activity/getAllActivityByReserveId');
+
+				}
+
+				onMounted(() => {
+					getAllReserve();
+				});
+
+
+
+				return {
+					reserves,
+					getAllReserve,
+					getAllActivityByReserveId,
+
+				}
+			},
+
+		}
+		Vue.createApp(App).mount('#app')
+	</script>
+</body>
+
+</html>

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pricing Plans</title>
+<style>
+  body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background: #f7f7f7;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+  }
+
+  .pricing-plans {
+    text-align: center;
+    width: 100%;
+    max-width: 1200px;
+    padding: 40px;
+  }
+
+  .pricing-card {
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    padding: 20px;
+    margin: 20px;
+  }
+
+  .pricing-card h2 {
+    color: #333;
+    margin: 0;
+  }
+
+  .pricing-card p {
+    margin: 15px 0;
+  }
+
+  .pricing-card button {
+    background: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+
+  .basic .pricing-card button {
+    background: #28a745;
+  }
+
+  .standard .pricing-card button {
+    background: #ffc107;
+    color: #333;
+  }
+
+  @media (min-width: 768px) {
+    .pricing-plans {
+      display: flex;
+      justify-content: space-around;
+    }
+
+    .pricing-card {
+      width: 30%;
+    }
+  }
+</style>
+</head>
+<body>
+
+<div class="pricing-plans">
+  <div class="pricing-card">
+    <h2>普通A方案
+    </h2>
+    <p><strong>10</strong>桌</p>
+    <p><strong>不含</strong> 攝影師</p>
+    <p><strong>含</strong> 基礎背板</p>
+    <button>Choose Plan</button>
+  </div>
+
+  <div class="pricing-card basic">
+    <h2>上等B方案</h2>
+    <p><strong>30</strong> 桌</p>
+    <p><strong>含</strong> 靜態攝影師+動態攝影師</p>
+    <p><strong>含</strong> 大理石背板</p>
+    <button>Choose Plan</button>
+  </div>
+
+  <div class="pricing-card standard">
+    <h2>高級C方案</h2>
+    <p><strong>50</strong> 桌</p>
+    <p><strong>含</strong> 5人專業電影+寫真團隊</p>
+    <p><strong>含</strong> 鮮花背板</p>
+    <button>Choose Plan</button>
+  </div>
+</div>
+
+</body>
+</html>

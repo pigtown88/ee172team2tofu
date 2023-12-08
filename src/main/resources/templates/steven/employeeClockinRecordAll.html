@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="en">
+<head >
+
+  <base href="./">
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+  <meta name="description" content="CoreUI - Open Source Bootstrap Admin Template">
+  <meta name="author" content="Łukasz Holeczek">
+  <meta name="keyword" content="Bootstrap,Admin,Template,Open,Source,jQuery,CSS,HTML,RWD,Dashboard">
+  <title>CoreUI Free Bootstrap Admin Template</title>
+
+  <meta name="msapplication-TileColor" content="#ffffff">
+  <meta name="msapplication-TileImage" content="assets/favicon/ms-icon-144x144.png">
+  <meta name="theme-color" content="#ffffff">
+
+
+  <!-- Main styles for this application-->
+  <link href="css/style.css" rel="stylesheet">
+
+
+  <!-- Vue 3 和 Axios -->
+  <script src="js/vue.global.js"></script>
+
+
+  <!-- Thymeleaf 整合的 JavaScript 資源 -->
+  <script src="js/bootstrap.bundle.min.js"></script>
+  <script src="js/jquery-3.7.1.min.js"></script>
+  <!-- 在 <head> 標籤中或者在 </body> 之前的位置 -->
+  <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
+  <style>
+    .employee-container {
+      position: relative;
+    }
+
+    .employee-photo {
+      position: absolute;
+      top: 10px;    /* 根據需要調整上側邊距 */
+      right: 10px;  /* 根據需要調整右側邊距 */
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;  /* 可選，用於使圖片呈現圓形 */
+
+
+    }
+  </style>
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      const userRole = sessionStorage.getItem("userRole");
+
+
+      if (userRole !== "1" && userRole !== "2") {
+        document.querySelectorAll('.admin-only').forEach(el => el.style.display = 'none');
+      } else {
+        document.querySelectorAll('.admin-only').forEach(el => el.style.display = 'block');
+      }
+    });
+    const adminElements = document.querySelectorAll('.admin-only');
+    console.log("Number of .admin-only elements:", adminElements.length);
+
+    adminElements.forEach(el => {
+      const currentDisplay = window.getComputedStyle(el).display;
+      console.log("Current display style for admin-only element:", currentDisplay);
+    });
+  </script>
+
+</head>
+
+<body>
+
+<!--  sidebar-->
+<div class="sidebar sidebar-dark sidebar-fixed" id="sidebar">
+  <div class="sidebar-brand d-none d-md-flex">
+    <svg class="sidebar-brand-full" width="118" height="46" alt="CoreUI Logo">
+      <use xlink:href="assets/brand/coreui.svg#full"></use>
+    </svg>
+    <svg class="sidebar-brand-narrow" width="46" height="46" alt="CoreUI Logo">
+      <use xlink:href="assets/brand/coreui.svg#signet"></use>
+    </svg>
+  </div>
+  <ul class="sidebar-nav" data-coreui="navigation" data-simplebar="">
+    <li class="nav-item"><a class="nav-link" href="index.html">
+      <svg class="nav-icon">
+        <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-speedometer"></use>
+      </svg> 魔幻空間<span class="badge badge-sm bg-info ms-auto">NEW</span></a></li>
+
+
+
+    <li class="nav-title">員工管理系統</li>
+    <li class="nav-group"><a class="nav-link nav-group-toggle" href="#">
+      <svg class="nav-icon">
+        <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-puzzle"></use>
+      </svg> 員工考勤</a>
+      <ul class="nav-group-items">
+        <li class="nav-item"><a class="nav-link" href="#"><span class="nav-icon"></span> 員工打卡</a></li>
+        <li class="nav-item"><a class="nav-link" href="#"><span class="nav-icon"></span> 員工請假申請</a></li>
+        <li class="nav-item" v-if="userRole === '1' || userRole === '2'"><a class="nav-link" href="#"><span class="nav-icon"></span> 員工請假審核</a></li>
+
+      </ul>
+    </li>
+    <li class="nav-group"><a class="nav-link nav-group-toggle" href="#">
+      <svg class="nav-icon">
+        <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-cursor"></use>
+      </svg> 員工資料</a>
+      <ul class="nav-group-items">
+        <li class="nav-item"><a class="nav-link" href="buttons/buttons.html"><span class="nav-icon"></span> 個人資料</a></li>
+        <li class="nav-item" v-if="userRole === '1' || userRole === '2'"><a class="nav-link" href="http://localhost:8087/ee172/employeeList"><span class="nav-icon"></span> 員工清單</a></li>
+        <li class="nav-item"><a class="nav-link" href="buttons/dropdowns.html"><span class="nav-icon"></span> Dropdowns</a></li>
+      </ul>
+    </li>
+
+
+    <li class="nav-group"><a class="nav-link nav-group-toggle" href="#">
+      <svg class="nav-icon">
+        <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-cursor"></use>
+      </svg> 員工排班</a>
+      <ul class="nav-group-items">
+        <li class="nav-item"><a class="nav-link" href="buttons/buttons.html"><span class="nav-icon"></span> 排班表</a></li>
+        <li class="nav-item" v-if="userRole === '1' || userRole === '2'"><a class="nav-link" href="buttons/button-group.html"><span class="nav-icon"></span> 排班管理</a></li>
+        <li class="nav-item"><a class="nav-link" href="buttons/dropdowns.html"><span class="nav-icon"></span> 個人班表</a></li>
+      </ul>
+    </li>
+
+
+
+
+
+
+    <li class="nav-title">Setting</li>
+    <li class="nav-group"><a class="nav-link nav-group-toggle" href="#">
+      <svg class="nav-icon">
+        <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-star"></use>
+      </svg> Pages</a>
+      <ul class="nav-group-items">
+        <li class="nav-item"><a class="nav-link" href="login.html" target="_top">
+          <svg class="nav-icon">
+            <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-account-logout"></use>
+          </svg> Login</a></li>
+        <li class="nav-item"><a class="nav-link" href="register.html" target="_top">
+          <svg class="nav-icon">
+            <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-account-logout"></use>
+          </svg> Register</a></li>
+
+      </ul>
+    </li>
+
+  </ul>
+
+</div>
+
+
+
+
+<!--header-->
+
+<div class="wrapper d-flex flex-column min-vh-100 bg-light">
+  <header class="header header-sticky mb-4">
+    <div class="container-fluid">
+      <button class="header-toggler px-md-0 me-md-3" type="button" onclick="coreui.Sidebar.getInstance(document.querySelector('#sidebar')).toggle()">
+        <svg class="icon icon-lg">
+          <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-menu"></use>
+        </svg>
+      </button><a class="header-brand d-md-none" href="#">
+      <svg width="118" height="46" alt="CoreUI Logo">
+        <use xlink:href="assets/brand/coreui.svg#full"></use>
+      </svg></a>
+      <ul class="header-nav d-none d-md-flex">
+        <li class="nav-item"><a class="nav-link" href="#">Dashboard</a></li>
+        <li class="nav-item"><a class="nav-link" href="#">Users</a></li>
+        <li class="nav-item"><a class="nav-link" href="#">Settings</a></li>
+      </ul>
+      <ul class="header-nav ms-auto">
+        <li class="nav-item"><a class="nav-link" href="#">
+          <svg class="icon icon-lg">
+            <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-bell"></use>
+          </svg></a></li>
+
+      </ul>
+      <ul class="header-nav ms-3">
+        <li class="nav-item dropdown"><a class="nav-link py-0" data-coreui-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+          <div class="avatar avatar-md"><img v-if="employeePhoto" :src="employeePhoto" alt="Employee Photo"></div>
+        </a>
+          <div class="dropdown-menu dropdown-menu-end pt-0">
+            <div class="dropdown-header bg-light py-2">
+              <div class="fw-semibold">帳號管理</div>
+            </div><a class="dropdown-item" href="#">
+
+            <svg class="icon me-2">
+              <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-envelope-open"></use>
+            </svg> Messages<span class="badge badge-sm bg-success ms-2">42</span></a><a class="dropdown-item" href="#">
+            <svg class="icon me-2">
+              <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-task"></use>
+            </svg> Tasks<span class="badge badge-sm bg-danger ms-2">42</span></a><a class="dropdown-item" href="#">
+
+
+            <svg class="icon me-2">
+              <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-settings"></use>
+            </svg> Settings</a><a class="dropdown-item" href="#">
+
+            <svg class="icon me-2">
+              <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-file"></use>
+            </svg> Projects<span class="badge badge-sm bg-primary ms-2">42</span></a>
+            <div class="dropdown-divider"></div><a class="dropdown-item" href="#">
+
+            <svg class="icon me-2">
+              <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-account-logout"></use>
+            </svg> Logout</a>
+          </div>
+        </li>
+      </ul>
+    </div>
+
+
+
+
+    <!--       headbar-->
+
+    <div class="header-divider"></div>
+    <div class="container-fluid">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb my-0 ms-2">
+          <li class="breadcrumb-item">
+            <!-- if breadcrumb is single--><span>Home</span>
+          </li>
+          <li class="breadcrumb-item active"><span>員工管理系統</span></li>
+        </ol>
+      </nav>
+    </div>
+  </header>
+
+
+
+  <!--container-->
+
+
+  <div class="body flex-grow-1 px-3">
+
+
+    <div id="app" class="container mt-4">
+
+       搜尋區域
+      <div class="container mt-4">
+        <div class="row g-3">
+          <div class="col-md-3">
+            <input type="text" class="form-control" placeholder="員工名稱" v-model="search.empName">
+          </div>
+          <div class="col-md-3">
+
+            <select id="empDepartment" class="form-control" v-model="search.department">
+              <option value="">選擇部門</option>
+              <option value="中央管理部門">中央管理部門</option>
+              <option value="活動管理部門">活動管理部門</option>
+              <option value="婚禮管理部門">婚禮管理部門</option>
+              <option value="交友管理部門">交友管理部門</option>
+              <option value="活動管理部門">活動管理部門</option>
+            </select>
+
+          </div>
+          <div class="col-md-2">
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" id="lateCheckbox" value="true" v-model="search.late">
+              <label class="form-check-label" for="lateCheckbox">
+                遲到
+              </label>
+            </div>
+          </div>
+          <div class="col-md-2">
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" id="earlyLeaveCheckbox" value="true" v-model="search.earlyLeave">
+              <label class="form-check-label" for="earlyLeaveCheckbox">
+                早退
+              </label>
+            </div>
+          </div>
+
+          <div class="col-md-3">
+            <input type="date" class="form-control" placeholder="開始日期" v-model="search.startDate">
+          </div>
+          <div class="col-md-3">
+            <input type="date" class="form-control" placeholder="結束日期" v-model="search.endDate">
+          </div>
+          <div class="col-md-2">
+            <button class="btn btn-primary" @click="searchRecords">搜尋</button>
+          </div>
+          <div class="col-md-2">
+          <button class="btn btn-primary" @click="clearSearch">清除</button>
+          </div>
+
+      </div>
+
+      <!-- 打卡記錄表格 -->
+      <div class="container mt-4">
+        <table class="table table-striped">
+          <thead>
+          <tr>
+            <thead>
+          <tr>
+            <th>員工編號</th>
+            <th>員工名稱</th>
+            <th>部門</th>
+            <th>打卡時間</th>
+            <th>下班時間</th>
+            <th>日期</th>
+            <th>遲到</th>
+            <th>早退</th>
+            <th>加班時數</th>
+            <th>工作時間</th>
+            <th>工作狀態</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr v-for="record in clockinRecords" :key="record.empId">
+            <td>{{ record.empId }}</td>
+            <td>{{ record.empName }}</td>
+            <td>{{ record.department }}</td>
+            <td>{{ record.clockinTime }}</td>
+            <td>{{ record.clockoutTime }}</td>
+            <td>{{ record.day }}</td>
+            <td :class="{ 'text-danger': record.late }">{{ record.late ? '遲到' : '' }}</td>
+            <td :class="{ 'text-danger': record.earlyLeave }">{{ record.earlyLeave ? '早退' : '' }}</td>
+            <td>{{ record.workOvertime }}</td>
+            <td>{{ record.workTime }}</td>
+            <td>{{ record.workStatus }}</td>
+          </tr>
+          </tbody>
+        </table>
+
+        <!-- 分頁控件 -->
+        <nav aria-label="Page navigation" class="pagination-container">
+          <ul class="pagination justify-content-center">
+            <li class="page-item" :class="{ disabled: currentPage === 1 }">
+              <button class="page-link" @click="changePage(currentPage - 1)">上一頁</button>
+            </li>
+            <li class="page-item" :class="{ active: page === currentPage }" v-for="page in totalPages" :key="page">
+              <button class="page-link" @click="changePage(page)">{{ page }}</button>
+            </li>
+            <li class="page-item" :class="{ disabled: currentPage === totalPages }">
+              <button class="page-link" @click="changePage(currentPage + 1)">下一頁</button>
+            </li>
+          </ul>
+
+        </nav>
+      </div>
+
+
+
+
+
+
+      </div>
+
+    </div>
+
+
+
+
+  </div>
+
+
+
+
+
+
+
+
+
+
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script src="vendors/@coreui/coreui/js/coreui.bundle.min.js"></script>
+  <script src="vendors/simplebar/js/simplebar.min.js"></script>
+
+  <script src="vendors/@coreui/utils/js/coreui-utils.js"></script>
+  <script src="js/main.js"></script>
+  <script>
+    const { createApp, ref, onMounted,computed,reactive} = Vue;
+
+    createApp({
+      setup() {
+
+        const user = ref(null);
+        const userRole = ref(sessionStorage.getItem("userRole"));
+        const employeePhoto = ref('');
+        const clockinRecords = ref([]);
+        const currentPage = ref(1);
+        const totalPages = ref(5);
+        const showReviewed = ref(false);
+        const  empId = ref(sessionStorage.getItem("userId"));
+        const  emp=user.value;
+        const search = reactive({
+          empName: '',
+          department: '',
+          late: 'false',
+          earlyLeave: 'false',
+          startDate: '',
+          endDate: ''
+
+        });
+
+
+
+
+        const fetchClockinRecords = async (pageNumber = 1) => {
+          try {
+            const response = await axios.get('http://localhost:8087/ee172/api/clokin/All', {
+              params: {
+                p: currentPage.value,
+
+              }
+            });
+            clockinRecords.value = response.data.content;
+            totalPages.value = response.data.totalPages;
+            currentPage.value = response.data.number + 1;
+          } catch (error) {
+            console.error('Error fetching clockin records:', error);
+          }
+        };
+
+        const searchRecords = async () => {
+          try {
+            const params = {
+              p: currentPage.value,
+              ...search
+            };
+            const response = await axios.post('http://localhost:8087/ee172/api/search', params);
+            console.log("response:", response.data.content)
+            if (response.status === 200) {
+              clockinRecords.value = response.data.content;
+              totalPages.value = response.data.totalPages;
+              currentPage.value = response.data.number + 1;
+            }
+          } catch (error) {
+            console.error('Error searching records:', error);
+          }
+        };
+
+//格式化日期
+        function formatDate(dateTime) {
+          // 實現日期格式化邏輯
+          return new Date(dateTime).toLocaleString();
+        }
+
+//計算工作時長
+        function calculateDuration(startTime, endTime) {
+          // 實現計算工作時長邏輯
+          const start = new Date(startTime);
+          const end = new Date(endTime);
+          return (end - start) / (1000 * 60 * 60); // 將毫秒轉換為小時
+        }
+
+
+
+        const clearSearch = () => {
+          search.empName = '';
+          search.department = '';
+          search.late = '';
+          search.earlyLeave = '';
+          search.startDate = '';
+          search.endDate = '';
+          fetchClockinRecords();
+        };
+
+
+
+
+        const changePage = (page) => {
+          console.log("當前頁碼：", page);
+          if (page >= 1 && page <= totalPages.value) {
+            currentPage.value = page;
+            console.log("更新後的頁碼：", currentPage.value);
+            fetchClockinRecords();
+          }
+
+
+        };
+
+
+
+
+
+        const fetchUserInfo = async () => {
+          try {
+            const response = await axios.get('http://localhost:8087/ee172/api/employee/info');
+            user.value = response.data;
+
+            sessionStorage.setItem("userRole", user.value.role);
+            sessionStorage.setItem("user", user.value);
+            console.log("UserRole from sessionStorage:", sessionStorage.getItem("userRole"));
+            console.log("User from sessionStorage:", sessionStorage.getItem("user"));
+            console.log(user.value.empName)
+
+
+            if (user.value.role !== "1" && user.value.role !== "2") {
+              document.querySelectorAll('.admin-only').forEach(el => el.style.display = 'none');
+            } else {
+              document.querySelectorAll('.admin-only').forEach(el => el.style.display = 'block');
+            }
+          } catch (error) {
+            console.error('Error fetching user info:', error);
+          }
+        };
+
+
+        const fetchEmployeePhoto = async () => {
+          try {
+            const response = await axios.get('http://localhost:8087/ee172/api/employee/getPhoto'); //
+            employeePhoto.value = 'data:image/jpeg;base64,' + response.data;
+            console.log("employeePhoto:", employeePhoto.value)
+            console.log("employeePhoto:", response.data)
+          } catch (error) {
+            console.error('Error fetching employee photo:', error);
+          }
+        };
+
+
+
+
+
+
+        onMounted(() => {
+          fetchClockinRecords();
+          fetchUserInfo();
+          fetchEmployeePhoto();
+        });
+
+        return {
+          user,
+          userRole,
+          employeePhoto,
+            search,
+            currentPage,
+          totalPages,
+          empId,emp,
+          changePage,
+          fetchClockinRecords,
+          clockinRecords,
+            searchRecords,
+          showReviewed,
+            clearSearch,
+
+
+        };
+      }
+    }).mount('#app');
+
+
+
+
+
+  </script>
+
+
+
+</body>
+
+</html>

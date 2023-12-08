@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>使用者登入</title>
+
+	<!-- Vue 3 -->
+	<script th:src="@{js/vue.global.js}"></script>
+
+	<!-- Thymeleaf 整合的 JavaScript 資源 -->
+	<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+
+	<!-- CSS -->
+	<link th:href="@{/css/bootstrap.min.css}" rel="stylesheet" />
+	<link href="https://getbootstrap.com/docs/5.3/assets/css/docs.css" rel="stylesheet" />
+	<link th:href="@{/css/sign-in.css}" rel="stylesheet" />
+
+	<style>
+		.Login-title {
+			padding: 0 30px 20px 30px;
+			font-size: 24px;
+			text-align: center;
+			margin: 0;
+		}
+
+		/* Overwrite default styles of hr */
+		hr {
+			border: 1px solid #f1f1f1;
+			margin-bottom: 25px;
+		}
+
+		/* Set a grey background color and center the text of the "sign in" section */
+		.signin {
+			background-color: #f1f1f1;
+			text-align: center;
+		}
+
+		.FormLink-register {
+			color: #2ea3f2;
+			text-decoration: none;
+			cursor: pointer;
+			transition: all .2s;
+		}
+	</style>
+
+</head>
+
+<body>
+	<div th:replace="~{/public/layout/navbar}"></div>
+
+	<main class="form-signin w-100 m-auto ">
+		<form th:action="@{/member/login}" method="post">
+			<h1 class="Login-title">使用者登入</h1>
+
+			<div>
+				<a class="btn btn-info w-100 py-2" th:href="@{http://localhost:8087/ee172/google-login}">Google登入</a>
+			</div>
+
+			<hr>
+			<div class="form-floating">
+				<input type="email" class="form-control" placeholder="name@example.com" name="memberEmail" required>
+				<label for="memberEmail">電子郵件</label>
+			</div>
+
+			<div class="form-floating">
+				<input type="password" class="form-control" placeholder="Password" name="memberPwd" required>
+				<label for="memberPwd">密碼</label>
+			</div>
+
+			<div th:text="${loginFail} ? ${loginFail}"></div>
+
+			<hr>
+			<div class="form-check text-start my-3">
+				<input class="form-check-input" type="checkbox" value="remember-me" id="flexCheckDefault">
+				<label class="form-check-label" for="flexCheckDefault">
+					Remember me
+				</label>
+			</div>
+
+			<button class="btn btn-primary w-100 py-2" type="submit">登入</button>
+		</form>
+
+		<div class="container signin">
+			<p>還沒有帳號嗎?<a class="FormLink-register" th:href="@{/member/register}"> 註冊</a></p>
+		</div>
+
+	</main>
+
+	<div th:replace="~{/public/layout/footer}"></div>
+
+</body>
+
+
+</html>

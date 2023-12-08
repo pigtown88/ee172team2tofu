@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://getbootstrap.com/docs/5.3/assets/css/docs.css" rel="stylesheet">
+    <title>Bootstrap Example</title>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- <script src="../js/vue.global.js"></script> -->
+    <link href="css/style.css" rel="stylesheet">
+
+
+    <!-- Vue 3 和 Axios -->
+    <script src="./js/vue.global.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.6.1/axios.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+
+    <!-- Thymeleaf 整合的 JavaScript 資源 -->
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <script src="js/jquery-3.7.1.min.js"></script>
+    <!-- <th:block th:replace="~{steven/layout/header :: head}"></th:block> -->
+</head>
+
+<body class="bg-body-tertiary">
+    <div class="container" id="app">
+        <main>
+            <div class="py-5 text-center">
+                <h2>Checkout form</h2>
+                <p class="lead">Below is an example form built entirely with Bootstrap’s form controls. Each required
+                    form group has a validation state that can be triggered by attempting to submit the form without
+                    completing it.</p>
+            </div>
+
+            <div class="row g-5">
+
+                <div class="col-md-7 col-lg-8" style="margin: auto;padding: 20px;    border: 4px black dashed;">
+                    <h4 class="mb-3">輸入交友條件</h4>
+                    <form class="needs-validation" novalidate="">
+                        <div>
+                            <div class="row g-3">
+                                <div class="col-sm-12" style="margin: 10px;">
+                                    <label for="firstName" class="form-label">輸入身高</label>
+                                    <input type="text" class="form-control" id="firstName" placeholder="" value=""
+                                        required="" v-model="height">
+                                    <p class="error-message" v-if="errorMessage">{{ errorMessage }}</p>
+                                    <div class="invalid-feedback">
+                                        Valid first name is required.
+                                    </div>
+                                </div>
+
+
+                                <div class="invalid-feedback">
+                                    Please select a valid country.
+                                </div>
+                            </div>
+
+
+                            <div class="col-sm-12" style="margin: 10px;">
+                                <label for="firstName" class="form-label">輸入薪水</label>
+                                <input type="text" class="form-control" id="firstName" placeholder="" value=""
+                                    required="" v-model="salary">
+                                <p class="error-message" v-if="errorMessage">{{ errorMessage }}</p>
+                                <div class="invalid-feedback">
+                                    Valid first name is required.
+                                </div>
+                            </div>
+
+
+                            <div class="col-md-12" style="margin: 10px;">
+                                <label for="state" class="form-label">選擇職業</label>
+                                <select class="form-select" id="state" required="" v-model="jobName">
+                                    <option value="">Choose...</option>
+                                    <option>軟體工程師</option>
+                                    <option>教育工作者</option>
+                                    <option>醫生</option>
+                                    <option>護士</option>
+                                    <option>建築師</option>
+                                    <option>會計師</option>
+                                    <option>律師</option>
+                                    <option>廚師</option>
+                                    <option>咖啡師</option>
+                                    <option>藝術家</option>
+                                    <option>作家</option>
+                                    <option>市場行銷專員</option>
+                                    <option>捷運駕駛</option>
+                                    <option>營養師</option>
+                                    <option>運動教練</option>
+                                    <option>企業家</option>
+                                    <option>設計師</option>
+                                    <option>演員</option>
+                                    <option>環境工程師</option>
+                                </select>
+                                <p class="error-message" v-if="errorMessage">{{ errorMessage }}</p>
+
+                            </div>
+                        </div>
+                    </form>
+
+
+                    <hr class="my-4">
+
+                    <button class="w-100 btn btn-primary btn-lg" type="submit">搜尋</button>
+                </div>
+
+                <hr class="my-12">
+                <div class="friends">
+
+                    <div v-for="friend in friends" class="friend">
+
+                        <img :src="friend.memberPhoto" alt="">
+
+
+                        <h1>{{friend.memberName}}</h1>
+                        <p>{{friend.height}}</p>
+                        <p>{{friend.salary}}</p>
+                    </div>
+                </div>
+
+            </div>
+    </div>
+    </main>
+
+
+    <script>
+        createApp({
+            data() {
+                return {
+                    minHeight: null,
+                    minSalary: null,
+                    gender: '',
+                    jobName: '',
+                    friends: []
+                }
+            },
+            methods: {
+                async searchMembers() {
+                    try {
+                        const response = await axios.get('http://localhost:8087/ee172/friend/search', {
+                            params: {
+                                minHeight: this.minHeight,
+                                minSalary: this.minSalary,
+                                gender: this.gender,
+                                jobName: this.jobName
+                            }
+                        });
+                        this.members = response.data;
+                    } catch (error) {
+                        console.error(error);
+                    }
+                }
+            }
+        }).mount('#app');
+    </script>
+
+    <!-- <div id="app">
+        <form @submit.prevent="searchMembers">
+            <input type="number" v-model="minHeight" placeholder="最低身高">
+            <input type="number" v-model="minSalary" placeholder="最低薪水">
+            <select v-model="gender">
+                <option value="">選擇性別</option>
+                <option value="male">男</option>
+                <option value="female">女</option>
+            </select>
+            <input type="text" v-model="jobName" placeholder="職業">
+            <button type="submit">搜索</button>
+        </form>
+        <div v-if="members.length">
+            <div v-for="member in members" :key="member.id">
+                {{ member.name }} - {{ member.salary }} - {{ member.height }} - {{ member.gender }} - {{ member.jobName
+                }}
+            </div>
+        </div>
+    </div>
+
+    <script>
+
+
+        createApp({
+            data() {
+                return {
+                    minHeight: null,
+                    minSalary: null,
+                    gender: '',
+                    jobName: '',
+                    members: []
+                }
+            },
+            methods: {
+                async searchMembers() {
+                    try {
+                        const response = await axios.get('http://localhost:8087/ee172/friend/search', {
+                            params: {
+                                minHeight: this.minHeight,
+                                minSalary: this.minSalary,
+                                gender: this.gender,
+                                jobName: this.jobName
+                            }
+                        });
+                        this.members = response.data;
+                    } catch (error) {
+                        console.error(error);
+                    }
+                }
+            }
+        }).mount('#app');
+    </script> -->
+
+
+
+
+
+</body>
+
+</html>

@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head >
+
+  <base href="./">
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+  <meta name="description" content="CoreUI - Open Source Bootstrap Admin Template">
+  <meta name="author" content="Łukasz Holeczek">
+  <meta name="keyword" content="Bootstrap,Admin,Template,Open,Source,jQuery,CSS,HTML,RWD,Dashboard">
+  <title>CoreUI Free Bootstrap Admin Template</title>
+
+  <meta name="msapplication-TileColor" content="#ffffff">
+  <meta name="msapplication-TileImage" content="assets/favicon/ms-icon-144x144.png">
+  <meta name="theme-color" content="#ffffff">
+
+
+  <!-- Main styles for this application-->
+  <link href="css/style.css" rel="stylesheet">
+
+
+  <!-- Vue 3 和 Axios -->
+  <script src="js/vue.global.js"></script>
+
+
+  <!-- Thymeleaf 整合的 JavaScript 資源 -->
+  <script src="js/bootstrap.bundle.min.js"></script>
+  <script src="js/jquery-3.7.1.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.5.34/moment-timezone-with-data-10-year-range.min.js"></script>
+
+  <style>
+    .employee-container {
+      position: relative;
+    }
+
+
+      .clock-button {
+        margin: 10px;
+        padding: 10px 20px;
+        font-size: 1.5em;
+      }
+
+
+    .employee-photo img {
+      width: 100px; /* 調整照片大小 */
+      height: 100px; /* 調整照片大小 */
+      border-radius: 50%; /* 圓形照片 */
+      margin: auto; /* 確保照片居中 */
+      display: block; /* 確保照片不與其他元素重疊 */
+    }
+
+    .employee-photo1 {
+      position: absolute;
+      top: 10px;    /* 根據需要調整上側邊距 */
+      right: 10px;  /* 根據需要調整右側邊距 */
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;  /* 可選，用於使圖片呈現圓形 */
+    }
+
+    .employee-container {
+
+    }
+
+
+    .time-display {
+
+    }
+  </style>
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const userRole = sessionStorage.getItem("userRole");
+
+    if (userRole !== "1" && userRole !== "2") {
+      document.querySelectorAll('.admin-only').forEach(el => el.style.display = 'none');
+    } else {
+      document.querySelectorAll('.admin-only').forEach(el => el.style.display = 'block');
+    }
+  });
+  const adminElements = document.querySelectorAll('.admin-only');
+  console.log("Number of .admin-only elements:", adminElements.length);
+
+  adminElements.forEach(el => {
+    const currentDisplay = window.getComputedStyle(el).display;
+    console.log("Current display style for admin-only element:", currentDisplay);
+  });
+</script>
+
+</head>
+
+<body>
+
+<!--  sidebar-->
+
+<th:block th:replace="~{steven/sidebar :: sidebar}"></th:block>
+
+<th:block th:replace="~{steven/header :: header}"></th:block>
+
+
+<!--header-->
+
+
+  <!--container-->
+
+
+
+
+
+
+  <div class="body flex-grow-1 px-3">
+
+
+
+    <div id="app" class="container mt-5">
+      <div class="row justify-content-center">
+
+
+        <div class="col-md-6 text-center">
+
+          <div class="employee-container">
+            <!-- 員工照片 -->
+            <div class="employee-photo mb-3">
+              <img :src="employeePhoto" alt="Employee Photo" class="img-fluid rounded-circle">
+            </div>
+
+            <!-- 員工名字 -->
+            <div class="employee-name mb-3">
+              <h2>{{ user ? user.empName : '請認真上班' }}</h2>
+            </div>
+
+            <!-- 時間顯示 -->
+            <div class="time-display border p-3">
+              <h2>{{ currentTime }}</h2>
+            </div>
+          </div>
+          <button @click="clockIn" class="btn btn-primary btn-lg m-2">上班打卡</button>
+          <button @click="clockOut" class="btn btn-danger btn-lg m-2">下班打卡</button>
+        </div>
+      </div>
+    </div>
+
+
+
+
+  </div>
+</div>
+
+
+
+<!--<script>-->
+<!--  document.addEventListener("DOMContentLoaded", function() {-->
+<!--    const userRole = sessionStorage.getItem("userRole");-->
+
+<!--    if (userRole !== "1" && userRole !== "2") {-->
+<!--      document.querySelectorAll('.admin-only').forEach(el => el.style.display = 'none');-->
+<!--    } else {-->
+<!--      document.querySelectorAll('.admin-only').forEach(el => el.style.display = 'block');-->
+<!--    }-->
+<!--  });-->
+<!--</script>-->
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="vendors/@coreui/coreui/js/coreui.bundle.min.js"></script>
+<script src="vendors/simplebar/js/simplebar.min.js"></script>
+
+<script src="vendors/@coreui/utils/js/coreui-utils.js"></script>
+<script src="js/main.js"></script>
+<script>
+  $(document).ready(function() {
+    $("#sidebar-container").load("http://localhost:8087/ee172/sidebar");
+  });
+
+
+</script>
+  <script>
+    const { createApp, ref, onMounted } = Vue;
+
+    createApp({
+      setup() {
+
+        const user = ref(null);
+        const userRole = ref(sessionStorage.getItem("userRole"));
+        const employeePhoto = ref('');
+        const currentTime = ref(new Date().toLocaleTimeString());
+
+
+
+        setInterval(() => {
+          currentTime.value = new Date().toLocaleTimeString();
+        }, 1000);
+
+
+        const clockIn = async () => {
+          try {
+            const response = await axios.post('http://localhost:8087/ee172/api/clockin');
+            Swal.fire({
+              title: '打卡成功',
+              text: '您已成功打卡上班',
+              icon: 'success',
+              confirmButtonText: '好的'
+            });
+          } catch (error) {
+            console.error('打卡失敗:', error);
+            // 檢查錯誤響應的內容
+            if (error.response && error.response.data) {
+              Swal.fire({
+                title: '打卡失敗',
+                text: error.response.data, // 從後端獲取的錯誤訊息
+                icon: 'error',
+                confirmButtonText: '好的'
+              });
+            } else {
+              Swal.fire({
+                title: '打卡失敗',
+                text: '未知錯誤',
+                icon: 'error',
+                confirmButtonText: '好的'
+              });
+            }
+          }
+        };
+
+// 下班打卡
+        const clockOut = async () => {
+          try {
+            const response = await axios.post('http://localhost:8087/ee172/api/clockout');
+            Swal.fire({
+              title: '打卡成功',
+              text: '您已成功打卡下班',
+              icon: 'success',
+              confirmButtonText: '好的'
+            });
+          } catch (error) {
+            console.error('打卡失敗:', error);
+            // 相同的錯誤處理邏輯
+            if (error.response && error.response.data) {
+              Swal.fire({
+                title: '打卡失敗',
+                text: error.response.data, // 從後端獲取的錯誤訊息
+                icon: 'error',
+                confirmButtonText: '好的'
+              });
+            } else {
+              Swal.fire({
+                title: '打卡失敗',
+                text: '未知錯誤',
+                icon: 'error',
+                confirmButtonText: '好的'
+              });
+            }
+          }
+        };
+
+        const fetchUserInfo = async () => {
+          try {
+            const response = await axios.get('http://localhost:8087/ee172/api/employee/info');
+            user.value = response.data;
+            sessionStorage.setItem("userRole", user.value.role);
+            console.log("UserRole from sessionStorage:", sessionStorage.getItem("userRole"));
+            // 根據角色顯示或隱藏元素
+            if (user.value.role !== "1" && user.value.role !== "2") {
+              document.querySelectorAll('.admin-only').forEach(el => el.style.display = 'none');
+            } else {
+              document.querySelectorAll('.admin-only').forEach(el => el.style.display = 'block');
+            }
+          } catch (error) {
+            console.error('Error fetching user info:', error);
+          }
+        };
+
+
+        const fetchEmployeePhoto = async () => {
+          try {
+            const response = await axios.get('http://localhost:8087/ee172/api/employee/getPhoto'); //
+            employeePhoto.value = 'data:image/jpeg;base64,' + response.data;
+            console.log("employeePhoto:", employeePhoto.value)
+            console.log("employeePhoto:", response.data)
+          } catch (error) {
+            console.error('Error fetching employee photo:', error);
+          }
+        };
+
+        onMounted(() => {
+          fetchUserInfo();
+          fetchEmployeePhoto();
+        });
+
+        return {
+          user,userRole,employeePhoto, currentTime,
+          clockIn,
+          clockOut
+        };
+      }
+    }).mount('#app');
+  </script>
+
+<script>
+  const { createApp, ref, onMounted } = Vue;
+
+  createApp({
+    setup() {
+
+      const user = ref(null);
+      const userRole = ref(sessionStorage.getItem("userRole"));
+      const employeePhoto = ref('');
+
+
+
+
+
+
+
+      const fetchUserInfo = async () => {
+        try {
+          const response = await axios.get('http://localhost:8087/ee172/api/employee/info');
+          user.value = response.data;
+          sessionStorage.setItem("userRole", user.value.role);
+          console.log("UserRole from sessionStorage:", sessionStorage.getItem("userRole"));
+          // 根據角色顯示或隱藏元素
+          if (user.value.role !== "1" && user.value.role !== "2") {
+            document.querySelectorAll('.admin-only').forEach(el => el.style.display = 'none');
+          } else {
+            document.querySelectorAll('.admin-only').forEach(el => el.style.display = 'block');
+          }
+        } catch (error) {
+          console.error('Error fetching user info:', error);
+        }
+      };
+
+
+      const fetchEmployeePhoto = async () => {
+        try {
+          const response = await axios.get('http://localhost:8087/ee172/api/employee/getPhoto'); //
+          employeePhoto.value = 'data:image/jpeg;base64,' + response.data;
+          console.log("employeePhoto:", employeePhoto.value)
+          console.log("employeePhoto:", response.data)
+        } catch (error) {
+          console.error('Error fetching employee photo:', error);
+        }
+      };
+
+      onMounted(() => {
+        fetchUserInfo();
+        fetchEmployeePhoto();
+      });
+
+      return {
+        user,userRole,employeePhoto
+
+      };
+    }
+  }).mount('#app1');
+</script>
+
+
+
+</body>
+</html>

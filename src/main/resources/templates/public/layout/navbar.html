@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+
+	<link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+	<link href="https://getbootstrap.com/docs/5.3/assets/css/docs.css" rel="stylesheet">
+	<title>Bootstrap Example</title>
+	<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+
+	<style>
+		img {
+			max-width: 35px;
+			max-height: 35px;
+			border-radius: 50%;
+		}
+	</style>
+
+</head>
+
+<body>
+
+	<div class="d-flex flex-column flex-md-row align-items-center pb-3 mb-4 border-bottom"
+		style="justify-content: space-between;">
+		<a th:href="@{/home}" class="d-flex align-items-center link-body-emphasis text-decoration-none">
+			<!-- 
+			<svg xmlns="http://www.w3.org/2000/svg" width="200" height="100">
+				修改路徑
+				<path fill="currentColor" d="M10 10 L90 10 L90 40 L10 40 Z" />
+
+				添加超連結 
+				<a th:href="@{/}" target="_blank">
+					<text x="20" y="30" fill="blue">點擊這裡前往網站</text>
+				</a>
+			</svg>
+ 			-->
+
+			<svg xmlns="http://www.w3.org/2000/svg" width="40" height="32" class="me-2" viewBox="0 0 118 94" role="img">
+				<title>Bootstrap</title>
+				<path fill-rule="evenodd" clip-rule="evenodd"
+					d="M24.509 0c-6.733 0-11.715 5.893-11.492 12.284.214 6.14-.064 14.092-2.066 20.577C8.943 39.365 5.547 43.485 0 44.014v5.972c5.547.529 8.943 4.649 10.951 11.153 2.002 6.485 2.28 14.437 2.066 20.577C12.794 88.106 17.776 94 24.51 94H93.5c6.733 0 11.714-5.893 11.491-12.284-.214-6.14.064-14.092 2.066-20.577 2.009-6.504 5.396-10.624 10.943-11.153v-5.972c-5.547-.529-8.934-4.649-10.943-11.153-2.002-6.484-2.28-14.437-2.066-20.577C105.214 5.894 100.233 0 93.5 0H24.508zM80 57.863C80 66.663 73.436 72 62.543 72H44a2 2 0 01-2-2V24a2 2 0 012-2h18.437c9.083 0 15.044 4.92 15.044 12.474 0 5.302-4.01 10.049-9.119 10.88v.277C75.317 46.394 80 51.21 80 57.863zM60.521 28.34H49.948v14.934h8.905c6.884 0 10.68-2.772 10.68-7.727 0-4.643-3.264-7.207-9.012-7.207zM49.948 49.2v16.458H60.91c7.167 0 10.964-2.876 10.964-8.281 0-5.406-3.903-8.178-11.425-8.178H49.948z"
+					fill="currentColor"></path>
+			</svg>
+
+			<span class="fs-4">Pricing example</span>
+		</a>
+
+		<nav class="navbar navbar-expand-lg">
+			<div class="container-fluid">
+				<div class="collapse navbar-collapse" id="navbarSupportedContent">
+					<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+						<li class="nav-item">
+							<a class="nav-link" href="/index.html">最新消息</a>
+						</li>
+						<li class="nav-item dropdown">
+							<a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+								aria-expanded="false">
+								展場租借
+							</a>
+							<ul class="dropdown-menu">
+								<li><a class="dropdown-item" th:href="@{/arenaReserved}">場地A</a></li>
+								<li><a class="dropdown-item" href="/site.htm">場地B</a></li>
+								<li><a class="dropdown-item" href="/site.htm">場地C</a></li>
+							</ul>
+						</li>
+
+						<li class="nav-item">
+							<a class="nav-link" href="/weddingBook.html">婚宴場地出借</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="http://localhost:8087/ee172/friend_select2">交友配對</a>
+						</li>
+
+						<!-- 
+						<li class="nav-item" th:if="${session.loginMember}">
+							<a class="nav-link" th:href="@{/memberCenter}">會員中心</a>
+						</li>
+						 -->
+						 
+						<li class="nav-link"
+							th:text="${session.loginMember} ? ${session.loginMember.memberName} + '，您好'">
+						</li>
+
+						<!-- 帶下拉式選單的圖片 -->
+						<li class="nav-item dropdown" th:if="${session.loginMember}">
+							<a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+								aria-expanded="false">
+								<!-- 網站端登入 使用Base64編碼的圖片 -->
+								<img class="img" th:if="${session.loginMember.memberPhoto ne null}"
+									th:src="'data:image/jpeg;base64,' + ${session.loginMember.memberPhoto}" />
+								<!-- Google 登入 使用 URL 的圖片 -->
+								<img class="img" th:if="${session.loginMember.memberPhoto eq null}"
+									th:src="${session.loginMember.photoURL}" />
+							</a>
+							<ul class="dropdown-menu">
+								<!-- 下拉式選單的選項 -->
+								<li><a class="dropdown-item" th:href="@{/memberCenter}">會員中心</a></li>
+								<li><a class="dropdown-item" th:href="@{/member/logout}">登出</a></li>
+							</ul>
+						</li>
+
+						<!-- 
+						<li class="nav-item" th:if="${session.loginMember}">
+							<a th:href="@{/memberCenter}">
+							<img class="img" th:if="${session.loginMember.memberPhoto ne null}"
+								th:src="'data:image/jpeg;base64,' + ${session.loginMember.memberPhoto}" />
+							<img class="img" th:if="${session.loginMember.memberPhoto eq null}"
+								th:src="${session.loginMember.photoURL}" />
+							</a>
+						</li>
+						 -->
+
+						<!-- 
+						<li class="nav-item" th:if="${session.loginMember}">
+							<a class="btn btn-outline-danger btn-sm" th:href="@{/member/logout}">暫時用登出</a>
+						</li>
+						-->
+
+						<li class="nav-item" th:unless="${session.loginMember}">
+							<a class="nav-link" th:href="@{/member/login}">登入</a>
+						</li>
+						<li class="nav-item" th:unless="${session.loginMember}">
+							<a class="nav-link" th:href="@{/member/register}">註冊</a>
+						</li>
+
+						</li>
+					</ul>
+				</div>
+			</div>
+		</nav>
+	</div>
+
+</body>
+
+</html>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>會員帳號啟用</title>
+
+	<!-- Vue 3 -->
+	<script th:src="@{js/vue.global.js}"></script>
+
+	<!-- Thymeleaf 整合的 JavaScript 資源 -->
+	<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+
+	<!-- CSS -->
+	<link th:href="@{/css/bootstrap.min.css}" rel="stylesheet" />
+	<link href="https://getbootstrap.com/docs/5.3/assets/css/docs.css" rel="stylesheet" />
+	<link th:href="@{/css/sign-in.css}" rel="stylesheet" />
+</head>
+
+<body>
+	<div th:replace="~{/public/layout/navbar}"></div>
+	<div class="container">
+		<h1>會員帳號啟用</h1>
+
+		<form th:action="@{/member/verify}" th:method="post">
+
+			<div class="mb-3">
+				<label class="form-label" for="phone">信箱驗證碼</label>
+				<input class="form-control" type="text" name="token" th:value="${token}" required>
+			</div>
+
+			<button type="submit" class="btn btn-primary">確認</button>
+		</form>
+
+		<div th:text="${errorMsg} ? ${errorMsg}"></div>
+	</div>
+
+	<div th:replace="~{/public/layout/footer}"></div>
+</body>
+
+</html>

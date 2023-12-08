@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>會員帳號啟用</title>
+
+	<!-- Vue 3 -->
+	<script th:src="@{js/vue.global.js}"></script>
+
+	<!-- Thymeleaf 整合的 JavaScript 資源 -->
+	<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+
+	<!-- CSS -->
+	<link th:href="@{/css/bootstrap.min.css}" rel="stylesheet" />
+	<link href="https://getbootstrap.com/docs/5.3/assets/css/docs.css" rel="stylesheet" />
+	<link th:href="@{/css/sign-in.css}" rel="stylesheet" />
+
+	<style>
+		.alert-success {
+			color: #155724;
+			background-color: #d4edda;
+			border-color: #c3e6cb;
+		}
+	</style>
+
+</head>
+
+<body>
+	<div th:replace="~{/public/layout/navbar}"></div>
+	<div class="container">
+		<h4>會員網路帳號啟用 </h4>
+
+		<div class="alert alert-success" role="alert">
+			<h5>您的網路帳號已為啟用中 <i class="far fa-check-circle" aria-hidden="true"></i></h5>
+		</div>
+
+	</div>
+	<div th:replace="~{/public/layout/footer}"></div>
+
+</body>
+
+</html>

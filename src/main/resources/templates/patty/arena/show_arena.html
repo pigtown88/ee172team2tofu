@@ -1,0 +1,143 @@
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="keywords" content="Match Fix Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template,
+Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyEricsson, Motorola web design" />
+    <title>Document</title>
+
+
+
+
+
+
+
+
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://getbootstrap.com/docs/5.3/assets/css/docs.css" rel="stylesheet">
+
+
+    <script src="js/vue.global.js"></script>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.6.2/axios.min.js"></script>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+
+    <script th:src="@{js/bootstrap.bundle.min.js}"></script>
+    <script th:src="@{js/jquery-3.7.1.min.js}"></script>
+
+
+    <link href="patty/css/bootstrap.css" rel="stylesheet" type="text/css"> <!-- Bootstrap CSS -->
+    <link href="patty/css/style.css" rel="stylesheet" type="text/css"> <!-- 自定義 CSS -->
+    <link href="patty/css/css_slider.css" rel="stylesheet" type="text/css" media="all"> <!-- Slider CSS -->
+    <link href="patty/css/font-awesome.min.css" rel="stylesheet" type="text/css"> <!-- FontAwesome -->
+
+    <link href="//fonts.googleapis.com/css?family=Muli:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet">
+
+    <link href="css/carousel.css" rel="stylesheet" type="text/css">
+    <script>
+        addEventListener("load", function () {
+            setTimeout(hideURLbar, 0);
+        }, false);
+
+        function hideURLbar() {
+            window.scrollTo(0, 1);
+        }
+    </script>
+
+
+
+
+
+</head>
+
+<body>
+
+    <div class="container" id="app">
+        <main>
+            <div class="row mb-2">
+                <div class="col-md-6" v-for="Arena in Arenas" :key="Arena.arenaId">
+                    <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative"
+                        style="margin: 1px;">
+                        <div class="col p-4 d-flex flex-column position-static">
+                            <strong class="d-inline-block mb-2 text-primary"></strong>
+                            <h3 class="mb-0">{{Arena.arenaName}}</h3>
+                            <div class="mb-1 text-muted">Nov 12</div>
+                            <p class="card-text mb-auto">{{Arena.arenaIntro}}</p>
+                            <a href="#" class="stretched-link">查看更多</a>
+                        </div>
+                        <div class="col-auto d-none d-lg-block">
+                            <!-- <svg class="bd-placeholder-img" width="200" height="250" xmlns="http://www.w3.org/2000/svg"
+                                role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice"
+                                focusable="false">
+                                <title>Placeholder</title>
+                                <rect width="100%" height="100%" fill="#55595c"></rect><text x="50%" y="50%"
+                                    fill="#eceeef" dy=".3em">Thumbnail</text>
+                            </svg> -->
+                            <img v-if="Arena.arenaPhoto" :src="decodeBase64(Arena.arenaPhoto)" alt="Arena Photo">
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </main>
+
+    </div>
+
+
+
+
+
+    <script>
+        const vueApp = Vue.createApp({
+            data() {
+                return {
+                    Arenas: {},
+                }
+            },
+            methods: {
+                async searchMembers() {
+                    try {
+                        const response = await axios.get('http://localhost:8087/ee172/arenas', {
+
+                        });
+                        this.Arenas = response.data;
+                    } catch (error) {
+                        console.error('Axios Error:', error);
+                        console.error('Error Message:', error.message);
+                        console.error('Error Code:', error.code);
+                        // 可以添加其他处理逻辑
+                    }
+
+                },
+                decodeBase64(base64String) {
+                    if (base64String) {
+                        return `data:image/jpeg;base64,${base64String}`;
+                    }
+                    // 或者你也可以返回一個預設的圖片，視情況而定
+                    // return 'path/to/default/image.jpg';
+                },
+            },
+            beforeMount() {
+                this.searchMembers();
+            },
+        }).mount('#app');
+    </script>
+
+    <script th:src="@{https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js}"></script>
+
+
+</body>
+
+</html>

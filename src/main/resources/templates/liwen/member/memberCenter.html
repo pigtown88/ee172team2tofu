@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>使用者登入</title>
+
+
+	<link th:href="@{/css/bootstrap.min.css}" rel="stylesheet" />
+	<link href="https://getbootstrap.com/docs/5.3/assets/css/docs.css" rel="stylesheet" />
+	<!-- <title>Bootstrap Example</title> -->
+	<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+</head>
+
+<body>
+	<div th:replace="~{/public/layout/navbar}"></div>
+	<h1>會員中心</h1>
+	
+	<div th:replace="~{/public/layout/footer}"></div>
+</body>
+
+</html>

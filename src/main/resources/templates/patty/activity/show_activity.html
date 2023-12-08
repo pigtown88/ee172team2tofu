@@ -1,0 +1,172 @@
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="keywords" content="Match Fix Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template,
+Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyEricsson, Motorola web design" />
+    <title>Document</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://getbootstrap.com/docs/5.3/assets/css/docs.css" rel="stylesheet">
+
+
+    <script src="js/vue.global.js"></script>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.6.2/axios.min.js"></script>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+
+    <script th:src="@{js/bootstrap.bundle.min.js}"></script>
+    <script th:src="@{js/jquery-3.7.1.min.js}"></script>
+
+
+    <link href="patty/css/bootstrap.css" rel="stylesheet" type="text/css"> <!-- Bootstrap CSS -->
+    <link href="patty/css/style.css" rel="stylesheet" type="text/css"> <!-- 自定義 CSS -->
+    <link href="patty/css/css_slider.css" rel="stylesheet" type="text/css" media="all"> <!-- Slider CSS -->
+    <link href="patty/css/font-awesome.min.css" rel="stylesheet" type="text/css"> <!-- FontAwesome -->
+
+    <link href="//fonts.googleapis.com/css?family=Muli:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet">
+
+    <link href="css/carousel.css" rel="stylesheet" type="text/css">
+    <script>
+        addEventListener("load", function () {
+            setTimeout(hideURLbar, 0);
+        }, false);
+
+        function hideURLbar() {
+            window.scrollTo(0, 1);
+        }
+    </script>
+
+
+
+
+
+</head>
+
+<body>
+
+    <div class="container" id="app">
+        <main>
+            <div class="row">
+                <div class="col-lg-4" v-for="activity in activities" :key="activity.id">
+                    <svg class="bd-placeholder-img rounded-circle" width="140" height="140"
+                        xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder"
+                        preserveAspectRatio="xMidYMid slice" focusable="false">
+                        <title>Placeholder</title>
+                        <rect width="100%" height="100%" fill="var(--bs-secondary-color)"></rect>
+                    </svg>
+                    <h2 class="fw-normal">{{ activity.activityName }}</h2>
+                    <p>{{activity.activityIntro}}</p>
+                    <p><a class="btn btn-secondary" href="#">View details »</a></p>
+                </div><!-- /.col-lg-4 -->
+                <div class="col-lg-4">
+                    <svg class="bd-placeholder-img rounded-circle" width="140" height="140"
+                        xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder"
+                        preserveAspectRatio="xMidYMid slice" focusable="false">
+                        <title>Placeholder</title>
+                        <rect width="100%" height="100%" fill="var(--bs-secondary-color)"></rect>
+                    </svg>
+                    <h2 class="fw-normal">Heading</h2>
+                    <p>Another exciting bit of representative placeholder content. This time, we've moved on to the
+                        second column.</p>
+                    <p><a class="btn btn-secondary" href="#">View details »</a></p>
+                </div><!-- /.col-lg-4 -->
+                <div class="col-lg-4">
+                    <svg class="bd-placeholder-img rounded-circle" width="140" height="140"
+                        xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder"
+                        preserveAspectRatio="xMidYMid slice" focusable="false">
+                        <title>Placeholder</title>
+                        <rect width="100%" height="100%" fill="var(--bs-secondary-color)"></rect>
+                    </svg>
+                    <h2 class="fw-normal">Heading</h2>
+                    <p>And lastly this, the third column of representative placeholder content.</p>
+                    <!-- <p><a class="btn btn-secondary" href="#">View details »</a></p> -->
+                    <router-link :to="{ name: 'activityDetails', params: { id: activity.id }}">View details
+                        »</router-link>
+                </div><!-- /.col-lg-4 -->
+            </div>
+        </main>
+
+    </div>
+
+
+    <script th:src="@{https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js}"></script>
+
+
+
+    <script>
+        const ActivityDetails = {
+            template: `
+                <div>
+                    <h2 class="fw-normal">{{ selectedActivity.name }}</h2>
+                    <p>{{ selectedActivity.description }}</p>
+                </div>
+            `,
+            data() {
+                return {
+                    selectedActivity: {},
+                };
+            },
+            created() {
+                // Fetch the selected activity based on route params
+                const id = this.$route.params.id;
+                // You should implement a method to fetch the activity details using the ID
+                this.fetchActivityDetails(id);
+            },
+            methods: {
+                fetchActivityDetails(id) {
+                    // Implement your logic to fetch activity details by ID
+                    // For example, make an API request using axios
+                    // Update this.selectedActivity with the fetched details
+                },
+            },
+        };
+
+        const routes = [
+            { path: '/activity/:id', name: 'activityDetails', component: ActivityDetails },
+        ];
+
+        const router = VueRouter.createRouter({
+            history: VueRouter.createWebHistory(),
+            routes,
+        });
+
+        const vueApp = Vue.createApp({
+            data() {
+                return {
+                    activities: [],
+                };
+            },
+            methods: {
+                async searchActivities() {
+                    try {
+                        const response = await axios.get('http://localhost:8087/ee172/activitys');
+                        this.activities = response.data;
+                    } catch (error) {
+                        console.error(error);
+                    }
+                },
+            },
+            mounted() {
+                this.searchActivities();
+            },
+        });
+
+        // vueApp.use(router);
+
+        vueApp.mount('#app');
+    </script>
+
+
+</body>
+
+</html>
