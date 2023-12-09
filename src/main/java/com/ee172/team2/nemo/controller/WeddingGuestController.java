@@ -26,7 +26,7 @@ public class WeddingGuestController {
 		weddingCouple.setWeddingId(id);
 		
 		WeddingGuest weddingGuest = new WeddingGuest();
-//		weddingGuest.setWeddingCouple(weddingCouple);
+		weddingGuest.setWeddingCouple(weddingCouple);
 		model.addAttribute("weddingguest", weddingGuest);
 		return "nemo/weddingGuest";
 	}
@@ -51,7 +51,7 @@ public class WeddingGuestController {
 			BindingResult result) {
 		weddingGuestService.save(guest);
 		model.addAttribute("weddingguest", guest);
-		return "redirect:/weddingGuest/?id=" + guest.getWeddingId();
+		return "redirect:/weddingGuest/?id=" + guest.getWeddingCouple().getWeddingId();
 	}
 
 }

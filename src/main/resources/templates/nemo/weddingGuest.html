@@ -66,7 +66,7 @@ button:hover {
 		<h2>賓客資料問卷</h2>
 		<form th:action="@{/weddingGuest/createGuest}" th:method="post"
 			th:object="${weddingguest}">
-			<input type="hidden" id="hd" th:field="*{weddingId}" />
+			<input type="hidden" id="hd" th:field="*{weddingCouple.weddingId}" />
 			<div class="form-group">
 				<label>賓客姓名</label> <input type="text" id="fullName"
 					th:field="*{guestName}" class="dark-placeholder" placeholder="需要全名"

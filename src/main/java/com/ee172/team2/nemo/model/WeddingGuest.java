@@ -50,11 +50,11 @@ public class WeddingGuest {
 	@Column(name = "qrCode")
 	private byte[] qrCode;
 	
-	@Column(name = "weddingId")
-	private String weddingId;
+//	@Column(name = "weddingId")
+//	private String weddingId;
 
 	@ManyToOne
-	@JoinColumn(name = "fk_weddingId")
+	@JoinColumn(name = "weddingId")
 	private WeddingCouple weddingCouple;
 }
 
