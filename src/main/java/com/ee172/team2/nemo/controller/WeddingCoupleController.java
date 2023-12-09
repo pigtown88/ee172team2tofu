@@ -80,10 +80,12 @@ public class WeddingCoupleController {
 
 	}
 
+//寄信給賓客
 	@GetMapping("/sendMail/{id}")
 	@ResponseBody
 	public String sendMail(@PathVariable("id") Integer id) {
-//mailService.sendMail("ee172test@gmail.com", "pigtown88@gmail.com" , "婚禮邀請", "歡迎參加我們的婚禮");
+		//測試寫死的方法可不可以寄信出去
+//		mailService.sendMail("ee172test@gmail.com", "pigtown88@gmail.com", "婚禮邀請", "歡迎參加我們的婚禮");
 		List<WeddingGuest> wgsGuests = guestService.findByWeddingId(id);
 		for (WeddingGuest guest : wgsGuests) {
 
