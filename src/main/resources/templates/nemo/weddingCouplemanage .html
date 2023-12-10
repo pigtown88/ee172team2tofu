@@ -132,44 +132,43 @@ table.imagetable td select {
 </head>
 
 <body>
-	<div th:replace="~{/public/layout/navbar}"></div>
 	<div class="container">
 		<h2>Wedding Information Form</h2>
 		<form th:action="@{/weddingCouple/tt}" th:method="post"
 			th:object="${weddingcouple}">
-			<div class="form-group">
-				<label>新娘</label> <input type="text" th:field="*{brideName}"
-					required></input>
-			</div>
-			<div class="form-group">
-				<label>新郎</label> <input type="text" th:field="*{groomName}"
-					required></input>
-			</div>
-			<div class="form-group">
-				<label>新娘父母</label> <input type="text" th:field="*{brideParentName}"
-					required></input>
-			</div>
-			<div class="form-group">
-				<label>新郎父母</label> <input type="text" th:field="*{groomParentName}"
-					required></input>
-			</div>
-			<button type="submit">新增</button>
+<!--			<div class="form-group">-->
+<!--				<label>新娘</label> <input type="text" th:field="*{brideName}"-->
+<!--					required></input>-->
+<!--			</div>-->
+<!--			<div class="form-group">-->
+<!--				<label>新郎</label> <input type="text" th:field="*{groomName}"-->
+<!--					required></input>-->
+<!--			</div>-->
+<!--			<div class="form-group">-->
+<!--				<label>新娘父母</label> <input type="text" th:field="*{brideParentName}"-->
+<!--					required></input>-->
+<!--			</div>-->
+<!--			<div class="form-group">-->
+<!--				<label>新郎父母</label> <input type="text" th:field="*{groomParentName}"-->
+<!--					required></input>-->
+<!--			</div>-->
+<!--			<button type="submit">新增</button>-->
 		</form>
-		<div th:if="${msg1 == '添加成功'}">
-			<script>
-				alert('添加成功');
-			</script>
-		</div>
+<!--		<div th:if="${msg1 == '添加成功'}">-->
+<!--			<script>-->
+<!--				alert('添加成功');-->
+<!--			</script>-->
+<!--		</div>-->
 		<br>
 		<div>
 			<table class="imagetable">
 				<tr>
-					<th>標識符</th>
+					<th>婚禮流水號</th>
 					<th>新娘</th>
 					<th>新郎</th>
 					<th>新娘父母</th>
 					<th>新郎父母</th>
-					<th>動作</th>
+					<th>功能</th>
 				</tr>
 				<tr th:each="i:${list}">
 					<td th:text="${i.weddingId}" th:id="${i.weddingId}"></td>
@@ -189,7 +188,6 @@ table.imagetable td select {
 			</table>
 		</div>
 	</div>
-	<div th:replace="~{/public/layout/footer}"></div>
 </body>
 <script>
 	function deleteRec(id) {

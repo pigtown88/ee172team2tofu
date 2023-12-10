@@ -16,14 +16,14 @@ public class Photo {
     @Column(name = "photo", columnDefinition = "LONGBLOB")
     private byte[] photo;
 
-    @Column(name = "guest_name", length = 10)
-    private String guestName;
-
-    @Column(name = "guestText", length = 20)
-    private String guestText;
-    
-    @Column(name = "weddingid", length = 255)
-    private String weddingId;
+//    @Column(name = "guest_name", length = 10)
+//    private String guestName;
+//
+//    @Column(name = "guestText", length = 20)
+//    private String guestText;
+//    
+//    @Column(name = "weddingId", length = 255)
+//    private String weddingId;
 
     // Constructors, getters and setters
 }

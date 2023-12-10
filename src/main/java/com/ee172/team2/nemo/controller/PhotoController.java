@@ -129,8 +129,8 @@ public class PhotoController {
 		Photo newPhoto = new Photo();
 
 		newPhoto.setPhoto(photoDetails.getPhoto());
-		newPhoto.setGuestName(photoDetails.getGuestName());
-		newPhoto.setGuestText(photoDetails.getGuestText());
+//		newPhoto.setGuestName(photoDetails.getGuestName());
+//		newPhoto.setGuestText(photoDetails.getGuestText());
 
 		return photoService.savePhoto(newPhoto);
 	}

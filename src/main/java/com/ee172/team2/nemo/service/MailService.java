@@ -16,11 +16,11 @@ public class MailService {
 		SimpleMailMessage mailMessage = new SimpleMailMessage();
 		mailMessage.setFrom(from);
 		mailMessage.setTo(to);
-//		mailMessage.setCc(cc);
+//		mailMessage.setCc(cc); 先不用副本
 		mailMessage.setSubject(subject);
 		mailMessage.setText(text);
 	
 		javaMailSender.send(mailMessage);
 	}
-
+//寄信controller用在weddingcouple下面
 }

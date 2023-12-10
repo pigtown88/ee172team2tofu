@@ -20,7 +20,7 @@ public class DefaultPageController {
 		model.put("s", allCouples);
 		WeddingCouple weddingCouple = new WeddingCouple();
 		model.put("weddingcouple", weddingCouple);
-		return "nemo/weddingCouple";
+		return "nemo/weddingCouplemanagement";
 	}
 
 }
