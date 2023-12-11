@@ -13,12 +13,11 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ee172.team2.nemo.model.WeddingCouple;
 import com.ee172.team2.nemo.model.WeddingGuest;
-import com.ee172.team2.nemo.service.MailService;
+//import com.ee172.team2.nemo.service.MailService;
 import com.ee172.team2.nemo.service.WeddingCoupleService;
 import com.ee172.team2.nemo.service.WeddingGuestService;
 
@@ -32,8 +31,16 @@ public class WeddingCoupleController {
 	@Autowired
 	private WeddingGuestService guestService;
 
-	@Autowired
-	private MailService mailService;
+//	@Autowired
+//	private MailService mailService;
+	
+	@RequestMapping("/add")
+	public String toDefaultPage(ModelMap model) {
+		WeddingCouple weddingCouple = new WeddingCouple();
+		model.put("weddingcouple", weddingCouple);
+		return "nemo/weddingCoupleadd";
+	}
+
 
 	@GetMapping
 	public List<WeddingCouple> getAllCouples() {
@@ -48,11 +55,17 @@ public class WeddingCoupleController {
 		weddingCouple.setBrideName(couple.getBrideName());
 		weddingCouple.setGroomName(couple.getGroomName());
 		weddingCouple.setBrideParentName(couple.getBrideParentName());
-		weddingCouple.setGroomParentName(couple.getBrideParentName());
+		weddingCouple.setGroomParentName(couple.getGroomParentName());
 		service.save(weddingCouple);
-		return "redirect:/weddingCouple/getAll";
+		return "redirect:/weddingCouple/addweddingGuest";
 	}
 
+	@GetMapping("/addweddingGuest") // 處理POST請求，創建新的weddingCouple
+	public String addweddingGuest(ModelMap model) {
+		model.put("weddingguest", new WeddingGuest());
+		return "nemo/weddingGuest";
+	}
+	
 	@GetMapping("/getAll") // 處理POST請求，創建新的weddingCouple
 	public String getAll(ModelMap model, @ModelAttribute WeddingCouple couple, BindingResult result) {
 
@@ -81,37 +94,23 @@ public class WeddingCoupleController {
 
 	}
 
-//寄信給賓客
-	@GetMapping("/sendMail/{id}")
-	@ResponseBody
-	public String sendMail(@PathVariable("id") Integer id) {
-		//測試寫死的方法可不可以寄信出去
-//		mailService.sendMail("ee172test@gmail.com", "pigtown88@gmail.com", "婚禮邀請", "歡迎參加我們的婚禮");
-		List<WeddingGuest> wgsGuests = guestService.findByWeddingId(id);
-		for (WeddingGuest guest : wgsGuests) {
+//	@GetMapping("/sendMail/{id}")
+//	@ResponseBody
+//	public String sendMail(@PathVariable("id") Integer id) {
+////mailService.sendMail("ee172test@gmail.com", "pigtown88@gmail.com" , "婚禮邀請", "歡迎參加我們的婚禮");
+//		List<WeddingGuest> wgsGuests = guestService.findByWeddingId(id);
+//		for (WeddingGuest guest : wgsGuests) {
+//
+//			try {
+//				mailService.sendMail("ee172test@gmail.com", guest.getEmail(), "婚禮邀請", "歡迎參加我們的婚禮");
+//				return "true";
+//			} catch (Exception Ex) {
+//				return "false";
+//			}
+//		}
+//
+//		return "true";
+//
+//	}
 
-			try {
-				mailService.sendMail("ee172test@gmail.com", guest.getEmail(), "婚禮邀請", "歡迎參加我們的婚禮");
-				return "true";
-			} catch (Exception Ex) {
-				return "false";
-			}
-		}
-
-		return "true";
-
-	}
-
-	
-	//使用weddindCouplemanage
-	@GetMapping("/")
-	public String initPage(ModelMap model, @RequestParam Integer id) {
-	
-	
-		WeddingCouple weddingCouple = new WeddingCouple();
-		weddingCouple.setWeddingId(id);
-		model.addAttribute("weddingCouple", weddingCouple);
-		return "nemo/weddindCouplemanage";
-	}
-	
 }

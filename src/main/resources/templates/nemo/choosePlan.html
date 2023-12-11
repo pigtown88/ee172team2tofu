@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Choose Your Plan</title>
+</head>
+<body>
+    <form th:action="@{/price/submitPlan}" method="post">
+        <th for="planA">Plan A</th>
+        <input type="radio" id="planA" name="selectedPlan" value="A">
+
+        <th for="planB">Plan B</th>
+        <input type="radio" id="planB" name="selectedPlan" value="B">
+
+        <th for="planC">Plan C</th>
+        <input type="radio" id="planC" name="selectedPlan" value="C">
+
+        <button type="submit">Submit</button>
+    </form>
+</body>
+</html>

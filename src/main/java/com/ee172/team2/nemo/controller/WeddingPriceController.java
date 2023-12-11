@@ -1,33 +1,33 @@
 package com.ee172.team2.nemo.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
 import com.ee172.team2.nemo.model.WeddingPrice;
 import com.ee172.team2.nemo.service.WeddingPriceService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.List;
-
-@RestController
-@RequestMapping("/weddingPrice")
+@Controller
+@RequestMapping("/price")
 public class WeddingPriceController {
 
     @Autowired
     private WeddingPriceService weddingPriceService;
 
-    @GetMapping
-    public List<WeddingPrice> getAllPrices() {
-        return weddingPriceService.findAll();
+    @GetMapping("/choosePlan")
+    public String choosePlan(Model model) {
+        model.addAttribute("weddingPrices", weddingPriceService.findAll());
+        return "nemo/choosePlan";
     }
 
-    @GetMapping("/{id}")
-    public WeddingPrice getPriceById(@PathVariable Integer id) {
-        return weddingPriceService.findById(id).orElse(null);
+    @PostMapping("/submitPlan")
+    public String submitPlan(@RequestParam(name = "selectedPlan") String selectedPlan, Model model) {
+        // 处理选择的方案
+        // 此处可添加具体逻辑
+        model.addAttribute("selectedPlan", selectedPlan);
+        return "nemo/planResult";
     }
-
-    @PostMapping("/tt")
-    public WeddingPrice createPrice(@RequestBody WeddingPrice price) {
-        return weddingPriceService.save(price);
-    }
-
-    
 }
