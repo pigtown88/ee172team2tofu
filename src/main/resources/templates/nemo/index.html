@@ -1,16 +1,18 @@
 <!DOCTYPE html>
-<html lang="zh-Hant">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>婚禮活動管理</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <style>
         html {
             height: 100%;
         }
         body {
             font-family: Arial, sans-serif;
-           background-image: url('../images/banner.jpg'); /* 您需要替換為您自己的圖片路徑 */
-            background-color: #ffffff;
+            background-image: url('images/banner.jpg'); /* 您需要替換為您自己的圖片路徑 */
+            background-color: rgb(64, 0, 128);
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
@@ -27,38 +29,24 @@
             text-align: center;
             margin-bottom: 20px;
         }
-        .btn {
-            display: block;
-            width: 200px;
-            margin: 20px;
-            padding: 10px;
-            text-align: center;
-            text-decoration: none;
-            color: #fff;
-            background-color: #f76c6c;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 18px;
-        }
-        .btn:hover {
-            background-color: #fa8989;
-        }
-        /* 避免按鈕超出視窗 */
-        .buttons-container {
-            margin-bottom: 20px;
-        }
     </style>
 </head>
 <body>
-    <div class="header">
-        <h3>婚禮活動管理</h3>
-        <p>最佳匹配情侶的婚禮搜尋平台。</p>
+    <div class="container text-center">
+        <div class="header">
+            <h3 class="display-4">婚禮活動管理</h3>
+            <p class="lead">最佳匹配情侶的婚禮搜尋平台。</p>
+        </div>
+        <div class="buttons-container mt-4">
+            <a class="btn btn-danger btn-lg" href="plan-wedding.html" role="button">我要辦婚禮</a>
+            <a class="btn btn-danger btn-lg" href="manage-wedding.html" role="button">我要管理婚禮</a>
+        </div>
     </div>
-    <div class="buttons-container">
-        <a class="btn" href="plan-wedding.html">我要辦婚禮</a>
-        <a class="btn" href="manage-wedding.html">我要管理婚禮</a>
-    </div>
-    	
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 </body>
 </html>

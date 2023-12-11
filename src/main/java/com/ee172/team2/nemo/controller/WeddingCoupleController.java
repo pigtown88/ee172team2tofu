@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ee172.team2.nemo.model.WeddingCouple;
@@ -59,7 +60,7 @@ public class WeddingCoupleController {
 		model.put("list", allCouples);
 		WeddingCouple weddingCouple = new WeddingCouple();
 		model.put("weddingcouple", weddingCouple);
-		return "nemo/weddingCouple";
+		return "nemo/weddingCoupleall";
 	}
 
 	@ResponseBody
@@ -101,4 +102,16 @@ public class WeddingCoupleController {
 
 	}
 
+	
+	//使用weddindCouplemanage
+	@GetMapping("/")
+	public String initPage(ModelMap model, @RequestParam Integer id) {
+	
+	
+		WeddingCouple weddingCouple = new WeddingCouple();
+		weddingCouple.setWeddingId(id);
+		model.addAttribute("weddingCouple", weddingCouple);
+		return "nemo/weddindCouplemanage";
+	}
+	
 }

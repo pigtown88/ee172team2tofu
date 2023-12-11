@@ -134,41 +134,18 @@ table.imagetable td select {
 <body>
 	<div class="container">
 		<h2>Wedding Information Form</h2>
-		<form th:action="@{/weddingCouple/tt}" th:method="post"
-			th:object="${weddingcouple}">
-<!--			<div class="form-group">-->
-<!--				<label>新娘</label> <input type="text" th:field="*{brideName}"-->
-<!--					required></input>-->
-<!--			</div>-->
-<!--			<div class="form-group">-->
-<!--				<label>新郎</label> <input type="text" th:field="*{groomName}"-->
-<!--					required></input>-->
-<!--			</div>-->
-<!--			<div class="form-group">-->
-<!--				<label>新娘父母</label> <input type="text" th:field="*{brideParentName}"-->
-<!--					required></input>-->
-<!--			</div>-->
-<!--			<div class="form-group">-->
-<!--				<label>新郎父母</label> <input type="text" th:field="*{groomParentName}"-->
-<!--					required></input>-->
-<!--			</div>-->
-<!--			<button type="submit">新增</button>-->
-		</form>
-<!--		<div th:if="${msg1 == '添加成功'}">-->
-<!--			<script>-->
-<!--				alert('添加成功');-->
-<!--			</script>-->
-<!--		</div>-->
+		
+		
 		<br>
 		<div>
 			<table class="imagetable">
 				<tr>
-					<th>婚禮流水號</th>
+					<th>標識符</th>
 					<th>新娘</th>
 					<th>新郎</th>
 					<th>新娘父母</th>
 					<th>新郎父母</th>
-					<th>功能</th>
+					<th>動作</th>
 				</tr>
 				<tr th:each="i:${list}">
 					<td th:text="${i.weddingId}" th:id="${i.weddingId}"></td>
@@ -178,10 +155,13 @@ table.imagetable td select {
 					<td th:text="${i.groomParentName}"></td>
 					<td><a class="a1" th:pid='${i.weddingId}'
 						th:href="@{/weddingGuest/(id=${i.weddingId})}">來賓管理</a> | <a
+						
 						class="a1" th:pid='${i.weddingId}'
 						th:href="@{/weddingTable/(id=${i.weddingId})}">分桌</a>| <a
+						
 						class="a1" th:pid='${i.weddingId}'
 						th:href="@{/photos/(id=${i.weddingId})}">上傳圖片</a> | <a
+						
 						class="a1" th:pid='${i.weddingId}' href="javascript:void(0)"
 						onclick="javascript:void(sendMail(this.getAttribute('pid')))">發送郵件</a>
 				</tr>
