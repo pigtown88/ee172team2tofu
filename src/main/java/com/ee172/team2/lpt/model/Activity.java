@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
-import com.ee172.team2.liwen.model.Host;
+import com.ee172.team2.liwen.model.Member;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -56,21 +56,19 @@ public class Activity {
 
 	private String activityIntro;
 
-
 	@JsonBackReference("reserve-activity")
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "reserveId", referencedColumnName = "reserveId")
 	private Reserve reserve;
 
-	@JsonBackReference("host-activity")
+	@JsonBackReference("member-activity")
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "hostId", referencedColumnName = "hostId")
-	private Host host;
+	@JoinColumn(name = "memberId", referencedColumnName = "memberId")
+	private Member member;
 
 	@JsonIgnore
 	@JsonManagedReference("activity-order")
 	@OneToMany(mappedBy = "activity", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Order> orders;
-
 
 }

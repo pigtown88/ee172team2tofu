@@ -134,26 +134,28 @@ table.imagetable td select {
 <body>
 	<div class="container">
 		<h2>Wedding Information Form</h2>
-		<form th:action="@{/weddingCouple/tt}" th:method="post"
-			th:object="${weddingcouple}">
-			<div class="form-group">
-				<label>新娘</label> <input type="text" th:field="*{brideName}"
-					required></input>
-			</div>
-			<div class="form-group">
-				<label>新郎</label> <input type="text" th:field="*{groomName}"
-					required></input>
-			</div>
-			<div class="form-group">
-				<label>新娘父母</label> <input type="text" th:field="*{brideParentName}"
-					required></input>
-			</div>
-			<div class="form-group">
-				<label>新郎父母</label> <input type="text" th:field="*{groomParentName}"
-					required></input>
-			</div>
-			<button type="submit">新增</button>
-		</form>
+
+		<form th:action="@{/weddingCouple/tt}" th:method="post" th:object="${weddingcouple}">
+    <div class="form-group">
+        <label>新娘</label>
+        <input type="text" th:field="*{brideName}" required />
+    </div>
+    <div class="form-group">
+        <label>新郎</label>
+        <input type="text" th:field="*{groomName}" required />
+    </div>
+    <div class="form-group">
+        <label>新娘父母</label>
+        <input type="text" th:field="*{brideParentName}" required />
+    </div>
+    <div class="form-group">
+        <label>新郎父母</label>
+        <input type="text" th:field="*{groomParentName}" required />
+    </div>
+    <button type="submit">新增</button>
+</form>
+
+
 		<div th:if="${msg1 == '添加成功'}">
 			<script>
 				alert('添加成功');
@@ -166,34 +168,6 @@ table.imagetable td select {
 	</div>
 </body>
 <script>
-	function deleteRec(id) {
-		$.ajax({
-			url : '/weddingCouple/delete/' + id,
-			dataType : 'text',
-			type : 'GET',
-			success : function(req) {
-				if (req == 'true') {
-					alert('刪除成功');
-					location.reload();
-				}
-			}
 
-		})
-	}
-	
-	function sendMail(id) {
-		$.ajax({
-			url : '/weddingCouple/sendMail/' + id,
-			dataType : 'text',
-			type : 'GET',
-			success : function(req) {
-				if (req == 'true') {
-					alert('發送成功');
-					location.reload();
-				}
-			}
-
-		})
-	}
 </script>
 </html>

@@ -5,7 +5,9 @@
 	<meta charset="UTF-8">
 	<title>VueJS</title>
 	<script src="https://unpkg.com/vue@3"></script>
-
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"
+		integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ"
+		crossorigin="anonymous"></script>
 </head>
 
 <body>
@@ -13,22 +15,45 @@
 
 
 	<div id="app">
+		<form>
+			<label for="reserveDayStart">預約開始日: </label>
+			<input type="date" v-model="reserveDayStart">
 
-		
+			<br><br>
+
+			<label for="reserveDayEnd">預約結束日: </label>
+			<input type="date" v-model="reserveDayEnd">
+
+			<br><br>
+
+
+			<label for="arenaId">預定展場: </label>
+			<select class="form-select" aria-label="Default select example" v-model="arenaId">
+				<option value="1">競賽場</option>
+				<option value="2">婚宴館</option>
+			</select>
+
+
+			<button @click.prevent="addReserve" class="btn btn-primary">預約</button>
+
+		</form>
+
 
 	</div>
 
 	<div th:replace="~{/public/layout/footer}"></div>
 
 
-
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"
+		integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ"
+		crossorigin="anonymous"></script>
 	<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 	<script src="vendors/@coreui/coreui/js/coreui.bundle.min.js"></script>
 	<script src="vendors/simplebar/js/simplebar.min.js"></script>
 
 	<script src="vendors/@coreui/utils/js/coreui-utils.js"></script>
-	
-<!--	<script src="js/main.js"></script>  -->
+
+	<!--	<script src="js/main.js"></script>  -->
 
 	<script>
 		const {createApp, ref, onMounted, computed, reactive} = Vue;
@@ -36,32 +61,47 @@
 		const App = {
 
 			setup() {
-				const reserves = ref([]);
+				const reserveDayStart = ref('');
+				const reserveDayEnd = ref('');
+				const arenaId = ref('1');
 
+				const addReserve = async () => {
 
+					try {
+						const reserve = {
+							reserveDayStart: reserveDayStart.value,
+							reserveDayEnd: reserveDayEnd.value,
+							arenaId: arenaId.value,
+						};
 
-				const getAllReserve = async () => {
-					const response = await axios.get('http://localhost:8087/ee172/reserve/getAllReserve');
-					console.log(response.data)
-					reserves.value = response.data;
-					console.log(reserves.value)
+						const response = await axios.post('http://localhost:8087/ee172/reserve/addReserve', reserve);
+						console.log(response.data)
+						await alert(`${response.data}`)
+					} catch (error) {
+						console.error('預約失敗:', error.response.data);
+						alert(`${error.response.data}`)
+					}
+					
+					try {
+						window.location.href = `http://localhost:8087/ee172/arenaReserved`;
+					} catch (error) {
+						console.error(error);
+					}
+					
+					
+					
+					
 				}
 
-				const getAllActivityByReserveId = async () => {
-					const response = await axios.get('http://localhost:8087/ee172/activity/getAllActivityByReserveId');
-
-				}
 
 				onMounted(() => {
-					getAllReserve();
+
 				});
-
-
-
 				return {
-					reserves,
-					getAllReserve,
-					getAllActivityByReserveId,
+					reserveDayStart,
+					reserveDayEnd,
+					arenaId,
+					addReserve,
 
 				}
 			},

@@ -23,7 +23,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping(path="/api/leave")
+@RequestMapping(path="/api/backstage/employee")
 public class LeaveController {
 
     @Autowired

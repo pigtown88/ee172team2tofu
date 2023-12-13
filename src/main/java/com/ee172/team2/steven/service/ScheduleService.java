@@ -19,6 +19,7 @@ import java.text.SimpleDateFormat;
 import java.time.*;
 import java.time.temporal.ChronoUnit;
 import java.time.temporal.TemporalAdjusters;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -38,6 +39,28 @@ public class ScheduleService {
 
 
 
+
+    public List<ScheduleDTO> getEmpScheduleById2(Integer empId ) {
+        List<ScheduleManager> scheduleManagers = scheduleManagerDAO.findByEmployeeEmpId(empId);
+        return scheduleManagers.stream()
+                .map(this::convertToScheduleEventDTO)
+                .collect(Collectors.toList());
+    }
+
+
+
+    public List<EmpScheduleDTO> getEmpScheduleById(Integer empId ){
+        List<Employee> employees = employeeDAO.findByEmpId(empId);
+        return employees.stream()
+                .map(this::convertToEmpScheduleDTO)
+                .collect(Collectors.toList());
+    }
+
+
+
+
+
+    //最終拿班表
     public List<EmpScheduleDTO> getEmpSchedule() {
         List<Employee> employees = employeeDAO.findAll();
         return employees.stream()
@@ -119,6 +142,20 @@ public class ScheduleService {
 
 
 
+//    public List<ScheduleManager> addSchedules(List<Integer> empIds, Date day) throws BusinessException {
+//        List<ScheduleManager> schedules = new ArrayList<>();
+//        for (Integer empId : empIds) {
+//
+//
+//            ScheduleManager schedule = this.addSchedule(empId, day);
+//            schedules.add(schedule);
+//        }
+//        return schedules;
+//    }
+//
+
+
+
 
 
     public ScheduleManager addSchedule(Integer empId, Date day) throws BusinessException {
@@ -131,7 +168,7 @@ public class ScheduleService {
 
         // 檢差工時驗證
         if (isOverworking(empId, day)) {
-            throw new BusinessException("安排的班次会使员工超时");
+            throw new BusinessException("安排的班次超時");
         }
 
         // 檢查該日排班
@@ -160,7 +197,7 @@ public class ScheduleService {
         // 查詢這周的排班
         List<ScheduleManager> weeklySchedules = scheduleManagerDAO.findByEmployeeAndDayBetween(employee, java.sql.Date.valueOf(monday), java.sql.Date.valueOf(sunday));
 
-        // 计算总工作小时数
+
         long totalHours = weeklySchedules.stream()
                 .mapToLong(this::calculateWorkingHours)
                 .sum();

@@ -6,7 +6,7 @@
 	<title>註冊頁面</title>
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet"
 		integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
-
+	<link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.css" rel="stylesheet">
 </head>
 
 <body>
@@ -16,7 +16,8 @@
 
 		<h1>註冊 Page</h1>
 		<!-- form enctype屬性 multipart/form-data 支援文件上傳的必需屬性 -->
-		<form th:action="@{/member/postRegister}" method="post" th:object="${member}" enctype="multipart/form-data">
+		<form th:action="@{/member/postRegister}" method="post" th:object="${member}" enctype="multipart/form-data"
+			onsubmit="return validateForm()">
 			<div class="container">
 				<div class="mb-3">
 					<label class="form-label" for="memberName">姓名</label>
@@ -25,18 +26,21 @@
 
 				<div class="mb-3">
 					<label class="form-label" for="memberBirth">生日</label>
-					<input class="form-control" type="date" name="memberBirth">
+					<input class="form-control" type="date" name="memberBirth" required>
 				</div>
 
 				<div class="mb-3">
 					<label class="form-label" for="memberGender">性別</label>
 					</br>
-					<input class="form-check-input" type="radio" name="memberGender" id="Male" value="男">
-					<label class="form-check-label" for="Male">男性</label>
-					<input class="form-check-input" type="radio" name="memberGender" id="Female" value="女">
-					<label class="form-check-label" for="Female">女性</label>
-					<input class="form-check-input" type="radio" name="memberGender" id="Nonbinary" value="多元性別">
-					<label class="form-check-label" for="Nonbinary">多元性別</label>
+					<fieldset required>
+						<input class="form-check-input" type="radio" name="memberGender" id="Male" value="男" required>
+						<label class="form-check-label" for="Male">男性</label>
+						<input class="form-check-input" type="radio" name="memberGender" id="Female" value="女" required>
+						<label class="form-check-label" for="Female">女性</label>
+						<input class="form-check-input" type="radio" name="memberGender" id="Nonbinary" value="多元性別"
+							required>
+						<label class="form-check-label" for="Nonbinary">多元性別</label>
+					</fieldset>
 				</div>
 
 				<div class="mb-3">
@@ -57,35 +61,21 @@
 					<input type="checkbox" onclick="togglePasswordVisibility('pswInput','pswConfirmInput')">顯示密碼</span>
 				</div>
 
-				<!-- 
 				<div class="mb-3">
-					<label class="form-label" for="emailAuth">Email認證碼</label>
-					<input class="form-control" type="text" name="emailAuth" required>
+					<label class="form-label" for="phone">手機號碼(+886)</label>
+					<input class="form-control" type="text" id="memberPhone" name="memberPhone" onclick="phoneLength()"
+						required>
 				</div>
-				
-				<a id="sendAuth" class="returnPass" href="javascript:sendCode();">獲取Email認證碼</a>
-
-				<button type="button" class="btn btn-outline-secondary" id="sendAuth"
-					a:href="javascript:sendCode();">獲取Email認證碼</button>
-				-->
-
-				<div class="mb-3">
-					<label class="form-label" for="phone">手機號碼</label>
-					<input class="form-control" type="text" name="memberPhone" onclick="phoneLength()" required>
-				</div>
-
-				<!-- 
-					居住地城市：split dropdowns
-				-->
 
 				<div class="mb-3">
 					<label class="form-label">頭像照片</label>
-					<input type="file" name="photo" accept="image/*" class="form-control" required>
+					<input type="file" id="photo" name="photo" accept="image/*" class="form-control" required>
 				</div>
 				<!-- accept="image/*" 限制文件選擇對象只能是圖片 -->
 
 				<label for="insId">選擇興趣</label>
-				<select name="insId">
+				<select name="insId" required>
+					<option value="" disabled selected>請選擇興趣</option>
 					<option th:each="interest : ${interests}" th:value="${interest.insId}"
 						th:text="${interest.insName}"></option>
 				</select>
@@ -124,17 +114,62 @@
 			}
 		}
 
-		// 手機號碼長度限制
-		function phoneLength() {
-			if (document.phone.value.length < 10) {
-				alert("不能小於10個數字！");
+		function validateForm() {
+			// 驗證密碼與確認密碼是否相同
+			let password = document.getElementById('pswInput').value;
+			let confirmPassword = document.getElementById('pswConfirmInput').value;
+			if (password !== confirmPassword) {
+				alert('密碼與確認密碼不相同');
+				return false;
 			}
-			document.phone.focus();
-			return false;
+
+			// 驗證手機號碼長度是否為9碼
+			let phone = document.getElementById('memberPhone').value;
+			if (phone.length !== 9) {
+				alert('手機號碼長度應為9碼');
+				return false;
+			}
+
+			// 驗證密碼格式是否符合正規表達式
+			let passwordRegex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d).{8,}$/;
+			if (!passwordRegex.test(password)) {
+				alert('密碼格式不符合要求');
+				return false;
+			}
+
+			// 驗證上傳檔案大小、尺寸和類型
+			let fileInput = document.getElementById('photo');
+			let fileSize = fileInput.files[0].size;
+			let fileType = fileInput.files[0].type;
+
+			// 檢查檔案大小是否超過 1MB
+			if (fileSize > 1024 * 1024) { // 1 MB
+				alert('檔案大小不得超過1MB');
+				return false;
+			}
+
+			// 檢查檔案類型是否為圖片
+			if (!fileType.startsWith('image/')) {
+				alert('請上傳圖片檔案');
+				return false;
+			}
+
+			// 如果通過所有驗證，提交表單&顯示提示框
+			// alert('註冊成功！');
+			showAlert();
+			return true;
 		}
 
+		const showAlert = () => {
+			Swal.fire({
+				icon: 'success',
+				title: '您已成功申辦會員',
+				text: '趕緊前往信箱收信，立即啟用您的帳號！',
+			})
+		}
 
 	</script>
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.all.min.js"></script>
 
 	<div th:text="${errorMsg} ? ${errorMsg}"></div>
 	<div th:text="${okMsg} ? ${okMsg}"></div>

@@ -3,146 +3,126 @@ package com.ee172.team2.steven.controller;
 import com.ee172.team2.steven.model.Employee;
 import com.ee172.team2.steven.repository.EmployeeRepository;
 import com.ee172.team2.steven.service.EmployeeService;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
+
 public class firstController {
-    @Autowired
-    private EmployeeRepository empDAO;
+	@Autowired
+	private EmployeeRepository empDAO;
 
-    @Autowired
-    private EmployeeService empService;
+	@Autowired
+	private EmployeeService empService;
 
+	@GetMapping("/login")
+	public String test2() {
+		return "/steven/login";
 
+	}
 
+	@GetMapping("/register")
+	public String test3() {
+		return "/steven/register";
 
-    @GetMapping("/123")
-    public String test(){
-        return "/steven/auth-login";
+	}
 
-    }
+	@GetMapping("/redirectRegister")
+	public String redirectRegister() {
+		return "redirect:/steven/register";
 
-    @GetMapping("/login")
-    public String test2(){
-        return "/steven/login";
+	}
 
-    }
-    @GetMapping("/register")
-    public String test3(){
-        return "/steven/register";
+	@GetMapping("/index")
+	public String index() {
+		return "/steven/index";
 
-    }
-    @GetMapping("/redirectRegister")
-    public String redirectRegister(){
-        return "redirect:/steven/register";
+	}
 
-    }
-    @GetMapping("/index")
-    public String index(){
-        return "/steven/index";
+	@GetMapping("/employeeList")
+	public String employeeList() {
+		return "/steven/employeeList";
 
-    }
+	}
 
-    @GetMapping("/test/employee")
-    public String employee(){
-        return "/steven/employee";
+	@GetMapping("/employeeInfo")
+	public String employeeInfo() {
+		return "/steven/employeeInfo";
 
-    }
+	}
 
-    @GetMapping("/index2")
-    public String index2(){
-        return "/steven/index2";
+	@GetMapping("/employeeApplyLeave")
+	public String employeeApplyLeave() {
+		return "/steven/employeeApplyLeave";
 
-    }
-    @GetMapping("/employeeData")
-    public String empData(){
-        return "/steven/employeeData";
+	}
 
-    }
+	@GetMapping("/employeeApply")
+	public String employeeApply() {
+		return "/steven/employeeApply";
 
-    @GetMapping("/employeeData2")
-    public String empData2(){
-        return "/steven/employeeData2";
+	}
 
-    }
+	@GetMapping("/employeeApplyAll")
+	public String employeeApplyAll() {
+		return "/steven/employeeApplyAll";
 
-    @GetMapping("/employeeList")
-    public String employeeList(){
-        return "/steven/employeeList";
+	}
 
-    }
+	@GetMapping("/clockinRecordAll")
+	public String clockinRecordAll() {
+		return "/steven/employeeClockinRecordAll";
 
-    @GetMapping("/employeeInfo")
-    public String employeeInfo(){
-        return "/steven/employeeInfo";
+	}
 
-    }
+	@GetMapping("/clockinRecord")
+	public String clockinRecord() {
+		return "/steven/employeeClockinRecord";
 
-    @GetMapping("/employeeApplyLeave")
-    public String employeeApplyLeave(){
-        return "/steven/employeeApplyLeave";
+	}
 
-    }
+	@GetMapping("/empScheduleAll")
+	public String empScheduleAll() {
+		return "/steven/empScheduleAll";
 
-    @GetMapping("/employeeApply")
-    public String employeeApply(){
-        return "/steven/employeeApply";
+	}
 
-    }
-    @GetMapping("/employeeApplyAll")
-    public String employeeApplyAll(){
-        return "/steven/employeeApplyAll";
+	@GetMapping("/empSchedule")
+	public String empSchedule() {
+		return "/steven/empSchedule";
 
-    }
+	}
 
-    @GetMapping("/clockinRecordAll")
-    public String clockinRecordAll(){
-        return "/steven/employeeClockinRecordAll";
+	@GetMapping("/empPersonalSchedule")
+	public String empPersonalSchedule() {
+		return "/steven/empPersonalSchedule";
 
-    }
+	}
 
+	@GetMapping("/chatJs")
+	public String chatJs() {
+		return "/steven/chatJs";
 
-    @GetMapping("/clockinRecord")
-    public String clockinRecord(){
-        return "/steven/employeeClockinRecord";
+	}
 
-    }
+	@GetMapping("/notice")
+	public String notice() {
+		return "/steven/notice";
 
+	}
 
-    @GetMapping("/empSchedule")
-    public String empSchedule(){
-        return "/steven/empScheduleAll";
-
-    }
+	@GetMapping("/employee/logout")
+	public String logout(HttpSession httpSession) {
 
 
-
-
-
-
-
-
-
-
-    @GetMapping("/home")
-    public String home(){
-        return "/public/home";
-
-    }
-
-    @GetMapping("/empList")
-    public String showEmployees(@RequestParam(name="p", defaultValue = "1") Integer pageNumber, Model model) {
-        Page<Employee> page = empService.findByPage(pageNumber);
-
-        model.addAttribute("page", page);
-
-        return "steven/employeeData";
-    }
-
+		httpSession.removeAttribute("employeeDTO");
+		return "/steven/logout";
+	}
 
 }

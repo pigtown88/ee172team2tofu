@@ -16,12 +16,12 @@ public class SessionLoginMemberDTO {
 	private String memberName;
 
 	private String memberEmail;
-//
-//	private String memberPwd;
-//
-//	private Integer memberPhone;
 
-	private Integer memberAge;
+	private String memberPwd;
+
+	private Integer memberPhone;
+
+	private Date memberBirth;
 
 	private String memberGender;
 

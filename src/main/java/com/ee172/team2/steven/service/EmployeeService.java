@@ -53,6 +53,92 @@ public class EmployeeService {
     @Autowired
     private PositionRepository positionDAO;
 
+    @Autowired
+    private ClockinRepository clockinDAO;
+
+
+
+
+//    public List<ChatJsDTO> getChatJsDTO() {
+//        List<ChatJsDTO> chatJsDTOList = new ArrayList<>();
+//        List<Employee> employeeList = empDAO.findAll();
+//
+//
+//        System.out.println("總員工數: " + employeeList.size());
+//
+//        for (Employee employee : employeeList) {
+//            ChatJsDTO chatJsDTO = new ChatJsDTO();
+//            chatJsDTO.setEmpName(employee.getEmpName());
+//
+//
+//            System.out.println("員工名稱: " + employee.getEmpName());
+//
+//            int totalLate = 0;
+//            int totalEarlyLeave = 0;
+//            int totalWorkOverTime = 0;
+//
+//
+//            System.out.println("打卡記錄數: " + employee.getAddress());
+//
+//
+//            for (Clockin clockin : employee.getClockins()) {
+//
+//                System.out.println("遲到: " + clockin.isLate() + ", 早退: " + clockin.isEarlyLeave());
+//
+//                if (clockin.isLate()) {
+//                    totalLate++;
+//                }
+//                if (clockin.isEarlyLeave()) {
+//                    totalEarlyLeave++;
+//                }
+//                if (clockin.getWorkOvertime() != null) {
+//                    totalWorkOverTime += clockin.getWorkOvertime();
+//                }
+//            }
+//
+//            chatJsDTO.setLate(totalLate);
+//            chatJsDTO.setEarlyLeave(totalEarlyLeave);
+//            chatJsDTO.setWorkOverTime(totalWorkOverTime);
+//
+//
+//            System.out.println("統計 - 遲到: " + totalLate + ", 早退: " + totalEarlyLeave + ", 加班: " + totalWorkOverTime);
+//
+//            chatJsDTOList.add(chatJsDTO);
+//        }
+//
+//        return chatJsDTOList;
+//    }
+
+    public List<ChatJsDTO> getChatJsDTO() {
+        List<ChatJsDTO> chatJsDTOList = new ArrayList<>();
+        List<Clockin> clockins = clockinDAO.findAllByOrderByEmployeeAsc();
+
+        // 使用Map來聚合和計算每個員工的統計數據
+        Map<Integer, ChatJsDTO> employeeStats = new HashMap<>();
+
+        for (Clockin clockin : clockins) {
+            Employee employee = clockin.getEmployee();
+            ChatJsDTO chatJsDTO = employeeStats.getOrDefault(employee.getEmpId(), new ChatJsDTO());
+            chatJsDTO.setEmpName(employee.getEmpName());
+
+            if (clockin.isLate()) {
+                chatJsDTO.setLate(chatJsDTO.getLate() != null ? chatJsDTO.getLate() + 1 : 1);
+            }
+            if (clockin.isEarlyLeave()) {
+                chatJsDTO.setEarlyLeave(chatJsDTO.getEarlyLeave() != null ? chatJsDTO.getEarlyLeave() + 1 : 1);
+            }
+            if (clockin.getWorkOvertime() != null) {
+                chatJsDTO.setWorkOverTime(chatJsDTO.getWorkOverTime() != null ? chatJsDTO.getWorkOverTime() + clockin.getWorkOvertime() : clockin.getWorkOvertime());
+            }
+
+            employeeStats.put(employee.getEmpId(), chatJsDTO);
+        }
+
+        chatJsDTOList.addAll(employeeStats.values());
+        return chatJsDTOList;
+    }
+
+
 
 
 

@@ -90,6 +90,15 @@ public class Employee {
     @JoinColumn(name = "position", referencedColumnName = "id")
     private Position position;
 
+    @JsonManagedReference("employee-groupBuy")
+    @OneToMany(mappedBy = "initiator", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<GroupBuys> groupBuys;
+
+    @JsonManagedReference("employee-purchaseRecords")
+    @OneToMany(mappedBy = "employee", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<PurchaseRecords> purchaseRecords;
+
+
 
     public String getMaskedPassword() {
         return empPwd.replaceAll(".", "*");

@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,7 +31,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
-@RequestMapping("/api/employee")
+@RequestMapping("/api/backstage/employee")
 @RestController
 public class EmployeeController {
 
@@ -54,6 +55,12 @@ public class EmployeeController {
 
 
 
+    @GetMapping("/getChatJs")
+    public  ResponseEntity<List<ChatJsDTO>> getChatJsDTO(){
+        List<ChatJsDTO> chatJsDTO = empService.getChatJsDTO();
+
+        return ResponseEntity.ok(chatJsDTO);
+    }
 
 
 
@@ -125,27 +132,11 @@ public class EmployeeController {
     }
 
 
+
+
     @Transactional
-    @PutMapping("/123/{id}")
-    public ResponseEntity<Employee> updateEmployee(
-            @PathVariable Integer id,
-            @RequestBody Employee employeeDetails) {
-        return ResponseEntity.ok(empService.updateEmployee(id, employeeDetails));
-    }
-
-
-    @GetMapping("/login/{id}")
-    public ResponseEntity<Employee> findById(@PathVariable Integer id) {
-        Optional<Employee> optional = empDAO.findById(id);
-        if (optional.isPresent()) {
-            return ResponseEntity.ok(optional.get());
-        } else {
-            return ResponseEntity.notFound().build();
-        }
-    }
-
-
-    @DeleteMapping("/{id}")
+    @Modifying
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> deleteEmployee(@PathVariable Integer id) {
         empService.deleteEmployee(id);
         return ResponseEntity.ok().build();
@@ -178,7 +169,7 @@ public class EmployeeController {
 
 
 //    員工資料
-    @GetMapping("/empList2")
+    @GetMapping("/empListData")
     public Page<EmployeeListDTO> getEmployees(@RequestParam(name = "p", defaultValue = "1") Integer pageNumber) {
         return empService.findByPage2(pageNumber);
     }
@@ -313,6 +304,8 @@ public ResponseEntity<?> updateMyInfo(HttpServletRequest request, @RequestBody E
 
 
 
+
+
     private EmployeeDTO convertToEmployeeDTO(Employee employee) {
         EmployeeDTO employeeDTO = new EmployeeDTO();
         employeeDTO.setEmpId(employee.getEmpId());
@@ -322,6 +315,7 @@ public ResponseEntity<?> updateMyInfo(HttpServletRequest request, @RequestBody E
         employeeDTO.setRole(employee.getRole());
         return employeeDTO;
     }
+
 
 
 }

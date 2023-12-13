@@ -1,10 +1,6 @@
-<!DOCTYPE html><!--
-* CoreUI - Free Bootstrap Admin Template
-* @version v4.2.2
-* @link https://coreui.io/product/free-bootstrap-admin-template/
-* Copyright (c) 2023 creativeLabs Łukasz Holeczek
-* Licensed under MIT (https://github.com/coreui/coreui-free-bootstrap-admin-template/blob/main/LICENSE)
--->
+<!DOCTYPE html>
+
+
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
   <head>
     <th:block th:replace="~{steven/layout/header :: head}"></th:block>
@@ -23,15 +19,15 @@
           <div class="col-md-6">
             <div class="card mb-4 mx-4">
               <div class="card-body p-4" id="app">
-                <h1>Register</h1>
-                <p class="text-medium-emphasis">Create your account</p>
+                <h1>員工註冊</h1>
+                <p class="text-medium-emphasis">員工帳號註冊</p>
                 <div class="input-group mb-3"><span class="input-group-text">
                     <svg class="icon">
                       <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-user"></use>
 
                     </svg></span>
                   <input class="form-control" type="text" placeholder="UserAccount" v-model="userAccount">
-                  <br><p class="error-message" v-if="errorMessage">{{ errorMessage }}</p>
+
                 </div>
                 <div class="input-group mb-3"><span class="input-group-text" >
                     <svg class="icon">
@@ -44,7 +40,7 @@
                       <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-lock-locked"></use>
                     </svg></span>
                   <input class="form-control" type="password" placeholder="Password" v-model="password">
-                  <br> <p class="error-message" v-if="errorMessage">{{ errorMessage }}</p>
+
                 </div>
                 <div class="input-group mb-4"><span class="input-group-text">
                     <svg class="icon">
@@ -53,35 +49,47 @@
                   <input class="form-control" type="password" placeholder="Repeat password" v-model="passwordRepeat">
                   <p class="error-message" v-if="passwordMismatch.value">Passwords do not match</p>
                 </div>
+                <div>
+                  <br> <p class="error-message" v-if="errorMessage">{{ pwdErrorMessage }}</p>
+                </div>
                 <div class="input-group mb-4">
                   <input class="form-control" type="text" placeholder="Username" v-model="username">
-                  <br> <p class="error-message" v-if="errorMessage">{{ errorMessage }}</p>
+
                 </div>
                 <div class="input-group mb-4">
                   <input class="form-control" type="text" placeholder="Address" v-model="address">
-                  <br> <p class="error-message" v-if="errorMessage">{{ errorMessage }}</p>
+
                 </div>
                 <div class="input-group mb-4">
                   <input class="form-control" type="text" placeholder="Phone" v-model="phone">
-                  <br> <p class="error-message" v-if="errorMessage">{{ errorMessage }}</p>
+
                 </div>
                 <div class="input-group mb-4">
                   <input class="form-control" type="date" placeholder="Birthdate" v-model="birthdate">
                 </div>
                 <div class="input-group mb-4">
-                  <input type="radio" id="male" value="男" v-model="gender">
-                  <label for="male">Male</label>
-                  <input type="radio" id="female" value="女" v-model="gender">
-                  <label for="female">Female</label>
-                  <input type="radio" id="other" value="其他" v-model="gender">
-                  <label for="other">Other</label>
+                  <div class="form-check form-check-inline me-2">
+                    <input type="radio" id="male" value="男" v-model="gender" class="form-check-input">
+                    <label for="male" class="form-check-label">Male</label>
+                  </div>
+                  <div class="form-check form-check-inline me-2">
+                    <input type="radio" id="female" value="女" v-model="gender" class="form-check-input">
+                    <label for="female" class="form-check-label">Female</label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input type="radio" id="other" value="其他" v-model="gender" class="form-check-input">
+                    <label for="other" class="form-check-label">Other</label>
+                  </div>
                 </div>
                 <div class="input-group mb-4">
-                  <input type="radio" id="Day" value="Day" v-model="preferType">
-                  <label for="Day">Day</label>
-                  <input type="radio" id="Night" value="Night" v-model="preferType">
-                  <label for="Night">Night</label>
-
+                  <div class="form-check form-check-inline me-2">
+                    <input type="radio" id="早班" value="早班" v-model="preferType" class="form-check-input">
+                    <label for="早班" class="form-check-label">早班</label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input type="radio" id="晚班" value="晚班" v-model="preferType" class="form-check-input">
+                    <label for="晚班" class="form-check-label">晚班</label>
+                  </div>
                 </div>
                 <div class="mb-3">
                   <label for="department" class="form-label">部門：</label>
@@ -143,8 +151,28 @@
                 <div class="input-group mb-4">
                   <input class="form-control" type="file" placeholder="Picture" @change="fileChange">
                 </div>
-                <button class="btn btn-block btn-success" type="button" @click="createAccount">Create Account</button>
+                <div class="row justify-content-center">
+
+
+                  <div class="col-md-auto mb-3">
+                    <button class="btn btn-primary" type="button" @click="createAccount">帳號註冊</button>
+                  </div>
+
+                  <div class="col-md-auto mb-3">
+                    <button class="btn btn-success" type="button" @click="lastPage">回上一頁</button>
+                  </div>
+
+
+
+                  <div class="col-md-auto mb-3">
+                    <button class="btn btn-warning" type="button" @click="demoFunction">DEMO</button>
+                  </div>
+                </div>
+                <div>
+                  <br> <p class="error-message" v-if="errorMessage">{{ errorMessage }}</p>
+                </div>
               </div>
+
             </div>
           </div>
         </div>
@@ -160,7 +188,7 @@
           const userAccount = ref('');
           const username = ref('');
           const email = ref('');
-          const password = ref('');
+          const password = ref('a123456A');
           const passwordRepeat = ref('');
           const passwordMismatch = computed(() => password.value !== passwordRepeat.value);
           const address=ref('');
@@ -175,6 +203,10 @@
             const role = ref('');
           const empPhoto = ref('');
           const errorMessage = ref('');
+          const pwdErrorMessage = ref('');
+          const addressErrorMessage = ref('');
+          const emailErrorMessage = ref('');
+          const isDemoFilled = ref(false);
 
           const isFormValid = computed(() => {
             return username.value && email.value && password.value &&
@@ -203,15 +235,17 @@
 
           const createAccount = () => {
 
-            if (passwordMismatch.value) {
-              alert("密碼不吻合");
-
-              return;
-            }
             if (!isFormValid.value) {
               errorMessage.value = "請填寫所有必填欄位。";
               return;
             }
+
+            if (passwordMismatch.value) {
+              pwdErrorMessage.value = "密碼不吻合。";
+
+            return;
+            }
+
 
             const accountData = {
               username: username.value,
@@ -231,30 +265,87 @@
               empPhoto: empPhoto.value
             };
 
-            axios.post('http://localhost:8087/ee172/api/employee/register', accountData)
+            axios.post('http://localhost:8087/ee172/api/backstage/employee/register', accountData)
                     .then(response => {
                       console.log('Account created:', response.data);
                       Swal.fire(
                               '成功!',
                               '員工註冊成功',
                               'success'
-                      );
+                      ).then(() => {
+                        // 当点击了 SweetAlert2 的 OK 后执行页面跳转
+                        window.location.href = 'http://localhost:8087/ee172/employeeList';
+                      });
                     })
                     .catch(error => {
-                      if (error.response && error.response.status===400) {
+                      if (error.response && error.response.status === 400) {
                         Swal.fire(
                                 '失敗!',
                                 error.response.data.message,
-                                'error');
+                                'error'
+                        ).then(() => {
+                          // 也可以在这里处理错误情况下的跳转，如果需要的话
+                          window.location.href = 'http://localhost:8087/ee172/register';
+                        });
                         errorMessage.value = error.response.data.message; // 直接使用 errorMessage ref
+                      } else {
+                        console.error('Creation error:', error);
                       }
-                      console.error('Creation error:', error);
                     });
+
           };
 
+          const demoFunction = () => {
+            if (!isDemoFilled.value) {
+              userAccount.value = 'y123456';
+              username.value = '廖裴彤';
+              email.value = 'y123456@gmail.com';
+              password.value = 'y123456Y';
+              passwordRepeat.value = 'y123456Y';
+              address.value = '高雄市高雄區高雄路高雄巷34號';
+              birthdate.value = '1990-01-01';
+              gender.value = '男';
+              phone.value = '0912345678';
+              preferType.value = '早班';
+              department.value = '3';
+              position.value = '2';
+              workTypes.value = '1';
+              salary.value = '50000';
+              role.value = '2';
+              isDemoFilled.value = true;
+            } else {
+              userAccount.value = '';
+              username.value = '';
+              email.value = '';
+              password.value = '';
+              passwordRepeat.value = '';
+              address.value = '';
+              birthdate.value = '';
+              gender.value = '';
+              phone.value = '';
+              preferType.value = '';
+              department.value = '';
+              position.value = '';
+              workTypes.value = '';
+              salary.value = '';
+              role.value = '';
+              isDemoFilled.value = false;
+            }
+          };
+
+
+
+
+          const lastPage = () => {
+            window.location.href = 'http://localhost:8087/ee172/index';
+          };
+
+
+
+
           return { userAccount,username, email, password, passwordRepeat, passwordMismatch, birthdate, gender, phone,address,
-                  preferType,department,position,workTypes,salary,role,
-            empPhoto,errorMessage,isFormValid ,fileChange, createAccount };
+                  preferType,department,position,workTypes,salary,role,lastPage,isDemoFilled,demoFunction,
+            empPhoto,errorMessage,isFormValid ,fileChange, createAccount,pwdErrorMessage,addressErrorMessage,emailErrorMessage};
         }
       };
 

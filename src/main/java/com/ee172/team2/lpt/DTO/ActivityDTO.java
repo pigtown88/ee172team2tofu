@@ -21,7 +21,7 @@ public class ActivityDTO {
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
 	private String activityDayEnd;
 
-	private String activityPrice;
+	private Integer activityPrice;
 	
 	private String activityType;
 
@@ -29,6 +29,8 @@ public class ActivityDTO {
 	
 	private String reserveId;
 	
-	private String hostId;
+	private String memberId;
+	
+	private String memberName;
 
 }

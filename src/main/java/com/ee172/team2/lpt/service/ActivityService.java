@@ -1,4 +1,3 @@
-
 package com.ee172.team2.lpt.service;
 
 import java.sql.Timestamp;
@@ -16,8 +15,8 @@ import com.ee172.team2.lpt.model.Activity;
 
 import com.ee172.team2.lpt.repository.ActivityRepository;
 
-import com.ee172.team2.liwen.model.Host;
-import com.ee172.team2.liwen.repository.HostRepository;
+import com.ee172.team2.liwen.model.Member;
+import com.ee172.team2.liwen.repository.MemberRepository;
 import com.ee172.team2.lpt.DTO.ActivityDTO;
 import com.ee172.team2.lpt.model.Reserve;
 import com.ee172.team2.lpt.repository.ReserveRepository;
@@ -34,7 +33,7 @@ public class ActivityService {
 	private ReserveRepository reserveDAO;
 
 	@Autowired
-	private HostRepository hostDAO;
+	private MemberRepository memberDAO;
 
 	public Activity findByActivityId(Integer id) {
 		Optional<Activity> optional = activityDAO.findById(id);
@@ -66,11 +65,13 @@ public class ActivityService {
 				activityDTO.setActivityName(a.getActivityName());
 				activityDTO.setActivityDayStart(String.valueOf(a.getActivityDayStart()));
 				activityDTO.setActivityDayEnd(String.valueOf(a.getActivityDayEnd()));
-				activityDTO.setActivityPrice(String.valueOf(a.getActivityPrice()));
+				activityDTO.setActivityPrice(a.getActivityPrice());
 				activityDTO.setActivityType(a.getActivityType());
 				activityDTO.setActivityIntro(a.getActivityIntro());
 				activityDTO.setReserveId(String.valueOf(a.getReserve().getReserveId()));
-				activityDTO.setHostId(String.valueOf(a.getHost().getHostId()));
+
+				activityDTO.setMemberId(String.valueOf(a.getMember().getMemberId()));
+
 
 				activityDTOs.add(activityDTO);
 			}
@@ -86,6 +87,7 @@ public class ActivityService {
 //		activity.setActivityId(Integer.valueOf(activityDTO.getActivityId()));
 		activity.setActivityName(activityDTO.getActivityName());
 
+//測試		
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		activity.setActivityDayStart(new Timestamp(dateFormat.parse(activityDTO.getActivityDayStart()).getTime()));
 		activity.setActivityDayEnd(new Timestamp(dateFormat.parse(activityDTO.getActivityDayEnd()).getTime()));
@@ -98,9 +100,11 @@ public class ActivityService {
 				.orElseThrow(() -> new EntityNotFoundException("Reserve not found"));
 		activity.setReserve(reserve);
 
-		Host host = hostDAO.findById(Integer.valueOf(activityDTO.getHostId()))
-				.orElseThrow(() -> new EntityNotFoundException("Host not found"));
-		activity.setHost(host);
+
+		Member member = memberDAO.findById(Integer.valueOf(activityDTO.getMemberId()))
+				.orElseThrow(() -> new EntityNotFoundException("Member not found"));
+		activity.setMember(member);
+
 
 		activityDAO.save(activity);
 	}
@@ -118,5 +122,14 @@ public class ActivityService {
 
 		return activityDAO.findTheLatesActivity();
 	}
+	
+
+
+	public void addActivity(Activity activity) {
+		activityDAO.save(activity);
+	}
+	
+	
+	
 
 }

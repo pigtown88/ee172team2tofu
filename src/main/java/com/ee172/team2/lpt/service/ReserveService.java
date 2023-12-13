@@ -2,6 +2,8 @@ package com.ee172.team2.lpt.service;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -12,6 +14,7 @@ import org.springframework.stereotype.Service;
 import com.ee172.team2.liwen.model.Member;
 import com.ee172.team2.liwen.repository.MemberRepository;
 import com.ee172.team2.lpt.DTO.ReserveDTO;
+import com.ee172.team2.lpt.model.Activity;
 import com.ee172.team2.lpt.model.Arena;
 import com.ee172.team2.lpt.model.Reserve;
 import com.ee172.team2.lpt.repository.ArenaRepository;
@@ -24,13 +27,12 @@ public class ReserveService {
 
 	@Autowired
 	private ReserveRepository reserveDAO;
-	
-	@Autowired	
+
+	@Autowired
 	private ArenaRepository arenaDAO;
-	
+
 	@Autowired
 	private MemberRepository memberDAO;
-	
 
 	
 
@@ -60,6 +62,7 @@ public class ReserveService {
 				reserveDTO.setReserveDayEnd(String.valueOf(r.getReserveDayEnd()));
 				reserveDTO.setArenaId(String.valueOf(r.getArena().getArenaId()));
 				reserveDTO.setMemberId(String.valueOf(r.getMember().getMemberId()));
+				reserveDTO.setActivities(r.getActivities());
 
 				reserveDTOList.add(reserveDTO);
 			}
@@ -79,17 +82,19 @@ public class ReserveService {
 		Reserve reserve = new Reserve();
 
 //		reserve.setReserveId(Integer.valueOf(reserveDTO.getReserveId()));
-	
+
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		reserve.setReserveDayStart(dateFormat.parse(reserveDTO.getReserveDayStart()));
 		reserve.setReserveDayEnd(dateFormat.parse(reserveDTO.getReserveDayEnd()));
-		
-		Arena arena = arenaDAO.findById(Integer.valueOf(reserveDTO.getArenaId())).orElseThrow(() -> new EntityNotFoundException("Arena not found"));
+
+		Arena arena = arenaDAO.findById(Integer.valueOf(reserveDTO.getArenaId()))
+				.orElseThrow(() -> new EntityNotFoundException("Arena not found"));
 		reserve.setArena(arena);
-		
-		Member member = memberDAO.findById(Integer.valueOf(reserveDTO.getMemberId())).orElseThrow(() -> new EntityNotFoundException("Member not found"));
+
+		Member member = memberDAO.findById(Integer.valueOf(reserveDTO.getMemberId()))
+				.orElseThrow(() -> new EntityNotFoundException("Member not found"));
 		reserve.setMember(member);
-		
+
 		reserveDAO.save(reserve);
 	}
 

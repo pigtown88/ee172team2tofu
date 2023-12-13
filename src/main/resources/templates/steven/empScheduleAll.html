@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head >
 
   <base href="./">
@@ -236,167 +236,9 @@
 <body>
 
 <!--  sidebar-->
-<div class="sidebar sidebar-dark sidebar-fixed" id="sidebar">
-  <div class="sidebar-brand d-none d-md-flex">
-    <svg class="sidebar-brand-full" width="118" height="46" alt="CoreUI Logo">
-      <use xlink:href="assets/brand/coreui.svg#full"></use>
-    </svg>
-    <svg class="sidebar-brand-narrow" width="46" height="46" alt="CoreUI Logo">
-      <use xlink:href="assets/brand/coreui.svg#signet"></use>
-    </svg>
-  </div>
-  <ul class="sidebar-nav" data-coreui="navigation" data-simplebar="">
-    <li class="nav-item"><a class="nav-link" href="index.html">
-      <svg class="nav-icon">
-        <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-speedometer"></use>
-      </svg> 魔幻空間<span class="badge badge-sm bg-info ms-auto">NEW</span></a></li>
+<th:block th:replace="~{steven/sidebar :: sidebar}"></th:block>
 
-
-
-    <li class="nav-title">員工管理系統</li>
-    <li class="nav-group"><a class="nav-link nav-group-toggle" href="#">
-      <svg class="nav-icon">
-        <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-puzzle"></use>
-      </svg> 員工考勤</a>
-      <ul class="nav-group-items">
-        <li class="nav-item"><a class="nav-link" href="http://localhost:8087/ee172/clockinRecord"><span class="nav-icon"></span> 個人打卡紀錄</a></li>
-        <li class="nav-item" v-if="userRole === '1' || userRole === '2'"><a class="nav-link" href="http://localhost:8087/ee172/clockinRecordAll"><span class="nav-icon"></span> 員工打卡紀錄</a></li>
-        <li class="nav-item"><a class="nav-link" href="http://localhost:8087/ee172/employeeApplyLeave"><span class="nav-icon"></span> 員工請假申請</a></li>
-        <li class="nav-item"><a class="nav-link" href="http://localhost:8087/ee172/employeeApply"><span class="nav-icon"></span> 員工請假審核</a></li>
-        <li class="nav-item" v-if="userRole === '1' || userRole === '2'"><a class="nav-link" href="http://localhost:8087/ee172/employeeApplyAll"><span class="nav-icon"></span> 管理員請假審核</a></li>
-
-      </ul>
-    </li>
-    <li class="nav-group"><a class="nav-link nav-group-toggle" href="#">
-      <svg class="nav-icon">
-        <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-cursor"></use>
-      </svg> 員工資料</a>
-      <ul class="nav-group-items">
-        <li class="nav-item"><a class="nav-link" href="http://localhost:8087/ee172/employeeInfo"><span class="nav-icon"></span> 個人資料</a></li>
-        <li class="nav-item" v-if="userRole === '1' || userRole === '2'"><a class="nav-link" href="http://localhost:8087/ee172/employeeList"><span class="nav-icon"></span> 員工清單</a></li>
-        <li class="nav-item"><a class="nav-link" href="buttons/dropdowns.html"><span class="nav-icon"></span> Dropdowns</a></li>
-      </ul>
-    </li>
-
-
-    <li class="nav-group"><a class="nav-link nav-group-toggle" href="#">
-      <svg class="nav-icon">
-        <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-cursor"></use>
-      </svg> 員工排班</a>
-      <ul class="nav-group-items">
-        <li class="nav-item"><a class="nav-link" href="buttons/buttons.html"><span class="nav-icon"></span> 排班表</a></li>
-        <li class="nav-item" v-if="userRole === '1' || userRole === '2'"><a class="nav-link" href="buttons/button-group.html"><span class="nav-icon"></span> 排班管理</a></li>
-        <li class="nav-item"><a class="nav-link" href="buttons/dropdowns.html"><span class="nav-icon"></span> 個人班表</a></li>
-      </ul>
-    </li>
-
-
-
-
-
-
-    <li class="nav-title">Setting</li>
-    <li class="nav-group"><a class="nav-link nav-group-toggle" href="#">
-      <svg class="nav-icon">
-        <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-star"></use>
-      </svg> Pages</a>
-      <ul class="nav-group-items">
-        <li class="nav-item"><a class="nav-link" href="login.html" target="_top">
-          <svg class="nav-icon">
-            <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-account-logout"></use>
-          </svg> Login</a></li>
-        <li class="nav-item"><a class="nav-link" href="register.html" target="_top">
-          <svg class="nav-icon">
-            <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-account-logout"></use>
-          </svg> Register</a></li>
-
-      </ul>
-    </li>
-
-  </ul>
-
-</div>
-
-
-
-
-<!--header-->
-
-<div id="app2" class="wrapper d-flex flex-column min-vh-100 bg-light">
-  <header class="header header-sticky mb-4">
-    <div class="container-fluid">
-      <button class="header-toggler px-md-0 me-md-3" type="button" onclick="coreui.Sidebar.getInstance(document.querySelector('#sidebar')).toggle()">
-        <svg class="icon icon-lg">
-          <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-menu"></use>
-        </svg>
-      </button><a class="header-brand d-md-none" href="#">
-      <svg width="118" height="46" alt="CoreUI Logo">
-        <use xlink:href="assets/brand/coreui.svg#full"></use>
-      </svg></a>
-      <ul class="header-nav d-none d-md-flex">
-        <li class="nav-item"><a class="nav-link" href="#">Dashboard</a></li>
-        <li class="nav-item"><a class="nav-link" href="#">Users</a></li>
-        <li class="nav-item"><a class="nav-link" href="#">Settings</a></li>
-      </ul>
-      <ul class="header-nav ms-auto">
-        <li class="nav-item"><a class="nav-link" href="#">
-          <svg class="icon icon-lg">
-            <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-bell"></use>
-          </svg></a></li>
-
-      </ul>
-      <ul class="header-nav ms-3">
-        <li class="nav-item dropdown"><a class="nav-link py-0" data-coreui-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
-          <div class="avatar avatar-md"><img v-if="employeePhoto" :src="employeePhoto" alt="Employee Photo" class="employee-photo1"></div>
-        </a>
-          <div class="dropdown-menu dropdown-menu-end pt-0">
-            <div class="dropdown-header bg-light py-2">
-              <div class="fw-semibold">帳號管理</div>
-            </div><a class="dropdown-item" href="#">
-
-            <svg class="icon me-2">
-              <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-envelope-open"></use>
-            </svg> Messages<span class="badge badge-sm bg-success ms-2">42</span></a><a class="dropdown-item" href="#">
-            <svg class="icon me-2">
-              <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-task"></use>
-            </svg> Tasks<span class="badge badge-sm bg-danger ms-2">42</span></a><a class="dropdown-item" href="#">
-
-
-            <svg class="icon me-2">
-              <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-settings"></use>
-            </svg> Settings</a><a class="dropdown-item" href="#">
-
-            <svg class="icon me-2">
-              <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-file"></use>
-            </svg> Projects<span class="badge badge-sm bg-primary ms-2">42</span></a>
-            <div class="dropdown-divider"></div><a class="dropdown-item" href="#">
-
-            <svg class="icon me-2">
-              <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-account-logout"></use>
-            </svg> Logout</a>
-          </div>
-        </li>
-      </ul>
-    </div>
-
-
-
-
-    <!--       headbar-->
-
-    <div class="header-divider"></div>
-    <div class="container-fluid">
-      <nav aria-label="breadcrumb">
-        <ol class="breadcrumb my-0 ms-2">
-          <li class="breadcrumb-item">
-            <!-- if breadcrumb is single--><span>Home</span>
-          </li>
-          <li class="breadcrumb-item active"><span>員工管理系統</span></li>
-        </ol>
-      </nav>
-    </div>
-  </header>
-
+<th:block th:replace="~{steven/header :: header}"></th:block>
 
 
   <!--container-->
@@ -614,7 +456,7 @@
 
         const fetchEvents = async () => {
           try {
-            const response = await axios.get('http://localhost:8087/ee172/api/employee/shift/employeeSchedule');
+            const response = await axios.get('http://localhost:8087/ee172/api/backstage/employee/employeeSchedule');
             if (calendar.value) {
               calendar.value.addEventSource(response.data);
             }
@@ -666,7 +508,7 @@
 
         const fetchEmployees = async () => {
           try {
-            const response = await axios.get('http://localhost:8087/ee172/api/employee/shift/empForSchedule');
+            const response = await axios.get('http://localhost:8087/ee172/api/backstage/employee/empForSchedule');
             employees.value = response.data;
           } catch (error) {
             console.error('Error fetching employees:', error);
@@ -675,6 +517,61 @@
 
         const selectedEmployeeId = ref(null);
         const selectedDate = ref(new Date().toISOString().slice(0, 10));
+
+
+        const selectedEmployeeIds = ref([]);
+
+        const selectEmployees = (empId) => {
+          if (selectedEmployeeIds.value.includes(empId)) {
+            selectedEmployeeIds.value = selectedEmployeeIds.value.filter(id => id !== empId);
+          } else {
+            selectedEmployeeIds.value.push(empId);
+          }
+        };
+
+        const addSchedules = () => {
+          if (selectedEmployeeIds.value.length > 0 && selectedDate.value) {
+            const schedulePromises = selectedEmployeeIds.value.map(empId => {
+              const scheduleData = {
+                empIds: [empId], // 注意這裡應該是一個列表
+                day: selectedDate.value
+              };
+              return axios.post('http://localhost:8087/ee172/api/backstage/employee/addSchedules', scheduleData); // 確保這是正確的API路徑
+            });
+
+            Promise.all(schedulePromises)
+                    .then(responses => {
+                      console.log('All schedules added:', responses);
+                      Swal.fire({
+                        title: '成功!',
+                        text: '所有班表添加成功',
+                        icon: 'success',
+                        confirmButtonText: '好的'
+                      });
+                      hideModal();
+                    })
+                    .catch(error => {
+                      console.error('Error adding schedules:', error);
+                      Swal.fire({
+                        title: '出錯了!',
+                        text: '添加班表失敗',
+                        icon: 'error',
+                        confirmButtonText: '關閉'
+                      });
+                    });
+          } else {
+            Swal.fire({
+              title: '注意!',
+              text: '請先選擇員工與日期',
+              icon: 'info',
+              confirmButtonText: '好的'
+            });
+          }
+        };
+
+
+
+
 
         // 選擇員工
         const selectEmployee = (empId) => {
@@ -692,7 +589,7 @@
             };
             console.log('Schedule data:', scheduleData)
             // 向后端发送请求添加班表
-            axios.post('http://localhost:8087/ee172/api/employee/shift/addSchedule', scheduleData)
+            axios.post('http://localhost:8087/ee172/api/backstage/employee/addSchedule', scheduleData)
                     .then(response => {
                       console.log('Schedule added:', response.data);
                       // 成功提示
@@ -711,7 +608,7 @@
                       // 错误提示
                       Swal.fire({
                         title: '出錯了!',
-                        text: '添加班表失敗',
+                        text: error.response.data,
                         icon: 'error',
                         confirmButtonText: '關閉'
                       });
@@ -743,7 +640,7 @@
             if (result.isConfirmed) {
               console.log('Deleting schedule:', event.data)
 
-              axios.delete(`http://localhost:8087/ee172/api/employee/shift/delete/${scheduleId}`)
+              axios.delete(`http://localhost:8087/ee172/api/backstage/employee/deleteShift/${scheduleId}`)
                       .then(response => {
                         console.log('Schedule deleted:', response.data)
                         // 删除成功
@@ -806,7 +703,7 @@
             shiftType: draggedEmployee.shiftType,
             day: info.dateStr
           };
-          axios.post('http://localhost:8087/ee172/api/employee/shift/addSchedule', scheduleData)
+          axios.post('http://localhost:8087/ee172/api/backstage/employee/addSchedule', scheduleData)
                   .then(response => {
                     console.log('Schedule added:', response.data);
                   })
@@ -830,30 +727,26 @@
         return { employees, showModal, handleDragStart, handleEmployeeClick, handleEventReceive,selectEmployee,handleEventClick,
           handleEventLeave, modalVisible, hideModal, addSchedule, selectedEmployeeId, selectedDate};
       },
-      template: `
+      template:  `
         <div>
           <button type="button" class="btn btn-primary" @click="showModal">添加班表</button>
-
 
           <div class="modal fade" :class="{ show: modalVisible }" :style="{ display: modalVisible ? 'block' : 'none' }" tabindex="-1" role="dialog">
             <div class="modal-dialog" role="document">
               <div class="modal-content">
                 <div class="modal-header">
                   <h5 class="modal-title">添加班表</h5>
-                  <button type="button" class="close" @click="hideModal">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
+                  <button type="button" class="btn-close" @click="hideModal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                  <div class="employee-pool">
-                    <div v-for="employee in employees"
-                         :key="employee.empId"
-                         :class="{ 'draggable-employee': true, selected: selectedEmployeeId === employee.empId }"
-                         @click="selectEmployee(employee.empId)">
+                  <div class="employee-pool mb-3">
+                    <div v-for="employee in employees" :key="employee.empId" :class="{ 'draggable-employee': true, selected: selectedEmployeeId === employee.empId }" @click="selectEmployee(employee.empId)">
                       {{ employee.empName }}
                     </div>
                   </div>
-                  <input type="date" v-model="selectedDate">
+                  <div class="mb-3">
+                    <input type="date" class="form-control" v-model="selectedDate">
+                  </div>
                   <button class="btn btn-success" @click="addSchedule">新增班表</button>
                 </div>
               </div>
@@ -963,7 +856,7 @@
 
         const fetchUserInfo = async () => {
           try {
-            const response = await axios.get('http://localhost:8087/ee172/api/employee/info');
+            const response = await axios.get('http://localhost:8087/ee172/api/backstage/employee/info');
             user.value = response.data;
             sessionStorage.setItem("userRole", user.value.role);
 
@@ -981,7 +874,7 @@
 
         const fetchEmployeePhoto = async () => {
           try {
-            const response = await axios.get('http://localhost:8087/ee172/api/employee/getPhoto'); //
+            const response = await axios.get('http://localhost:8087/ee172/api/backstage/employee/getPhoto'); //
             employeePhoto.value = 'data:image/jpeg;base64,' + response.data;
 
           } catch (error) {

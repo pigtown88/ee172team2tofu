@@ -14032,5 +14032,49 @@ html:not([dir=rtl]) .wrapper {
   margin-top: 0.5rem;
   margin-bottom: 0.5rem;
 }
+/* 自定义滚动条样式 */
+.sidebar::-webkit-scrollbar {
+  width: 10px; /* 滚动条的宽度 */
+}
+
+.sidebar::-webkit-scrollbar-track {
+  background: #f1f1f1; /* 滚动条轨道的背景色 */
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+  background: #888; /* 滚动条滑块的颜色 */
+}
+
+.sidebar::-webkit-scrollbar-thumb:hover {
+  background: #555; /* 滚动条滑块悬停时的颜色 */
+}
+
+/* 侧边栏样式调整 */
+.sidebar {
+  background-color: #334455; /* 调整侧边栏背景色 */
+  color: #ffffff; /* 调整文字颜色 */
+}
+
+.sidebar .nav-link {
+  color: #ffffff; /* 调整链接颜色 */
+}
+
+.sidebar .nav-link:hover {
+  background-color: #556677; /* 链接悬停时的背景色 */
+}
+/* 更改侧边栏的背景颜色 */
+.sidebar {
+  --cui-sidebar-bg: #34495e; /* 修改此处的颜色值以更改背景色 */
+}
+
+/* 更改侧边栏链接的样式 */
+.sidebar .nav-link {
+  color: #fff; /* 链接文字颜色 */
+}
+
+.sidebar .nav-link:hover {
+  background-color: #2c3e50; /* 链接悬停时的背景色 */
+  color: #ecf0f1; /* 链接悬停时的文字颜色 */
+}
 
 /*# sourceMappingURL=style.css.map */

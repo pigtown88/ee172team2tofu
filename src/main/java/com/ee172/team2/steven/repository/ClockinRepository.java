@@ -13,6 +13,7 @@ import org.springframework.data.repository.query.Param;
 
 import java.time.LocalDate;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 public interface ClockinRepository extends JpaRepository<Clockin,Integer>{
@@ -35,6 +36,8 @@ public interface ClockinRepository extends JpaRepository<Clockin,Integer>{
     Page<Clockin> findAll(Pageable pageable);
 
     Page<Clockin> findByEmployee_EmpId(Integer empId, Pageable pageable);
+
+    List<Clockin> findAllByOrderByEmployeeAsc();
 
 
     Page<Clockin> findByEmployee_EmpIdAndDay(Integer empId, Date day, Pageable pageable);

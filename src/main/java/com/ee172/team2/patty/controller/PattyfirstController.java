@@ -18,9 +18,21 @@ public class PattyfirstController {
 
     }
     
-    @GetMapping("/showActivity")
-    public String Activity(){
-        return "/patty/activity/show_activity";
+    @GetMapping("/home")
+    public String home(){
+        return "/patty/activity/home";
+
+    }
+    
+    @GetMapping("/detailActivity")
+    public String detailActivity(){
+        return "/patty/activity/details_activity";
+
+    }
+    
+    @GetMapping("/myOrders")
+    public String myOrders(){
+        return "/patty/order/my_order";
 
     }
 }

@@ -6,9 +6,13 @@ import com.ee172.team2.steven.model.LeaveTypes;
 import com.ee172.team2.steven.model.Notice;
 import com.ee172.team2.steven.repository.NoticeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 @Service
 public class NoticeService {
@@ -18,8 +22,14 @@ public class NoticeService {
 
 
 
+    public List<Notice> findByEmpId(int empId) {
+        return noticeDAO.findByEmployeeEmpId(empId);
+    }
 
-
+    public List<Notice> findTop5Notices(int empId) {
+        Pageable topFive = PageRequest.of(0, 5, Sort.by("createTime").descending()); // 假設以 ID 降序排列
+        return noticeDAO.findByEmployeeEmpId(empId, topFive);
+    }
 
     public void createShortageNotice(Employee employee, LeaveTypes leaveType, double requiredDays) {
         Notice notice = new Notice();

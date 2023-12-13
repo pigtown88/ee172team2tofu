@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.ee172.team2.lpt.model.Activity;
 import com.ee172.team2.lpt.model.Order;
 import com.ee172.team2.lpt.model.Reserve;
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -27,6 +28,7 @@ import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 import jakarta.persistence.Transient;
 import lombok.Data;
+import lombok.ToString;
 
 @Data
 @Entity
@@ -67,7 +69,7 @@ public class Member {
 	@Transient
 	private MultipartFile memberPhotoFile;
 
-	private Integer permission; 	// 0 未啟用，1 啟用，2 禁用
+	private Integer permission; // 0 未啟用，1 啟用，2 禁用
 
 	private boolean enabled;
 
@@ -78,18 +80,32 @@ public class Member {
 //	@JsonManagedReference 	//避免 JSON 序列化時的循環參照
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "insId", referencedColumnName = "insId")
+	@ToString.Exclude
 	private Interest insId;
+	
+	// 新增方法用於設定 insId
+    public void setInsId(Interest interest) {
+        this.insId = interest;
+        if (interest != null) {
+            interest.getMember().add(this);
+        }
+    }
 
 	private String loginType;
 
-
+	@JsonIgnore
 	@JsonManagedReference("member-reserve")
 	@OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Reserve> reserves;
-	
+
+	@JsonIgnore
 	@JsonManagedReference("member-order")
 	@OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Order> orders;
-	
+
+	@JsonIgnore
+	@JsonManagedReference("member-activity")
+	@OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<Activity> activities;
 
 }

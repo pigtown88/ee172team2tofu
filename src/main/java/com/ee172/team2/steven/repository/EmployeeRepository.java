@@ -32,6 +32,9 @@ public interface EmployeeRepository extends JpaRepository<Employee,Integer> , Jp
     Page<Employee> findEmployeeByEmpNameContaining(String name, Pageable pageable);
 
     Employee findByEmpName(String empName);
+
+    List<Employee> findByEmpId(Integer empId);
+
 //    @Query(value="select top(1) * from employees order by added desc", nativeQuery = true)
 //    public Employee findTheLatestEmployee();
 //

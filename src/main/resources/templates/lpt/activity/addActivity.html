@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<title>VueJS</title>
+	<script src="https://unpkg.com/vue@3"></script>
+
+</head>
+
+<body>
+	<div th:replace="~{/public/layout/navbar}"></div>
+	<div id="app">
+		<form>
+
+			<label for="activityName">活動名稱: </label>
+			<input type="text" v-model="activityName">
+
+			<br><br>
+
+			<label for="activityDayStart">活動開始時間: </label>
+			<input type="datetime-local" v-model="activityDayStart">
+
+			<br><br>
+
+			<label for="activityDayEnd">活動結束時間: </label>
+			<input type="datetime-local" v-model="activityDayEnd">
+
+			<br><br>
+
+			<label for="activityPrice">活動價格: </label>
+			<input type="number" min="0" v-model="activityPrice">
+
+			<br><br>
+
+			<label for="activityType">活動類型: </label>
+			<select class="form-select" aria-label="Default select example" v-model="activityType">
+				<option value="寵物">寵物</option>
+				<option value="手作">手作</option>
+				<option value="美食">美食</option>
+				<option value="攝影">攝影</option>
+				<option value="線上遊戲">線上遊戲</option>
+				<option value="運動">運動</option>
+				<option value="音樂">音樂</option>
+				<option value="電影">電影</option>
+				<option value="桌遊">桌遊</option>
+				<option value="旅遊">旅遊</option>
+			</select>
+
+			<br><br>
+
+			<label for="activityIntro">活動介紹: </label>
+			<textarea rows="5" cols="33" v-model="activityIntro"></textarea>
+
+			<br><br>
+
+			<button @click.prevent="addActivity" class="btn btn-primary">舉辦</button>
+
+		</form>
+
+
+	</div>
+
+	<div th:replace="~{/public/layout/footer}"></div>
+
+
+	<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+
+
+	<!--	<script src="js/main.js"></script>  -->
+
+	<script>
+
+
+
+		const {createApp, ref, onMounted, computed, reactive} = Vue;
+
+		const App = {
+
+			setup() {
+				const activityName = ref('');
+				const activityDayStart = ref('');
+				const activityDayEnd = ref('');
+				const activityPrice = ref('');
+				const activityType = ref('寵物');
+				const activityIntro = ref('');
+				const reserveId = "[[${reserveId}]]";
+
+				const addActivity = async () => {
+					try {
+						const activity = {
+							activityName: activityName.value,
+							activityDayStart: activityDayStart.value,
+							activityDayEnd: activityDayEnd.value,
+							activityPrice: activityPrice.value,
+							activityType: activityType.value,
+							activityIntro: activityIntro.value,
+							reserveId: reserveId,
+						};
+						console.log(activity);
+						const response = await axios.post('http://localhost:8087/ee172/activity/addActivity', activity);
+						await alert(`${response.data}`)
+					} catch (erroe) {
+						console.log(error.response.data)
+						alert(`${error.response.data}`)
+					}
+					
+					try {
+						window.location.href = `http://localhost:8087/ee172/arenaReserved`;
+					} catch (error) {
+						console.error(error);
+					}
+					
+					
+				}
+
+				//		function setReserveId() {
+				//			const urlParams = new URLSearchParams(window.location.search);
+				//		}
+
+				onMounted(() => {
+					//			setReserveId();
+				});
+				return {
+					activityName,
+					activityDayStart,
+					activityDayEnd,
+					activityPrice,
+					activityType,
+					activityIntro,
+					reserveId,
+					addActivity,
+					//			setReserveId,
+				}
+			},
+
+		}
+		Vue.createApp(App).mount('#app')
+	</script>
+</body>
+
+</html>

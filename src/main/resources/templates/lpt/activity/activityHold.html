@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<title>VueJS</title>
+	<script src="https://unpkg.com/vue@3"></script>
+
+
+
+</head>
+
+<body>
+	<div th:replace="~{/public/layout/navbar}"></div>
+
+	<p>[[${activityId}]]</p>
+
+	<div>
+		<div id="app">
+
+
+
+
+
+			<div :v-if="reserves != null">
+				<div v-for="reserve in reserves" :key="reserve.reserveId">
+					<p>預約編號: {{reserve.reserveId}} </p>
+					<p v-if="reserve.arenaId == 1">場地: 競賽場</p>
+					<p v-if="reserve.arenaId == 2">場地: 婚宴館</p>
+					<p>開始日期: {{reserve.reserveDayStart}}</p>
+					<p>結束日期: {{reserve.reserveDayEnd}}</p>
+
+					<div v-for="activity in reserve.activities">
+						<p>{{activity.activityName}}</p>
+					</div>
+
+
+					<button v-if="reserve.arenaId == 1" class="btn btn-primary"
+						@click.prevents="navigateToAddActivity(reserve.reserveId)">新增活動</button>
+
+					<button v-if="reserve.arenaId == 2" class="btn btn-primary"
+						@click.prevents="navigateToAddWedding(reserve.reserveId)">舉辦婚禮</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div th:replace="~{/public/layout/footer}"></div>
+
+
+
+	<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+	<script src="vendors/@coreui/coreui/js/coreui.bundle.min.js"></script>
+	<script src="vendors/simplebar/js/simplebar.min.js"></script>
+
+	<script src="vendors/@coreui/utils/js/coreui-utils.js"></script>
+
+	<!--	<script src="js/main.js"></script>  -->
+
+	<script>
+		const {createApp, ref, onMounted, computed, reactive} = Vue;
+
+		const App = {
+
+			setup() {
+				const reserves = ref([]);
+				//		const activites = ref([]);
+
+
+
+				const getAllReserve = async () => {
+					const response = await axios.get('http://localhost:8087/ee172/reserve/getAllReserve');
+					console.log(response.data)
+					reserves.value = response.data;
+					console.log(reserves.value)
+				}
+
+				//		const getAllActivityByReserveId = async () => {
+
+				//const reserveId = reserves.reserveId;
+
+				//			const response = await axios.get(`http://localhost:8087/ee172/activity/getAllActivityByReserveId`, {params: {reserveId}});
+				//			console.log(response.data)
+				//			activites.value = response.data;
+				//			console.log(activites.value)
+				//		}
+
+				function navigateToAddActivity(reserveId) {
+					//以測試確定可以傳reserveId
+					console.log(reserveId);
+
+					try {
+						window.location.href = `http://localhost:8087/ee172/addActivity/${reserveId}`;
+					} catch (error) {
+						console.error(error);
+					}
+				}
+
+				function navigateToAddWedding(reserveId) {
+					//以測試確定可以傳reserveId
+					console.log(reserveId);
+
+					try {
+						window.location.href = `http://localhost:8087/ee172/addWedding/${reserveId}`;
+					} catch (error) {
+						console.error(error);
+					}
+				}
+
+				onMounted(() => {
+					getAllReserve();
+					//	getAllActivityByReserveId();
+				});
+
+
+
+				return {
+					reserves,
+					//activites,
+					getAllReserve,
+					//getAllActivityByReserveId,
+					navigateToAddActivity,
+					navigateToAddWedding,
+				}
+			},
+
+		}
+		Vue.createApp(App).mount('#app')
+	</script>
+</body>
+
+</html>

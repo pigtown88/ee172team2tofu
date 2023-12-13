@@ -144,6 +144,7 @@ public  Page<ClockinDTO> findByPageAndEmpId(Integer empId,Integer pageNumber) {
         clockInRecord.setClockoutTime(new Timestamp(System.currentTimeMillis()));
 
         checkEarlyLeave(clockInRecord, employee);
+        checkOverTime(clockInRecord, employee);
 
         return clockinDAO.save(clockInRecord);
     }

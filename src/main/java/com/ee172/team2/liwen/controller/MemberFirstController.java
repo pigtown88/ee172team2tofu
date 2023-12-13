@@ -6,9 +6,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class MemberFirstController {
 
-	@GetMapping("/memberCenter")
+	@GetMapping("/api/frontStage/member")
 	public String memberCenter() {
-		return "liwen/member/memberCenter";
+		return "liwen/member/showMember";
 	}
 	
 //	測試路徑

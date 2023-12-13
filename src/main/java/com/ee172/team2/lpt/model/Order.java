@@ -1,6 +1,6 @@
 package com.ee172.team2.lpt.model;
 
-import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.format.annotation.DateTimeFormat;
@@ -19,13 +19,14 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 import lombok.Data;
 
 @Data
-@Table(name = "order")
+@Table(name = "myOrder")
 @Entity
 public class Order {
 
@@ -36,7 +37,7 @@ public class Order {
 	@JsonFormat(pattern = "yyyy/MM/dd HH:mm:ss", timezone = "GMT+8")
 	@DateTimeFormat(pattern = "yyyy/MM/dd HH:mm:ss") // 轉換前端 String 日期到 Java 端日期格式
 	@Temporal(TemporalType.TIMESTAMP)
-	private Timestamp orderCt;
+	private Date orderCt;
 
 	@JsonBackReference("member-order")
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -51,4 +52,11 @@ public class Order {
 	@JsonManagedReference("order-ticket")
 	@OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Ticket> tickets;
+
+	@PrePersist
+	public void onCreate() {
+		if (orderCt == null) {
+			orderCt = new Date();
+		}
+	}
 }

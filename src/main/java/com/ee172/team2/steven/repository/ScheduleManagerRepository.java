@@ -26,6 +26,8 @@ public interface ScheduleManagerRepository extends JpaRepository<ScheduleManager
 
     ScheduleManager findByEmployee(Employee employee);
 
+    List<ScheduleManager> findByEmployeeEmpId(Integer empId);
+
 //    @Query("SELECT sm FROM ScheduleManager sm WHERE sm.employee.empId = :empId AND sm.day = :day")
 //    List<ScheduleManager> findByEmpIdAndDay(@Param("empId") Integer empId, @Param("day") Date day);
 //    @Query("SELECT sm FROM ScheduleManager sm WHERE sm.employee.empId = :empId AND sm.day BETWEEN :startDate AND :endDate")

@@ -5,7 +5,14 @@
 	<meta charset="UTF-8">
 	<title>VueJS</title>
 	<script src="https://unpkg.com/vue@3"></script>
-
+	<style>
+		/* 样式可以根据需要进行调整 */
+		.clickable-element {
+			cursor: pointer;
+			color: blue;
+			text-decoration: underline;
+		}
+	</style>
 
 
 </head>
@@ -13,38 +20,49 @@
 <body>
 	<div th:replace="~{/public/layout/navbar}"></div>
 
+	<div th:unless="${session.loginMember}">
+		<h3>目前無預約場地</h3>
+	</div>
 
 	<div id="app">
 
-		<div v-if="reserves == null">
-			<h3>目前無預約場地</h3>
-		</div>
+		<table class="table">
+			<thead>
+				<tr>
+					<th scope="col">預約編號</th>
+					<th scope="col">場地</th>
+					<th scope="col">開始日期</th>
+					<th scope="col">結束日期</th>
+					<th scope="col">活動名稱</th>
+					<th scope="col">舉辦活動</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr v-for="reserve in reserves" :key="reserve.reserveId">
+					<td>{{ reserve.reserveId }}</td>
+					<td v-if="reserve.arenaId == 1">競賽場</td>
+					<td v-if="reserve.arenaId == 2">婚宴館</td>
+					<td>{{ reserve.reserveDayStart }}</td>
+					<td>{{ reserve.reserveDayEnd }}</td>
+					<td v-if="reserve.activities && reserve.activities.length > 0">
+						<ul>
+							<li class="clickable-element" @click.prevents="navigateToActivityHold(activity.activityId)" v-for="activity in reserve.activities">{{ activity.activityName }}</li>
+						</ul>
+					</td>
+					<td v-if="reserve.activities.length == 0"></td> <!-- 如果不需要顯示活動名稱的列，可以刪除這一行 -->
 
-		<div :v-if="reserves != null">
-			<div v-for="reserve in reserves" :key="reserve.reserveId">
-				<p>預約編號: {{reserve.reserveId}} </p>
-				<p v-if="reserve.arenaId == 1">場地: 競賽場</p>
-				<p v-if="reserve.arenaId == 2">場地: 婚宴館</p>
-				<p>開始日期: {{reserve.reserveDayStart}}</p>
-				<p>結束日期: {{reserve.reserveDayEnd}}</p>
+					<td>
+						<button v-if="reserve.arenaId == 1" class="btn btn-primary"
+							@click.prevent="navigateToAddActivity(reserve.reserveId)">舉辦活動</button>
 
-				<div v-for="activity in reserve.activities">
-					<p>{{activity.activityName}}</p>
-				</div>
-
-
-				<button v-if="reserve.arenaId == 1" class="btn btn-primary"
-					@click.prevents="navigateToAddActivity(reserve.reserveId)">新增活動</button>
-
-				<button v-if="reserve.arenaId == 2" class="btn btn-primary"
-					@click.prevents="navigateToAddWedding(reserve.reserveId)">舉辦婚禮</button>
-			</div>
-		</div>
-	</div>
+						<button v-if="reserve.arenaId == 2" class="btn btn-primary"
+							@click.prevent="navigateToAddWedding(reserve.reserveId)">舉辦婚禮</button>
+					</td>
+				</tr>
+			</tbody>
+		</table>
 
 	<div th:replace="~{/public/layout/footer}"></div>
-
-
 
 	<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 	<script src="vendors/@coreui/coreui/js/coreui.bundle.min.js"></script>
@@ -61,7 +79,7 @@
 
 			setup() {
 				const reserves = ref([]);
-		//		const activites = ref([]);
+				//		const activites = ref([]);
 
 
 
@@ -72,15 +90,15 @@
 					console.log(reserves.value)
 				}
 
-		//		const getAllActivityByReserveId = async () => {
+				//		const getAllActivityByReserveId = async () => {
 
-					//const reserveId = reserves.reserveId;
+				//const reserveId = reserves.reserveId;
 
-		//			const response = await axios.get(`http://localhost:8087/ee172/activity/getAllActivityByReserveId`, {params: {reserveId}});
-		//			console.log(response.data)
-		//			activites.value = response.data;
-		//			console.log(activites.value)
-		//		}
+				//			const response = await axios.get(`http://localhost:8087/ee172/activity/getAllActivityByReserveId`, {params: {reserveId}});
+				//			console.log(response.data)
+				//			activites.value = response.data;
+				//			console.log(activites.value)
+				//		}
 
 				function navigateToAddActivity(reserveId) {
 					//以測試確定可以傳reserveId
@@ -88,6 +106,14 @@
 
 					try {
 						window.location.href = `http://localhost:8087/ee172/addActivity/${reserveId}`;
+					} catch (error) {
+						console.error(error);
+					}
+				}
+
+				function navigateToActivityHold(activityId) {
+					try {
+						window.location.href = `http://localhost:8087/ee172/activityHold/${activityId}`;
 					} catch (error) {
 						console.error(error);
 					}
@@ -103,7 +129,7 @@
 						console.error(error);
 					}
 				}
-				
+
 				onMounted(() => {
 					getAllReserve();
 					//	getAllActivityByReserveId();
@@ -117,6 +143,7 @@
 					getAllReserve,
 					//getAllActivityByReserveId,
 					navigateToAddActivity,
+					navigateToActivityHold,
 					navigateToAddWedding,
 				}
 			},

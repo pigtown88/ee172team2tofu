@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head >
+
+  <base href="./">
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+  <meta name="description" content="CoreUI - Open Source Bootstrap Admin Template">
+  <meta name="author" content="Łukasz Holeczek">
+  <meta name="keyword" content="Bootstrap,Admin,Template,Open,Source,jQuery,CSS,HTML,RWD,Dashboard">
+  <title>CoreUI Free Bootstrap Admin Template</title>
+
+  <meta name="msapplication-TileColor" content="#ffffff">
+  <meta name="msapplication-TileImage" content="assets/favicon/ms-icon-144x144.png">
+  <meta name="theme-color" content="#ffffff">
+
+
+  <!-- Main styles for this application-->
+  <link href="css/style.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+
+
+  <!-- Vue 3 和 Axios -->
+<!--  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>-->
+  <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/core@6.1.10/index.global.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid@6.1.10/index.global.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/timegrid@6.1.10/index.global.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/interaction@6.1.10/index.global.min.js"></script>
+
+<!--  <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/list@6.1.10/index.global.min.js"></script>-->
+<!--  <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/moment@6.1.10/index.global.min.js"></script>-->
+<!--  <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/moment-timezone@6.1.10/index.global.min.js"></script>-->
+<!--  <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/bootstrap@6.1.10/index.global.min.js"></script>-->
+
+<!--  <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.js'></script>-->
+<!--  <script src='https://cdn.jsdelivr.net/npm/@fullcalendar/core@6.1.10/index.global.min.js'></script>-->
+<!--  <script src='https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid@6.1.10/index.global.min.js'></script>-->
+
+  <!-- Vue 和 Axios -->
+  <script src="js/vue.global.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+  <!-- 其他腳本 -->
+  <script src="js/bootstrap.bundle.min.js"></script>
+  <script src="js/jquery-3.7.1.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
+
+
+
+  <style>
+    .employee-container {
+      position: relative;
+    }
+
+
+      .clock-button {
+        margin: 10px;
+        padding: 10px 20px;
+        font-size: 1.5em;
+      }
+
+
+    .employee-photo img {
+      width: 100px; /* 調整照片大小 */
+      height: 100px; /* 調整照片大小 */
+      border-radius: 50%; /* 圓形照片 */
+      margin: auto; /* 確保照片居中 */
+      display: block; /* 確保照片不與其他元素重疊 */
+    }
+
+    .employee-photo1 {
+      position: absolute;
+      top: 10px;    /* 根據需要調整上側邊距 */
+      right: 10px;  /* 根據需要調整右側邊距 */
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;  /* 可選，用於使圖片呈現圓形 */
+    }
+
+    body {
+      font-family: 'Arial', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f4f4;
+    }
+    .calendar-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      padding: 20px;
+    }
+
+    #calendar {
+      width: 100%;
+      max-width: 1100px;
+      margin: auto;
+    }
+
+    .fc .fc-event-title {
+      font-size: 12px !important;
+    }
+
+    .fc .fc-event-time {
+      font-size: 10px !important;
+    }
+
+    .draggable-employee {
+      margin: 10px;
+      padding: 5px;
+      background-color: #f0f0f0;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      cursor: grab;
+    }
+
+    .employee-pool {
+      width: 200px;
+
+    }
+    .employee {
+      margin: 10px;
+      padding: 10px;
+      background-color: #f0f0f0;
+      border: 1px solid #ddd;
+      cursor: pointer;
+    }
+    .modal-dialog {
+      max-width: 400px;
+    }
+
+    .modal-header {
+      cursor: move;
+    }
+
+    .employee-pool {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+
+    }
+
+    .draggable-employee {
+      flex: 0 0 40%;
+      padding: 10px;
+      text-align: center;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      cursor: pointer;
+      background-color: #f8f9fa;
+      transition: background-color 0.3s ease;
+      height: 30px;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .draggable-employee span {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      width: 100%;
+      display: inline-block;
+    }
+
+
+    .draggable-employee.selected {
+      background-color: #007bff;
+      color: whitesmoke;
+      border-color: #0056b3;
+    }
+
+
+    .draggable-employee:hover {
+      background-color: #e2e6ea;
+    }
+
+  </style>
+  <script type='importmap'>
+    {
+      "imports": {
+         "vue": "https://cdn.skypack.dev/vue@3",
+        "@fullcalendar/core": "https://cdn.skypack.dev/@fullcalendar/core@6.1.10",
+        "@fullcalendar/daygrid": "https://cdn.skypack.dev/@fullcalendar/daygrid@6.1.10",
+        "@fullcalendar/timegrid": "https://cdn.skypack.dev/@fullcalendar/timegrid@6.1.10",
+        "@fullcalendar/interaction": "https://cdn.skypack.dev/@fullcalendar/interaction@6.1.10",
+         "@fullcalendar/bootstrap5": "https://cdn.skypack.dev/@fullcalendar/bootstrap5@6.1.10"
+
+      }
+    }
+  </script>
+<!--  <script type='module'>-->
+<!--    import { Calendar } from '@fullcalendar/core'-->
+<!--    import dayGridPlugin from '@fullcalendar/daygrid'-->
+<!--    import timeGridPlugin from '@fullcalendar/timegrid'-->
+<!--    import interactionPlugin from '@fullcalendar/interaction'-->
+
+<!--    document.addEventListener('DOMContentLoaded', function() {-->
+<!--      const calendarEl = document.getElementById('calendar')-->
+<!--      const calendar = new Calendar(calendarEl, {-->
+<!--        plugins: [dayGridPlugin, timeGridPlugin, interactionPlugin],-->
+<!--        headerToolbar: {-->
+<!--          left: 'prev,next today',-->
+<!--          center: 'title',-->
+<!--          right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'-->
+<!--        }-->
+<!--      })-->
+<!--      calendar.render()-->
+<!--    })-->
+<!--  </script>-->
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const userRole = sessionStorage.getItem("userRole");
+
+    if (userRole !== "1" && userRole !== "2") {
+      document.querySelectorAll('.admin-only').forEach(el => el.style.display = 'none');
+    } else {
+      document.querySelectorAll('.admin-only').forEach(el => el.style.display = 'block');
+    }
+  });
+  const adminElements = document.querySelectorAll('.admin-only');
+  console.log("Number of .admin-only elements:", adminElements.length);
+
+  adminElements.forEach(el => {
+    const currentDisplay = window.getComputedStyle(el).display;
+    console.log("Current display style for admin-only element:", currentDisplay);
+  });
+</script>
+
+</head>
+
+<body>
+
+<th:block th:replace="~{steven/sidebar :: sidebar}"></th:block>
+
+<th:block th:replace="~{steven/header :: header}"></th:block>
+
+  <!--container-->
+<div id="app"></div>
+
+  <div id="app1">
+
+    <full-calendar></full-calendar>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>-->
+<!--<script src="https://cdn.jsdelivr.net/npm/@fullcalendar/vue3@6.2.0/dist/index.global.min.js"></script>-->
+<script src="vendors/@coreui/coreui/js/coreui.bundle.min.js"></script>
+<script src="vendors/simplebar/js/simplebar.min.js"></script>
+
+<script src="vendors/@coreui/utils/js/coreui-utils.js"></script>
+<script src="js/main.js"></script>
+<
+
+  <script type='module'>
+
+    import { Calendar } from '@fullcalendar/core';
+    import dayGridPlugin from '@fullcalendar/daygrid';
+    import timeGridPlugin from '@fullcalendar/timegrid';
+    import interactionPlugin from '@fullcalendar/interaction';
+    import bootstrapPlugin from '@fullcalendar/bootstrap5';
+
+    const { createApp, ref, onMounted } = Vue;
+
+    const FullCalendarComponent = {
+      props: {
+        handleEventReceive: Function,
+        handleEventClick: Function,
+        handleEventLeave: Function
+      },
+      setup(props) {
+        const calendarEl = ref(null);
+        const calendar = ref(null);
+
+        const fetchEvents = async () => {
+          try {
+            const response = await axios.get('http://localhost:8087/ee172/api/backstage/employee/empPersonalSchedule');
+            if (calendar.value) {
+              calendar.value.addEventSource(response.data);
+            }
+            event.extendedProps = { scheduleId: event.scheduleId };
+          } catch (error) {
+            console.error('Error fetching events:', error);
+          }
+        };
+
+
+
+        onMounted(async () => {
+          calendar.value = new Calendar(calendarEl.value, {
+            plugins: [dayGridPlugin, timeGridPlugin, interactionPlugin, bootstrapPlugin],
+            initialView: 'dayGridMonth',
+            themeSystem: 'bootstrap5',
+            eventReceive: props.handleEventReceive,
+            eventLeave: props.handleEventLeave,
+            eventClick: function(info) {
+
+                props.handleEventClick(info.event);
+
+            },
+
+          });
+          calendar.value.render();
+          await fetchEvents();
+        });
+
+        return { calendarEl };
+      },
+      template: `<div ref="calendarEl"></div>`
+    };
+
+    const App = {
+      components: {
+        FullCalendarComponent
+      },
+      setup() {
+
+        const employees = ref([
+
+          // 更多員工
+        ]);
+
+
+
+        const fetchEmployees = async () => {
+          try {
+            const response = await axios.get('http://localhost:8087/ee172/api/backstage/employee/empPersonalForSchedule');
+            employees.value = response.data;
+          } catch (error) {
+            console.error('Error fetching employees:', error);
+          }
+        };
+
+        const selectedEmployeeId = ref(null);
+        const selectedDate = ref(new Date().toISOString().slice(0, 10));
+
+        // 選擇員工
+        const selectEmployee = (empId) => {
+          selectedEmployeeId.value = empId;
+        };
+
+
+        // 添加班表
+        const addSchedule = () => {
+          if (selectedEmployeeId.value && selectedDate.value) {
+            console.log('Adding schedule for employee', selectedEmployeeId.value, 'on', selectedDate.value)
+            const scheduleData = {
+              empId: selectedEmployeeId.value,
+              day: selectedDate.value
+            };
+            console.log('Schedule data:', scheduleData)
+            // 向后端发送请求添加班表
+            axios.post('http://localhost:8087/ee172/api/backstage/employee/addSchedule', scheduleData)
+                    .then(response => {
+                      console.log('Schedule added:', response.data);
+                      // 成功提示
+                      Swal.fire({
+
+                        title: '成功!',
+                        text: '班表添加成功',
+                        icon: 'success',
+                        confirmButtonText: '好的'
+                      });
+                      // 逻辑添加新事件到日历...
+                      hideModal();
+                    })
+                    .catch(error => {
+                      console.log('Error adding schedule:', error)
+                      // 错误提示
+                      Swal.fire({
+                        title: '出錯了!',
+                        text: '添加班表失敗',
+                        icon: 'error',
+                        confirmButtonText: '關閉'
+                      });
+                    });
+          } else {
+            // 提示选择员工和日期
+            Swal.fire({
+              title: '注意!',
+              text: '請先選擇員工與日期',
+              icon: 'info',
+              confirmButtonText: '好的'
+            });
+          }
+        };
+
+        const handleEventClick = (event) => {
+          const scheduleId = event.extendedProps.scheduleId;
+          // 显示确认对话框
+          Swal.fire({
+            title: '確定刪除此員工本日班表？',
+            text: "這個操作無法撤銷",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: '是的，刪除！',
+            cancelButtonText: '取消'
+          }).then((result) => {
+            if (result.isConfirmed) {
+              console.log('Deleting schedule:', event.data)
+
+              axios.delete(`http://localhost:8087/ee172/api/backstage/employee/deleteShift/${scheduleId}`)
+                      .then(response => {
+                        console.log('Schedule deleted:', response.data)
+                        // 删除成功
+                        Swal.fire(
+                                '已刪除！',
+                                '班表已被删除。',
+                                'success'
+                        );
+
+                        event.remove();
+                      })
+                      .catch(error => {
+                        console.log('Error deleting schedule:', error)
+
+                        Swal.fire(
+                                '出错了！',
+                                '無法删除班表。',
+                                'error'
+                        );
+                      });
+            }
+          })
+        };
+
+
+
+
+
+        let draggedEmployee = null;
+
+        const modalVisible = ref(false);
+
+
+        const showModal = () => {
+          modalVisible.value = true;
+        };
+
+
+        const hideModal = () => {
+          modalVisible.value = false;
+        };
+
+        const handleDragStart = (employee, event) => {
+          draggedEmployee = employee;
+          event.dataTransfer.effectAllowed = 'move';
+
+        };
+
+          const handleEmployeeClick = (employee) => {
+
+            const employeeEvents = calendar.getEvents().filter(event => event.extendedProps.employeeId === employee.id);
+          calendar.removeAllEvents();
+           calendar.addEventSource(employeeEvents);
+          };
+
+        function handleEventReceive(info) {
+          const scheduleData = {
+            empId: draggedEmployee.empId,
+            empName: draggedEmployee.empName,
+            shiftType: draggedEmployee.shiftType,
+            day: info.dateStr
+          };
+          axios.post('http://localhost:8087/ee172/api/backstage/employee/addSchedule', scheduleData)
+                  .then(response => {
+                    console.log('Schedule added:', response.data);
+                  })
+                  .catch(error => {
+                    console.error('Error adding schedule:', error);
+                  });
+        }
+
+
+               function handleEventLeave(info) {
+
+                  axios.post('/api/remove-schedule', {
+                    employeeId: draggedEmployee.id,
+                   date: info.dateStr
+                 });
+               }
+        onMounted(() => {
+          fetchEmployees();
+        });
+
+        return { employees, showModal, handleDragStart, handleEmployeeClick, handleEventReceive,selectEmployee,handleEventClick,
+          handleEventLeave, modalVisible, hideModal, addSchedule, selectedEmployeeId, selectedDate};
+      },
+      template: `
+        <div>
+<!--          <button type="button" class="btn btn-primary" @click="showModal">添加班表</button>-->
+
+
+          <div class="modal fade" :class="{ show: modalVisible }" :style="{ display: modalVisible ? 'block' : 'none' }" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title">添加班表</h5>
+                  <button type="button" class="close" @click="hideModal">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <div class="employee-pool">
+                    <div v-for="employee in employees"
+                         :key="employee.empId"
+                         :class="{ 'draggable-employee': true, selected: selectedEmployeeId === employee.empId }"
+                         @click="selectEmployee(employee.empId)">
+                      {{ employee.empName }}
+                    </div>
+                  </div>
+                  <input type="date" v-model="selectedDate">
+                  <button class="btn btn-success" @click="addSchedule">新增班表</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <full-calendar-component :handleEventReceive="handleEventReceive" :handleEventLeave="handleEventLeave" :handleEventClick="handleEventClick"></full-calendar-component>
+        </div>
+      `
+    };
+
+    createApp(App).mount('#app1');
+
+    function makeModalDraggable() {
+      const modalHeader = document.querySelector('.modal-header');
+      const modalDialog = document.querySelector('.modal-dialog');
+
+      let isDragging = false;
+      let dragStartX, dragStartY;
+
+      modalHeader.addEventListener('mousedown', function (e) {
+        isDragging = true;
+        dragStartX = e.clientX - modalDialog.offsetLeft;
+        dragStartY = e.clientY - modalDialog.offsetTop;
+        modalDialog.style.position = 'absolute';
+      });
+
+      window.addEventListener('mousemove', function (e) {
+        if (isDragging) {
+          modalDialog.style.left = e.clientX - dragStartX + 'px';
+          modalDialog.style.top = e.clientY - dragStartY + 'px';
+        }
+      });
+
+      window.addEventListener('mouseup', function () {
+        isDragging = false;
+      });
+    }
+
+    // 调用此函数以使模态窗口可拖动
+    makeModalDraggable();
+  </script>
+
+  <script>
+
+    const { createApp, ref, onMounted } = Vue;
+
+    createApp({
+      setup() {
+
+        const user = ref(null);
+        const userRole = ref(sessionStorage.getItem("userRole"));
+        const employeePhoto = ref('');
+        const employees = ref([]);
+        const calendarEl = ref(null);
+        const calendar = ref(null);
+        const events = ref([]);
+
+
+
+
+        // const calendarOptions = {
+        //   plugins: ['dayGrid', 'timeGrid', 'interaction'],
+        //   initialView: 'dayGridMonth', // 或者其他視圖
+        //   events: events.value,
+        //   // 其他需要的選項
+        // };
+
+
+
+        // const fetchSchedule = async () => {
+        //   try {
+        //     const response = await axios.get('http://localhost:8087/ee172/api/employee/shift/employeeSchedule');
+        //     events.value = response.data.map(schedule => ({
+        //       title: schedule.title,
+        //       start: schedule.start,
+        //       end: schedule.end,
+        //     }));
+        //
+        //     calendar.value = new FullCalendar.Calendar(calendarEl.value, calendarOptions);
+        //     calendar.value.render();
+        //   } catch (error) {
+        //     console.error('Error fetching schedule:', error);
+        //   }
+        // };
+
+
+
+
+
+        const fetchEmployees = async () => {
+          try {
+            const response = await axios.get('/api/employees');
+            employees.value = response.data;
+          } catch (error) {
+            console.error('Error fetching employees:', error);
+          }
+        };
+
+
+
+
+
+
+
+
+
+        const fetchUserInfo = async () => {
+          try {
+            const response = await axios.get('http://localhost:8087/ee172/api/backstage/employee/info');
+            user.value = response.data;
+            sessionStorage.setItem("userRole", user.value.role);
+
+            // 根據角色顯示或隱藏元素
+            if (user.value.role !== "1" && user.value.role !== "2") {
+              document.querySelectorAll('.admin-only').forEach(el => el.style.display = 'none');
+            } else {
+              document.querySelectorAll('.admin-only').forEach(el => el.style.display = 'block');
+            }
+          } catch (error) {
+            console.error('Error fetching user info:', error);
+          }
+        };
+
+
+        const fetchEmployeePhoto = async () => {
+          try {
+            const response = await axios.get('http://localhost:8087/ee172/api/backstage/employee/getPhoto'); //
+            employeePhoto.value = 'data:image/jpeg;base64,' + response.data;
+
+          } catch (error) {
+            console.error('Error fetching employee photo:', error);
+          }
+        };
+
+        onMounted(() => {
+          fetchUserInfo();
+          fetchEmployeePhoto();
+
+
+        });
+
+        return {
+          user,userRole,employeePhoto,  employees, calendarEl,
+          calendar,
+          events,  fetchEmployees, fetchUserInfo, fetchEmployeePhoto
+
+        };
+      }
+    }).mount('#app');
+  </script>
+
+
+
+</body>
+</html>

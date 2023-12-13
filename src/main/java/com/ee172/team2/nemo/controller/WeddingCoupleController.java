@@ -33,13 +33,6 @@ public class WeddingCoupleController {
 
 //	@Autowired
 //	private MailService mailService;
-	
-	@RequestMapping("/add")
-	public String toDefaultPage(ModelMap model) {
-		WeddingCouple weddingCouple = new WeddingCouple();
-		model.put("weddingcouple", weddingCouple);
-		return "nemo/weddingCoupleadd";
-	}
 
 
 	@GetMapping
@@ -63,8 +56,18 @@ public class WeddingCoupleController {
 	@GetMapping("/addweddingGuest") // 處理POST請求，創建新的weddingCouple
 	public String addweddingGuest(ModelMap model) {
 		model.put("weddingguest", new WeddingGuest());
+		
 		return "nemo/weddingGuest";
 	}
+	
+	//進入weddingadd用的controller 是從培桐系統進來的
+		@RequestMapping("/add")
+		public String toDefaultPage(ModelMap model) {
+			WeddingCouple weddingCouple = new WeddingCouple();
+			model.put("weddingcouple", weddingCouple);
+			return "nemo/weddingCoupleadd";
+		}
+
 	
 	@GetMapping("/getAll") // 處理POST請求，創建新的weddingCouple
 	public String getAll(ModelMap model, @ModelAttribute WeddingCouple couple, BindingResult result) {

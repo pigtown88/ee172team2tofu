@@ -1,0 +1,282 @@
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="keywords" content="Match Fix Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template,
+Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyEricsson, Motorola web design" />
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14"></script>
+    <!-- <script src="your-custom-script.js"></script> -->
+    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.css" rel="stylesheet">
+
+
+    <style>
+        .EventDetail-cd50fc87-event-detail-inner {
+            max-width: 100%;
+            width: 1080px;
+            filter: drop-shadow(0px 2px 8px rgba(0, 0, 0, 0.1));
+            margin-top: 10px;
+            margin: auto;
+            margin-bottom: 50px;
+        }
+
+        .EventTitle-module-b7f81bbb-root {
+            font-size: 32px;
+            font-weight: 600;
+            color: #212121;
+            padding: 20px 0;
+        }
+
+        .EventDetail-b335eb9e-event-info-container {
+            box-shadow: 0px 2px 8px rgba(0, 0, 0, .1);
+            padding: 24px;
+            border-radius: 16px;
+            font-size: 16px;
+        }
+
+        .EventDetail-df47ad60-event-subtitle-icon.EventDetail-ff52fddc-clock-icon {
+            background-image: url(https://static.accupass.com/frontend/image/event/icon_time.svg);
+        }
+
+        .EventDetail-df47ad60-event-subtitle-icon {
+            width: 24px;
+            height: 24px;
+            text-align: center;
+            background-position-x: center;
+            background-repeat: no-repeat;
+            background-size: contain;
+        }
+
+        .EventDetail-df47ad60-event-subtitle-icon.EventDetail-b2ea0a77-tag-icon {
+            background-image: url(https://static.accupass.com/frontend/image/event/icon_tags.svg);
+        }
+
+        .EventDetail-df47ad60-event-subtitle-icon {
+            width: 24px;
+            height: 24px;
+            text-align: center;
+            background-position-x: center;
+            background-repeat: no-repeat;
+            background-size: contain;
+        }
+
+        .EventDetail-dc0d52c0-event-tag {
+            position: relative;
+            display: inline-block;
+            margin-right: 0.5rem;
+            border: 1px solid #d8dde4;
+            font-size: 14px;
+            border-radius: 100px;
+            color: #959ba1;
+            padding: 8px 16px;
+            cursor: pointer;
+            transition: all .3s ease-in-out;
+        }
+
+        .EventDetail-efff7ce5-tags-container {
+            align-items: center;
+        }
+
+        .EventDetail-c8447a70-event-subtitle-container {
+            display: flex;
+            margin-top: 10px;
+        }
+
+        .EventDetail-b77a7bb5-event-tags-container {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-top: 5px;
+            padding: 0;
+        }
+
+        .EventDetail-c8447a70-event-subtitle-container {
+            display: flex;
+            margin-top: 10px;
+            gap: 5px;
+        }
+
+        .EventDetail-df47ad60-event-subtitle-icon.EventDetail-c046ae93-site-icon {
+            background-image: url(https://static.accupass.com/frontend/image/event/icon_website.svg);
+        }
+
+        .OrgInfo-d7a07388-register-button {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 50px;
+            padding: 16px;
+            border-radius: 4px;
+            color: #fff;
+            background-image: linear-gradient(131.01deg, #3e97d3 16.3%, #1074cc 115.92%);
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all .3s;
+            /* margin-top: 16px; */
+            width: 100px;
+            margin: auto;
+        }
+    </style>
+
+
+</head>
+
+<body>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.all.min.js"></script>
+    <script>
+        const showAlert = () => {
+            Swal.fire({
+                icon: 'success',
+                title: '報名成功',
+                text: '記得繳錢!',
+            })
+        }
+    </script>
+
+
+    <script th:src="@{https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js}"></script>
+
+    <script src="https://unpkg.com/vue@3"></script>
+
+    <div th:replace="~{/public/layout/navbar}"></div>
+    <!-- <div th:replace="~{/public/activity_index}"></div> -->
+    <div class="container" id="app">
+        <!-- <div class="pricing-header p-3 pb-md-4 mx-auto text-center">
+            <h1 class="display-4 fw-normal text-body-emphasis">{{Activitys.activityName}}</h1>
+            <p class="fs-5 text-body-secondary"><a style="font-size: larger;">活動開始時間:</a> {{Activitys.activityDayStart}}
+            </p>
+            <p class="fs-5 text-body-secondary"><a style="font-size: larger;">活動結束時間:</a> {{Activitys.activityDayEnd}}
+            </p>
+            <p class="fs-5 text-body-secondary"><a style="font-size: larger;">活動價格:</a> {{Activitys.activityPrice}} 元
+            </p>
+            <p class="fs-5 text-body-secondary"><a style="font-size: larger;">活動類型:</a> {{Activitys.activityType}}</p>
+            <p class="fs-5 text-body-secondary"><a style="font-size: larger;">活動介紹:</a> {{Activitys.activityIntro}}</p>
+
+
+            <button @click="addOrder(Activitys.activityId)"> 報名</button> -->
+
+        <div class="EventDetail-cd50fc87-event-detail-inner">
+            <div class="EventDetail-f03126ec-event-banner-container">
+                <div class="EventDetail-e3ee2cac-event-banner-bg-container">
+                    <div class="EventDetail-a8a2779c-event-banner-bg"
+                        style="min-height: 540px; background-image: url(&quot;https://static.accupass.com/eventbanner/2311070704321195976200.jpg&quot;);">
+                    </div>
+                </div>
+            </div>
+            <div class="EventDetail-f8b215fd-event-detail">
+                <main class="EventDetail-b7b94c4b-event-detail-content" role="main">
+                    <section class="EventDetail-cc6cf519-event-basicinfo-container">
+                        <div class="EventDetail-a0644c66-event-header-container">
+                            <h1 class="EventTitle-module-b7f81bbb-root">{{Activitys.activityName}}</h1>
+
+                        </div>
+
+
+                        <div class="EventDetail-b335eb9e-event-info-container">
+                            <div class="EventDetail-c8447a70-event-subtitle-container"><i
+                                    class="EventDetail-df47ad60-event-subtitle-icon EventDetail-ff52fddc-clock-icon"></i>
+                                <div class="EventDetail-e95e3e8b-event-subtitle-content">
+                                    <div class="EventDetail-a6a85457-event-subtitle">{{Activitys.activityDayStart}} -
+                                        {{Activitys.activityDayEnd}}
+
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div
+                                class="EventDetail-c8447a70-event-subtitle-container EventDetail-efff7ce5-tags-container">
+                                <i class="EventDetail-df47ad60-event-subtitle-icon EventDetail-b2ea0a77-tag-icon"></i>
+                                <div class="EventDetail-e95e3e8b-event-subtitle-content">
+                                    <ul class="EventDetail-b77a7bb5-event-tags-container">
+                                        <li class="EventDetail-dc0d52c0-event-tag">
+                                            <a>{{Activitys.activityType}}</a>
+                                        </li>
+
+                                    </ul>
+                                </div>
+                            </div>
+                            <div
+                                class="EventDetail-c8447a70-event-subtitle-container EventDetail-efff7ce5-tags-container">
+                                <i class="EventDetail-df47ad60-event-subtitle-icon EventDetail-c046ae93-site-icon"></i>
+                                <a>活動介紹: </a>
+                                <a>
+                                    {{Activitys.activityIntro}}
+                                </a>
+                            </div>
+                            <div
+                                class="EventDetail-c8447a70-event-subtitle-container EventDetail-efff7ce5-tags-container">
+                                <div>
+                                    🛒 NT {{Activitys.activityPrice}} 元
+                                </div>
+
+                            </div>
+                            <a @click="addOrder(Activitys.activityId)" class="OrgInfo-d7a07388-register-button">
+                                報名</a>
+                        </div>
+                    </section>
+                </main>
+            </div>
+
+        </div>
+    </div>
+
+
+
+
+
+    <script>
+        const vueApp = Vue.createApp({
+            data() {
+                return {
+                    Activitys: {},
+                    activitysDetails: {},
+                    orders: null
+                }
+            },
+            methods: {
+                async searchMembers() {
+                    try {
+                        const url = window.location.href;
+                        const part = url.split('/');
+                        console.log(window.location.href);
+                        const number = part[part.length - 1];
+                        console.log(number);
+                        const response = await axios.get(`http://localhost:8087/ee172/activitys/${number}`);
+
+                        this.Activitys = response.data;
+
+                    } catch (error) {
+                        console.error(error);
+                    }
+                },
+
+                async addOrder(activityId) {
+                    try {
+                        const response = await axios.post(`http://localhost:8087/ee172/123/${activityId}`);
+                        this.orders = response.data;
+                        showAlert();
+                    } catch (error) {
+                        console.error(error);
+                    }
+
+                },
+
+
+            },
+            beforeMount() {
+                this.searchMembers();
+            },
+        }).mount('#app');
+    </script>
+
+</body>
+
+</html>

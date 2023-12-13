@@ -1,0 +1,313 @@
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="keywords" content="Match Fix Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template,
+Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyEricsson, Motorola web design" />
+    <title>Document</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://getbootstrap.com/docs/5.3/assets/css/docs.css" rel="stylesheet">
+
+
+    <script src="js/vue.global.js"></script>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.6.2/axios.min.js"></script>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+
+    <script th:src="@{js/bootstrap.bundle.min.js}"></script>
+    <script th:src="@{js/jquery-3.7.1.min.js}"></script>
+
+
+    <link href="patty/css/bootstrap.css" rel="stylesheet" type="text/css"> <!-- Bootstrap CSS -->
+
+    <link href="patty/css/css_slider.css" rel="stylesheet" type="text/css" media="all"> <!-- Slider CSS -->
+    <link href="patty/css/font-awesome.min.css" rel="stylesheet" type="text/css"> <!-- FontAwesome -->
+
+    <link href="//fonts.googleapis.com/css?family=Muli:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet">
+
+    <link href="css/carousel.css" rel="stylesheet" type="text/css">
+    <script>
+        addEventListener("load", function () {
+            setTimeout(hideURLbar, 0);
+        }, false);
+
+        function hideURLbar() {
+            window.scrollTo(0, 1);
+        }
+    </script>
+
+    <style>
+        #app {
+            margin-right: auto;
+            margin-left: auto;
+            padding-left: 10px;
+            padding-right: 10px;
+            width: 90%;
+        }
+
+        .APCSS_ticketBox {
+            margin: 0 0 15px;
+            padding: 12px 12px 12px 22px;
+            position: relative;
+            border: 1px solid #ccc;
+        }
+
+        .APCSS_ticketBox .info {
+            position: relative;
+        }
+
+        .APCSS_ticketBox.being .categoryTag {
+            background: #0088d2;
+        }
+
+        .APCSS_ticketBox .categoryTag {
+            box-sizing: content-box;
+            background: #ccc;
+            width: 10px;
+            height: 100%;
+            padding: 0 0 25px;
+            position: absolute;
+            z-index: 0;
+            left: -22px;
+            top: -12px;
+        }
+
+        .APCSS_btn-link,
+        .APCSS_recommend,
+        .APCSS_tab-nav li a,
+        .APCSS_wrapper button,
+        .APCSS_wrapper input[type=submit],
+        a,
+        i,
+        span {
+            -webkit-transition: all .25s linear;
+            transition: all .25s linear;
+        }
+
+        .APCSS_ticketStatus {
+            float: right;
+        }
+
+        .APCSS_ticketStatus .btn_detail,
+        .APCSS_ticketStatus .btn_ticket,
+        .APCSS_ticketStatus div {
+            font-size: 16px;
+            text-align: center;
+            min-width: 75px;
+            height: 70px;
+            margin: 0 0 0 10px;
+            position: relative;
+        }
+
+        .APCSS_ticketStatus .btn_ticket {
+            padding: 22px 4px;
+            background-color: #0072e3;
+            color: #fff;
+            border: 1px solid #005ab5;
+        }
+
+        .APCSS_bg-line span,
+        .APCSS_btn-advancedSubmit,
+        .APCSS_btnBox a,
+        .APCSS_btnBox button,
+        .APCSS_btnBox input[type=submit],
+        .APCSS_editRegisterBox .leftBox,
+        .APCSS_editRegisterBox .rightBox,
+        .APCSS_headPhotoBox>a,
+        .APCSS_linkBox-event .infoBar a,
+        .APCSS_linkBox-event .infoBar span,
+        .APCSS_list-headPhoto li .txt img,
+        .APCSS_loginLinkBox a,
+        .APCSS_menuBox,
+        .APCSS_menuBox li,
+        .APCSS_nav-eventRegister .fbBox,
+        .APCSS_nav-eventRegister a,
+        .APCSS_recommend,
+        .APCSS_recommend .mask .link,
+        .APCSS_ticketStatus .btn_detail,
+        .APCSS_ticketStatus .btn_ticket,
+        .APCSS_ticketStatus div,
+        h1.accupass {
+            display: inline-block;
+            vertical-align: top;
+
+            vertical-align: auto;
+
+            zoom: 1;
+
+        }
+
+        .APCSS_ticketStatus .btn_detail,
+        .APCSS_ticketStatus div {
+            color: #333;
+            padding: 8px;
+            border: 1px solid #ccc;
+        }
+
+        .APCSS_ticketStatus .btn_detail,
+        .APCSS_ticketStatus .btn_ticket,
+        .APCSS_ticketStatus div {
+            font-size: 16px;
+            text-align: center;
+            min-width: 75px;
+            height: 70px;
+            margin: 0 0 0 10px;
+            position: relative;
+        }
+
+        .APCSS_ticketStatus .btn_detail span,
+        .APCSS_ticketStatus div span {
+            position: absolute;
+            z-index: 100;
+            font-size: 14px;
+            text-align: center;
+            color: #999;
+            width: 100%;
+            display: block;
+            bottom: 5px;
+            left: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div th:replace="~{/public/layout/navbar}"></div>
+
+    <div id="app">
+        <div class="APCSS_ticketBox ng-scope being" v-for="Order in Orders" :key="Order.id">
+            <div class="info">
+                <span class="categoryTag"></span>
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-7"
+                        ng-class="{'complete':'col-md-7','incomplete':'col-md-4','cancel':'col-md-7','refund':'col-md-4'}[config.currentOrderType]">
+                        <p class="text-primary h4 ng-binding">{{Order.activityName}}</p>
+                        <p class="date ng-binding" style="margin-top: 30px;"> {{Order.activityDayStart}} ~
+                            {{Order.activityDayEnd}}</p>
+                        <!-- <p class="ticketid ng-binding">
+                            訂單編號：2312110336361581104663
+                        </p> -->
+                        <!-- ngIf: o.EventOrderTicketStatus == 0 && o.Price > 0 && config.currentOrderType != ORDER_TYPE.INCOMPLETE && config.currentOrderType != ORDER_TYPE.CANCEL -->
+                        <!-- ngIf: o.FeeStr.length > 0 -->
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-5"
+                        ng-class="{'complete':'col-md-5','incomplete':'col-md-8','cancel':'col-md-5','refund':'col-md-8'}[config.currentOrderType]">
+                        <div class="APCSS_ticketStatus">
+
+                            <!--incomplete  活動狀態 //0:已付款,1:待付款,2:待審核,3:已過期＿超過繳費期限,4:已取消,5:未完成報名,6:付款中,7:已過期＿未完成報名資訊,8:已過期＿未選擇付款方式,-->
+                            <!-- 99 is for front-end chnage state wording if incomplet tab overtime to finish ticket -->
+                            <!-- ngIf: o.EventOrderTicketStatus == 0 --><a class="btn_ticket ng-scope"
+                                style="color: #fff;">
+                                取消購票
+                            </a><!-- end ngIf: o.EventOrderTicketStatus == 0 -->
+
+                            <!-- ngIf: {1:true,2:true,5:true,6:true,15:true,16:true,17:true,99:true}[o.EventOrderTicketStatus] -->
+
+                            <!-- ngIf: (o.ShowRestSecond == true || o.EventOrderTicketStatus == 99) -->
+                            <!-- 秀金額 -->
+                            <div ng-show="o.Price > 0" class="ng-binding ng-hide">
+                                NT${{Order.activityPrice}}
+                                <span>訂單金額</span>
+                            </div>
+
+                            <!-- 
+
+                            <div class="btn_detail ng-binding" ng-click="eventHandler.triggerTicketList(o)">
+                                1
+                                <i ng-class="{ &quot;icon-sort-down&quot;: (!o.showInfo),&quot;icon-sort-up&quot;: (o.showInfo) }"
+                                    class="icon-sort-down"></i>
+                                <span>票券資訊</span>
+                            </div> -->
+
+                            <!--incomplete / refund-->
+                            <!-- ngIf: {1:true,2:true,5:true,6:true,15:true,16:true,17:true}[o.EventOrderTicketStatus] -->
+                            <!-- incomplete end. -->
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 
+        <div class="table-responsive ng-hide" ng-show="o.showInfo">
+            <span class="tag"></span>
+            <table class="table table-hover APCSS_table-detail">
+                <thead>
+                    <tr>
+                        <th width="125">票號</th>
+                        <th width="125">參加人</th>
+
+                        <th width="100">票種</th>
+                        <th width="80" class="hidden-xs">單價</th>
+                        <th width="150" class="hidden-xs">有效期限</th>
+                        <th width="70" class="hidden-xs">狀態</th>
+                        <th width="70">操作選項</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                </tbody>
+            </table>
+        </div> -->
+
+        <div th:replace="~{/public/layout/footer}"></div>
+    </div>
+
+    <script th:src="@{https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js}"></script>
+
+
+
+    <script>
+        const vueApp = Vue.createApp({
+            data() {
+                return {
+                    Orders: {},
+                }
+            },
+            methods: {
+                async searchMembers() {
+                    try {
+                        const response = await axios.get('http://localhost:8087/ee172/getMyOrder', {
+
+                        });
+                        this.Orders = response.data;
+                    } catch (error) {
+                        // console.error('Axios Error:', error);
+                        // console.error('Error Message:', error.message);
+                        // console.error('Error Code:', error.code);
+                        // 可以添加其他处理逻辑
+                        console.error(error);
+                    }
+
+                },
+                decodeBase64(base64String) {
+                    if (base64String) {
+                        return `data:image/jpeg;base64,${base64String}`;
+                    }
+                    // 或者你也可以返回一個預設的圖片，視情況而定
+                    // return 'path/to/default/image.jpg';
+                },
+
+
+            },
+            beforeMount() {
+                this.searchMembers();
+            },
+        }).mount('#app');
+    </script>
+
+
+</body>
+
+</html>

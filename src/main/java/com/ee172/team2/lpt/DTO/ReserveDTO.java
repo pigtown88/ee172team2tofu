@@ -1,5 +1,8 @@
 package com.ee172.team2.lpt.DTO;
 
+import java.util.List;
+
+import com.ee172.team2.lpt.model.Activity;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import lombok.AllArgsConstructor;
@@ -15,12 +18,14 @@ public class ReserveDTO {
 
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
 	private String reserveDayStart;
-	
+
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
 	private String reserveDayEnd;
 
 	private String arenaId;
 
 	private String memberId;
+
+	private List<Activity> activities;
 
 }
