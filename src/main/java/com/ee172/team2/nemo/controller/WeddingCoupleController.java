@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ee172.team2.nemo.model.WeddingCouple;
@@ -34,7 +35,6 @@ public class WeddingCoupleController {
 //	@Autowired
 //	private MailService mailService;
 
-
 	@GetMapping
 	public List<WeddingCouple> getAllCouples() {
 		return service.findAll(); // 返回實體
@@ -42,33 +42,28 @@ public class WeddingCoupleController {
 
 	@PostMapping("/tt") // 處理POST請求，創建新的weddingCouple
 	public String createCouple(ModelMap model, @ModelAttribute WeddingCouple couple, BindingResult result) {
-
-		WeddingCouple weddingCouple = new WeddingCouple();
-
-		weddingCouple.setBrideName(couple.getBrideName());
-		weddingCouple.setGroomName(couple.getGroomName());
-		weddingCouple.setBrideParentName(couple.getBrideParentName());
-		weddingCouple.setGroomParentName(couple.getGroomParentName());
-		service.save(weddingCouple);
-		return "redirect:/weddingCouple/addweddingGuest";
+		WeddingCouple weddingCouple = service.save(couple);
+		return "redirect:/weddingCouple/addWeddingGuest?weddingId=" + weddingCouple.getWeddingId();
 	}
 
-	@GetMapping("/addweddingGuest") // 處理POST請求，創建新的weddingCouple
-	public String addweddingGuest(ModelMap model) {
-		model.put("weddingguest", new WeddingGuest());
-		
+	@GetMapping("/addWeddingGuest") // 處理POST請求，創建新的weddingCouple
+	public String addweddingGuest(ModelMap model, @RequestParam Integer weddingId) {
+		WeddingGuest weddingGuest = new WeddingGuest();
+		WeddingCouple weddingCouple = new WeddingCouple();
+		weddingCouple.setWeddingId(weddingId);
+		weddingGuest.setWeddingCouple(weddingCouple);
+		model.put("weddingguest", weddingGuest);
 		return "nemo/weddingGuest";
 	}
-	
-	//進入weddingadd用的controller 是從培桐系統進來的
-		@RequestMapping("/add")
-		public String toDefaultPage(ModelMap model) {
-			WeddingCouple weddingCouple = new WeddingCouple();
-			model.put("weddingcouple", weddingCouple);
-			return "nemo/weddingCoupleadd";
-		}
 
-	
+	// 進入weddingadd用的controller 是從培桐系統進來的
+	@RequestMapping("/add")
+	public String toDefaultPage(ModelMap model) {
+		WeddingCouple weddingCouple = new WeddingCouple();
+		model.put("weddingcouple", weddingCouple);
+		return "nemo/weddingCoupleadd";
+	}
+
 	@GetMapping("/getAll") // 處理POST請求，創建新的weddingCouple
 	public String getAll(ModelMap model, @ModelAttribute WeddingCouple couple, BindingResult result) {
 

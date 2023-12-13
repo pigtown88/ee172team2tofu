@@ -20,10 +20,10 @@ public class WeddingGuestController {
 	private WeddingGuestService weddingGuestService;
 
 	@GetMapping("/")
-	public String initPage(ModelMap model, @RequestParam Integer id) {
+	public String initPage(ModelMap model, @RequestParam Integer weddingId) {
 	
 		WeddingCouple weddingCouple = new WeddingCouple();
-		weddingCouple.setWeddingId(id);
+		weddingCouple.setWeddingId(weddingId);
 		
 		WeddingGuest weddingGuest = new WeddingGuest();
 		weddingGuest.setWeddingCouple(weddingCouple);
@@ -51,7 +51,7 @@ public class WeddingGuestController {
 			BindingResult result) {
 		weddingGuestService.save(guest);
 		model.addAttribute("weddingguest", guest);
-		return "redirect:/weddingGuest/?id=" + guest.getWeddingCouple().getWeddingId();
+		return "redirect:/weddingGuest/?weddingId=" + guest.getWeddingCouple().getWeddingId();
 	}
 
 }
