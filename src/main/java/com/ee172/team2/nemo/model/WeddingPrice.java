@@ -7,6 +7,9 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.Data;
 
+/**
+ * @author tofu
+ */
 @Data
 @Entity
 @Table(name = "WeddingPrice")
@@ -16,9 +19,42 @@ public class WeddingPrice {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    private Double priceA;
-    private Double priceB;
-    private Double priceC;
+    /**
+     * 价格
+     */
+    private Double price;
+    
+    /**
+     * 方案類型
+     */
+    private String name;
+    
+    /**
+     * 桌數
+     */
+    private int tablecount;
+    
+    /**
+     * 是否包含攝影師
+     */
+    private boolean includephotographer;
+    
+    /**
+     * 是否包含背板
+     */
+    private Boolean includebackboard;
+    
+    /**
+     * 攝影師類別
+     */
+    private String photographernote;
+    
+    /**
+     * 背板類別
+     */
+    private String backboardnote;
+    
+    
 
     // Constructors, getters, and setters
 }

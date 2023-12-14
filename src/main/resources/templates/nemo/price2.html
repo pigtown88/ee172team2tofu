@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pricing Plans</title>
+<script src="../js/jquery-3.7.1.min.js"></script>
+<style>
+body {
+	font-family: 'Arial', sans-serif;
+	margin: 0;
+	padding: 0;
+	background: #f7f7f7;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	min-height: 100vh;
+}
+
+.pricing-plans {
+	text-align: center;
+	width: 100%;
+	max-width: 1200px;
+	padding: 40px;
+}
+
+.pricing-card {
+	background: #fff;
+	border-radius: 10px;
+	box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+	padding: 20px;
+	margin: 20px;
+}
+
+.pricing-card h2 {
+	color: #333;
+	margin: 0;
+}
+
+.pricing-card p {
+	margin: 15px 0;
+}
+
+.pricing-card button {
+	background: #007bff;
+	color: white;
+	border: none;
+	border-radius: 5px;
+	padding: 10px 20px;
+	cursor: pointer;
+	font-size: 16px;
+}
+
+.basic .pricing-card button {
+	background: #28a745;
+}
+
+.standard .pricing-card button {
+	background: #ffc107;
+	color: #333;
+}
+
+@media ( min-width : 768px) {
+	.pricing-plans {
+		display: flex;
+		justify-content: space-around;
+	}
+	.pricing-card {
+		width: 30%;
+	}
+}
+</style>
+</head>
+<body>
+
+	<div class="pricing-plans">
+		<input id="wid" type="hidden" th:value="${weddingcouple.weddingId}" />
+		<div class="pricing-card" th:each="l:${list}">
+			<h2>
+				<label th:text="${l.name}"></label>
+			</h2>
+			<p>
+				<strong><label th:text="${l.tablecount}"></label></strong>桌
+			</p>
+			<p>
+				<strong><label th:unless="${l.includephotographer}">不</label>含</strong>
+				<label th:text="${l.photographernote}"></label>
+			</p>
+			<p>
+				<strong><label th:unless="${l.includebackboard}">不</label>含</strong>
+				<label th:text="${l.backboardnote}"></label>
+			</p>
+			<button th:pid='${l.id}'
+				onclick="updatePrice(this.getAttribute('pid'))">Choose Plan</button>
+		</div>
+
+	</div>
+</body>
+<script>
+	/**更新价格**/
+	function updatePrice(pid) {
+		var weddingId = $('#wid').val();
+		var param = {
+			'weddingId' : weddingId,
+			'priceId' : pid
+		};
+		$.ajax({
+			url : './updateWeddingPrice',
+			dataType : 'json',
+			contentType : 'application/json',
+			type : 'POST',
+			data : JSON.stringify(param),
+			success : function(req) {
+				location.href = './result?weddingId=' + weddingId;
+			}
+
+		})
+	}
+</script>
+</html>

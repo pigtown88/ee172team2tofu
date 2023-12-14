@@ -30,5 +30,10 @@ public class WeddingCouple {
     @OneToMany(mappedBy = "weddingCouple")
     private List<WeddingGuest> weddingGuests;
     
+    /**
+     * 價格id
+     */
+    private Integer priceId;
+    
     // Constructors, getters, and setters
 }

@@ -1,10 +1,12 @@
 <!DOCTYPE html>
-<html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Plan Selected</title>
+<title>Plan Selected</title>
 </head>
 <body>
-    <h1>You have selected Plan: ${selectedPlan}</h1>
-    <!-- 可以添加更多关于所选方案的细节 -->
+	<h1>
+		You have selected Plan: <label th:text="${selectedPlan}"></label>
+	</h1>
+	<!-- 可以添加更多关于所选方案的细节 -->
 </body>
 </html>
