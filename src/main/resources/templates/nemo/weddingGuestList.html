@@ -128,42 +128,41 @@ table.imagetable td {
 table.imagetable td select {
 	width: 100%;
 }
+
+.a1 {
+	float: right;
+	display: block;
+}
 </style>
 </head>
 
 <body>
 	<div class="container">
-		<h2>Wedding Information Form</h2>
-		
-		
-		<br>
+		<h2>賓客信息</h2>
+		<label th:text="${weddingId}"> </label> <br> <a class="a1"
+			th:pid='${weddingId}'
+			th:href="@{/weddingGuest/add/(weddingId=${weddingId})}">新增賓客</a>
 		<div>
 			<table class="imagetable">
 				<tr>
-					<th>標識符</th>
-					<th>新娘</th>
-					<th>新郎</th>
-					<th>新娘父母</th>
-					<th>新郎父母</th>
+					<th>賓客姓名</th>
+					<th>電子郵件</th>
+					<th>聯絡電話</th>
+					<th>新人關係</th>
+					<th>交通方式</th>
 					<th>動作</th>
 				</tr>
 				<tr th:each="i:${list}">
-					<td th:text="${i.weddingId}" th:id="${i.weddingId}"></td>
-					<td th:text="${i.getBrideName()}"></td>
-					<td th:text="${i.groomName}"></td>
-					<td th:text="${i.brideParentName}"></td>
-					<td th:text="${i.groomParentName}"></td>
+
+					<td th:text="${i.guestName}"></td>
+					<td th:text="${i.email}"></td>
+					<td th:text="${i.phonenumber}"></td>
+					<td th:text="${i.relationship}"></td>
+					<td th:text="${i.transportation}"></td>
 					<td><a class="a1" th:pid='${i.weddingId}'
-						th:href="@{/weddingGuest/(weddingId=${i.weddingId})}">來賓管理</a> | <a
-						
+						th:href="@{/weddingGuest/(weddingId=${i.weddingId})}">更新</a> | <a
 						class="a1" th:pid='${i.weddingId}'
-						th:href="@{/weddingTable/(id=${i.weddingId})}">分桌</a>| <a
-						
-						class="a1" th:pid='${i.weddingId}'
-						th:href="@{/photos/(id=${i.weddingId})}">上傳圖片</a> | <a
-						
-						class="a1" th:pid='${i.weddingId}' href="javascript:void(0)"
-						onclick="javascript:void(sendMail(this.getAttribute('pid')))">發送郵件</a>
+						th:href="@{/weddingTable/(id=${i.weddingId})}">刪除</a>
 				</tr>
 			</table>
 		</div>
@@ -184,7 +183,7 @@ table.imagetable td select {
 
 		})
 	}
-	
+
 	function sendMail(id) {
 		$.ajax({
 			url : '/weddingCouple/sendMail/' + id,

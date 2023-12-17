@@ -21,13 +21,15 @@ public class WeddingGuestController {
 
 	@GetMapping("/")
 	public String initPage(ModelMap model, @RequestParam Integer weddingId) {
+		List<WeddingGuest> wedddingGuestList = weddingGuestService.findByWeddingId(weddingId);
+		model.addAttribute("list", wedddingGuestList);
+		model.addAttribute("weddingId", weddingId);
+		return "nemo/weddingGuestList";
+	}
 	
-		WeddingCouple weddingCouple = new WeddingCouple();
-		weddingCouple.setWeddingId(weddingId);
-		
-		WeddingGuest weddingGuest = new WeddingGuest();
-		weddingGuest.setWeddingCouple(weddingCouple);
-		model.addAttribute("weddingguest", weddingGuest);
+	@GetMapping("/add")
+	public String add(ModelMap model, @RequestParam Integer weddingId) {
+		model.addAttribute("weddingId", weddingId);
 		return "nemo/weddingGuest";
 	}
 
@@ -47,8 +49,7 @@ public class WeddingGuestController {
 	}
 
 	@PostMapping("/createGuest") // 創建新的weddingGuest
-	public String createNewGuest(ModelMap model, @ModelAttribute WeddingGuest guest, 
-			BindingResult result) {
+	public String createNewGuest(ModelMap model, @ModelAttribute WeddingGuest guest, BindingResult result) {
 		weddingGuestService.save(guest);
 		model.addAttribute("weddingguest", guest);
 		return "redirect:/weddingGuest/?weddingId=" + guest.getWeddingCouple().getWeddingId();

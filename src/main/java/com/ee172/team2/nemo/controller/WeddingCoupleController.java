@@ -64,8 +64,14 @@ public class WeddingCoupleController {
 		return "nemo/weddingCoupleadd";
 	}
 
-	@GetMapping("/getAll") // 處理POST請求，創建新的weddingCouple
-	public String getAll(ModelMap model, @ModelAttribute WeddingCouple couple, BindingResult result) {
+	/**
+	 * WeddingCouple列表页面，所有WeddingCouple的信息
+	 * 
+	 * @param model
+	 * @return
+	 */
+	@GetMapping("/list") // 處理POST請求，創建新的weddingCouple
+	public String listAll(ModelMap model) {
 
 		List<WeddingCouple> allCouples = this.getAllCouples();
 		model.put("list", allCouples);
