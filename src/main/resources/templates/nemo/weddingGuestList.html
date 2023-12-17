@@ -16,7 +16,7 @@ body {
 
 .container {
 	width: 100%;
-	max-width: 600px;
+	max-width: 800px;
 	margin: 20px auto;
 	padding: 20px;
 	background-color: #fff;
@@ -130,7 +130,6 @@ table.imagetable td select {
 }
 
 .a1 {
-	float: right;
 	display: block;
 }
 </style>
@@ -139,9 +138,16 @@ table.imagetable td select {
 <body>
 	<div class="container">
 		<h2>賓客信息</h2>
-		<label th:text="${weddingId}"> </label> <br> <a class="a1"
-			th:pid='${weddingId}'
-			th:href="@{/weddingGuest/add/(weddingId=${weddingId})}">新增賓客</a>
+		<input type="hidden" id="hd" th:value="${weddingId}" /> <label>選擇總桌數:</label>
+		<br /> <label>賓客姓名:</label><input id="filter_guestName" type="text"
+			th:field="${filter_guestName}" /> <label>聯絡電話:</label><input
+			id="filter_phoneNumber" type="text" th:field="${filter_phonenumber}" />
+		<br />
+
+		<button onclick="query()">查詢</button>
+		<a class="a1" th:pid='${weddingId}'
+			th:href="@{/weddingGuest/add(weddingId=${weddingId})}">新增賓客</a>
+
 		<div>
 			<table class="imagetable">
 				<tr>
@@ -153,22 +159,40 @@ table.imagetable td select {
 					<th>動作</th>
 				</tr>
 				<tr th:each="i:${list}">
-
 					<td th:text="${i.guestName}"></td>
 					<td th:text="${i.email}"></td>
 					<td th:text="${i.phonenumber}"></td>
 					<td th:text="${i.relationship}"></td>
 					<td th:text="${i.transportation}"></td>
-					<td><a class="a1" th:pid='${i.weddingId}'
-						th:href="@{/weddingGuest/(weddingId=${i.weddingId})}">更新</a> | <a
-						class="a1" th:pid='${i.weddingId}'
-						th:href="@{/weddingTable/(id=${i.weddingId})}">刪除</a>
+					<td><a class="a1" th:pid='${guestId}'
+						th:href="@{/weddingGuest/update(guestId=${i.guestId})}">更新</a> | <a
+						class="a1" th:pid='${weddingId}'
+						th:href="@{/weddingGuest/delete(guestId=${i.guestId})}">刪除</a>
 				</tr>
 			</table>
 		</div>
 	</div>
 </body>
 <script>
+	function query() {
+		var guestName = $('#filter_guestName').val();
+		var phonenumber = $('#filter_phoneNumber').val();
+		var wedddingId = $('#hd').val();
+		$.ajax({
+			url : './queryList/' + wedddingId + '?guestName=' + guestName
+					+ '&phoneNumber=' + phonenumber,
+			dataType : 'text',
+			type : 'GET',
+			success : function(req) {
+				if (req == 'true') {
+					alert('查询成功');
+					location.reload();
+				}
+			}
+
+		});
+	}
+
 	function deleteRec(id) {
 		$.ajax({
 			url : '/weddingCouple/delete/' + id,

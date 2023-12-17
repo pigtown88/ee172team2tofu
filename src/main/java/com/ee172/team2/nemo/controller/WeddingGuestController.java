@@ -24,13 +24,49 @@ public class WeddingGuestController {
 		List<WeddingGuest> wedddingGuestList = weddingGuestService.findByWeddingId(weddingId);
 		model.addAttribute("list", wedddingGuestList);
 		model.addAttribute("weddingId", weddingId);
+		model.addAttribute("filter_guestName", "");
+		model.addAttribute("filter_phonenumber", "");
 		return "nemo/weddingGuestList";
 	}
-	
+
 	@GetMapping("/add")
 	public String add(ModelMap model, @RequestParam Integer weddingId) {
-		model.addAttribute("weddingId", weddingId);
+		WeddingCouple couple = new WeddingCouple();
+		couple.setWeddingId(weddingId);
+		WeddingGuest guest = new WeddingGuest();
+		guest.setWeddingCouple(couple);
+		model.addAttribute("weddingguest", guest);
 		return "nemo/weddingGuest";
+	}
+
+	@GetMapping("/update")
+	public String update(ModelMap model, @RequestParam Integer guestId) {
+		WeddingGuest guest = weddingGuestService.findById(guestId).get();
+		model.addAttribute("weddingguest", guest);
+		return "nemo/weddingGuest";
+	}
+
+	@GetMapping("/delete")
+	public String delete(ModelMap model, @RequestParam Integer guestId) {
+		WeddingGuest guest = weddingGuestService.findById(guestId).get();
+		weddingGuestService.delete(guestId);
+		return "redirect:/weddingGuest/?weddingId=" + guest.getWeddingCouple().getWeddingId();
+	}
+
+	/**
+	 * 按條件查詢
+	 * 
+	 * @param model
+	 * @param guestName
+	 * @param phoneNumber
+	 * @return
+	 */
+	@GetMapping("/queryList/{weddingId}")
+	@ResponseBody
+	public List<WeddingGuest> getByCondition(ModelMap model, @PathVariable Integer weddingId,
+			@RequestParam String guestName, @RequestParam String phoneNumber) {
+		List<WeddingGuest> guests = weddingGuestService.findByCondition(weddingId, guestName, phoneNumber);
+		return guests;
 	}
 
 	@GetMapping
@@ -51,7 +87,6 @@ public class WeddingGuestController {
 	@PostMapping("/createGuest") // 創建新的weddingGuest
 	public String createNewGuest(ModelMap model, @ModelAttribute WeddingGuest guest, BindingResult result) {
 		weddingGuestService.save(guest);
-		model.addAttribute("weddingguest", guest);
 		return "redirect:/weddingGuest/?weddingId=" + guest.getWeddingCouple().getWeddingId();
 	}
 

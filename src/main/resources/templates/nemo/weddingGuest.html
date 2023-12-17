@@ -14,7 +14,7 @@ body {
 
 .container {
 	width: 100%;
-	max-width: 600px;
+	max-width: 800px;
 	margin: 20px auto;
 	padding: 20px;
 	background-color: #fff;
@@ -67,6 +67,7 @@ button:hover {
 		<form th:action="@{/weddingGuest/createGuest}" th:method="post"
 			th:object="${weddingguest}">
 			<input type="hidden" id="hd" th:field="*{weddingCouple.weddingId}" />
+			<input type="hidden" id="hd1" th:field="*{guestId}" />
 			<div class="form-group">
 				<label>賓客姓名</label> <input type="text" id="fullName"
 					th:field="*{guestName}" class="dark-placeholder" placeholder="需要全名"

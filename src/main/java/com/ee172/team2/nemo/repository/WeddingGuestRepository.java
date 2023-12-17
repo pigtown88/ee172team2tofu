@@ -10,8 +10,5 @@ import com.ee172.team2.nemo.model.WeddingGuest;
 public interface WeddingGuestRepository extends JpaRepository<WeddingGuest, Integer> {
 
 	List<WeddingGuest> findByWeddingCouple(WeddingCouple weddingCouple);
-
-
-
    
 }
