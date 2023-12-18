@@ -130,7 +130,7 @@ table.imagetable td select {
 }
 
 .a1 {
-	display: block;
+	width: 50px;
 }
 </style>
 </head>
@@ -157,7 +157,7 @@ table.imagetable td select {
 					<th>聯絡電話</th>
 					<th>新人關係</th>
 					<th>交通方式</th>
-					<th>動作</th>
+					<th style="width: 100px">動作</th>
 				</tr>
 				<tr th:each="i:${list}">
 					<td th:text="${i.guestName}"></td>

@@ -27,7 +27,7 @@ public class WeddingGuest {
 	private String email;
 
 	@Column(name = "phonenumber")
-	private Integer phonenumber;
+	private String phonenumber;
 
 	@Column(name = "relationship")
 	private String relationship;
