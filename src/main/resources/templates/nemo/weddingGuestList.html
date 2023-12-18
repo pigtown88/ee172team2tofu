@@ -142,7 +142,7 @@ table.imagetable td select {
 			<input type="hidden" id="hd" name="weddingId" th:value="${weddingId}" />
 			<p>
 				<label>賓客姓名:</label><input id="filter_guestName" type="text"
-					name="filter_guestName" />
+					name="filter_guestName" th:value="${filter_guestName}" />
 			</p>
 			<button type="submit">查詢</button>
 		</form>
