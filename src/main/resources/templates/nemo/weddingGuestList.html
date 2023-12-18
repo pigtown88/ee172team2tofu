@@ -137,14 +137,15 @@ table.imagetable td select {
 
 <body>
 	<div class="container">
-		<h2>賓客信息</h2>
-		<input type="hidden" id="hd" th:value="${weddingId}" /> <label>選擇總桌數:</label>
-		<br /> <label>賓客姓名:</label><input id="filter_guestName" type="text"
-			th:field="${filter_guestName}" /> <label>聯絡電話:</label><input
-			id="filter_phoneNumber" type="text" th:field="${filter_phonenumber}" />
-		<br />
-
-		<button onclick="query()">查詢</button>
+		<form th:action="@{/weddingGuest/queryList}">
+			<h2>賓客信息</h2>
+			<input type="hidden" id="hd" name="weddingId" th:value="${weddingId}" />
+			<p>
+				<label>賓客姓名:</label><input id="filter_guestName" type="text"
+					name="filter_guestName" />
+			</p>
+			<button type="submit">查詢</button>
+		</form>
 		<a class="a1" th:pid='${weddingId}'
 			th:href="@{/weddingGuest/add(weddingId=${weddingId})}">新增賓客</a>
 
@@ -171,56 +172,7 @@ table.imagetable td select {
 				</tr>
 			</table>
 		</div>
+
 	</div>
 </body>
-<script>
-	function query() {
-		var guestName = $('#filter_guestName').val();
-		var phonenumber = $('#filter_phoneNumber').val();
-		var wedddingId = $('#hd').val();
-		$.ajax({
-			url : './queryList/' + wedddingId + '?guestName=' + guestName
-					+ '&phoneNumber=' + phonenumber,
-			dataType : 'text',
-			type : 'GET',
-			success : function(req) {
-				if (req == 'true') {
-					alert('查询成功');
-					location.reload();
-				}
-			}
-
-		});
-	}
-
-	function deleteRec(id) {
-		$.ajax({
-			url : '/weddingCouple/delete/' + id,
-			dataType : 'text',
-			type : 'GET',
-			success : function(req) {
-				if (req == 'true') {
-					alert('刪除成功');
-					location.reload();
-				}
-			}
-
-		})
-	}
-
-	function sendMail(id) {
-		$.ajax({
-			url : '/weddingCouple/sendMail/' + id,
-			dataType : 'text',
-			type : 'GET',
-			success : function(req) {
-				if (req == 'true') {
-					alert('發送成功');
-					location.reload();
-				}
-			}
-
-		})
-	}
-</script>
 </html>

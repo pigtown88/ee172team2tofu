@@ -61,12 +61,14 @@ public class WeddingGuestController {
 	 * @param phoneNumber
 	 * @return
 	 */
-	@GetMapping("/queryList/{weddingId}")
-	@ResponseBody
-	public List<WeddingGuest> getByCondition(ModelMap model, @PathVariable Integer weddingId,
-			@RequestParam String guestName, @RequestParam String phoneNumber) {
-		List<WeddingGuest> guests = weddingGuestService.findByCondition(weddingId, guestName, phoneNumber);
-		return guests;
+	@RequestMapping("/queryList")
+	public String getByCondition(ModelMap model, @RequestParam String weddingId,
+			@RequestParam String filter_guestName) {
+		List<WeddingGuest> guests = weddingGuestService.findByCondition(weddingId, filter_guestName);
+		model.addAttribute("list", guests);
+		model.addAttribute("weddingId", weddingId);
+		model.addAttribute("filter_guestName", filter_guestName);
+		return "nemo/weddingGuestList";
 	}
 
 	@GetMapping

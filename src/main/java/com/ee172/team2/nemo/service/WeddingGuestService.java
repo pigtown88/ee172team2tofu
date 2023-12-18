@@ -46,14 +46,21 @@ public class WeddingGuestService {
 		weddingGuestDao.deleteById(id);
 	}
 
-	public List<WeddingGuest> findByCondition(Integer weddingId, String guestName, String phoneNumber) {
-		ExampleMatcher exampleMatcher = ExampleMatcher.matching()
-				.withMatcher("guestName", ExampleMatcher.GenericPropertyMatcher::contains)
-				.withMatcher("phoneNumber", ExampleMatcher.GenericPropertyMatcher::contains);
+	/**
+	 * 条件查询
+	 * 
+	 * @param weddingId
+	 * @param guestName
+	 * @return
+	 */
+	public List<WeddingGuest> findByCondition(String weddingId, String guestName) {
+		ExampleMatcher exampleMatcher = ExampleMatcher.matching().withMatcher("guestName",
+				ExampleMatcher.GenericPropertyMatcher::contains);
 		WeddingGuest guest = new WeddingGuest();
-//		WeddingCouple couple = new WeddingCouple();
-//		couple.setWeddingId(weddingId);
-//		guest.setWeddingCouple(null);
+		WeddingCouple couple = new WeddingCouple();
+		couple.setWeddingId(Integer.parseInt(weddingId));
+		guest.setWeddingCouple(couple);
+		guest.setGuestName(guestName);
 		Example<WeddingGuest> guestExample = Example.of(guest, exampleMatcher);
 		return weddingGuestDao.findAll(guestExample);
 	}
