@@ -187,7 +187,7 @@ table.imagetable td select {
 	
 	function sendMail(id) {
 		$.ajax({
-			url : '/weddingCouple/sendMail/' + id,
+			url : './sendMail/' + id,
 			dataType : 'text',
 			type : 'GET',
 			success : function(req) {
